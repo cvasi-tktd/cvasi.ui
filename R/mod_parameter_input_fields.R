@@ -11,8 +11,8 @@ mod_input_fields_ui <- function(id){
   ns <- NS(id)
   tagList(
     #actionButton(ns("debug"), "debug"),
-    actionButton(ns("assign"), "Assign values"),
-    uiOutput(ns("all_fields")),
+    #actionButton(ns("assign"), "Assign values"),
+    uiOutput(ns("all_fields"))
     
   )
 }
@@ -67,24 +67,25 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
     
     
     
-    observeEvent(input[["assign"]], {
-      vals <- lapply(rvtl(input_field_vals), function(x)x())
-      if (type == "param"){
-        modeldat(
-          modeldat() %>% 
-            set_param(vals)
-        )
-      } else if (type == "init"){
-        modeldat(
-          modeldat() %>% 
-            set_init(vals)
-        )
-      }
-      
-    })
+    # observeEvent(input[["assign"]], {
+    #   vals <- lapply(rvtl(input_field_vals), function(x)x())
+    #   if (type == "param"){
+    #     modeldat(
+    #       modeldat() %>% 
+    #         set_param(vals)
+    #     )
+    #   } else if (type == "init"){
+    #     modeldat(
+    #       modeldat() %>% 
+    #         set_init(vals)
+    #     )
+    #   }
+    #   
+    # })
     #parameter_values <- reactive()
-
-
+    
+    return(input_field_vals)
+    
   })
 }
     

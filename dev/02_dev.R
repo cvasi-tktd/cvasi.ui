@@ -33,19 +33,24 @@ desc::desc_add_remotes("local::../efm")
 
 ## Add modules ----
 ## Create a module infrastructure in R/
-#golem::add_module(name = "name_of_module1", with_test = TRUE) # Name of the module
-#golem::add_module(name = "name_of_module2", with_test = TRUE) # Name of the module
+golem::add_module(name = "prediction_workflow", with_test = FALSE) # Name of the module
+golem::add_module(name = "model_input", with_test = FALSE) # Name of the module
+golem::add_module(name = "auto_input_field", with_test = FALSE) # Name of the module
+golem::add_module(name = "input_fields", with_test = FALSE) # Name of the module
+golem::add_module(name = "exposure_input", with_test = FALSE) # Name of the module
+golem::add_module(name = "prediction", with_test = FALSE) # Name of the module
+
 
 ## Add helper functions ----
 ## Creates fct_* and utils_*
-#golem::add_fct("helpers", with_test = TRUE)
+golem::add_fct("model_helpers", with_test = TRUE)
 #golem::add_utils("helpers", with_test = TRUE)
 
 ## External resources
 ## Creates .js and .css files at inst/app/www
 #golem::add_js_file("script")
 #golem::add_js_handler("handlers")
-#golem::add_css_file("custom")
+golem::add_css_file("parameters")
 #golem::add_sass_file("custom")
 
 ## Add internal datasets ----
