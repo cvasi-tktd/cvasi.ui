@@ -11,10 +11,22 @@ mod_prediction_ui <- function(id){
   ns <- NS(id)
   tagList(
     #actionButton(ns("debug"), "debug"),
-    actionButton(ns("predict"), "Predict"),
-    plotOutput(ns("stat_var_plot")),
-    plotOutput(ns("dr_plot"))
-  )
+    #actionButton(ns("predict"), "Predict"),
+    #tags$div(textOutput(ns("error_text")), class = "text-danger"),
+    textOutput(ns("error_text")),
+    
+    fluidRow(
+      column(6,
+             tags$h3("State variables"),
+             plotOutput(ns("stat_var_plot"))
+      ),
+      column(6,
+             tags$h3("Dose-response"),
+             plotOutput(ns("dr_plot"))
+      )
+    )
+  )  
+  
 }
     
 #' prediction Server Functions
@@ -31,18 +43,34 @@ mod_prediction_server <- function(id, modeldat){
     
     sim_result <- reactiveVal()
     
-    observeEvent(input[["predict"]],{
-      #browser()
-      sim_result(
-        list(
-          stat_var = modeldat() %>% 
-            simulate() %>% 
-            tidyr::pivot_longer(!matches("time"), names_to = "state_variables"),
-          dr = modeldat() %>% 
-            dose_response()
-        )
-        )
-      #browser()
+    #observeEvent(input[["predict"]],{
+    observeEvent(modeldat(),{
+
+      tryCatch({
+        shinyjs::html("error_text", "")
+        sim_result(
+          list(
+            stat_var = modeldat() %>% 
+              simulate() %>% 
+              tidyr::pivot_longer(!matches("time"), names_to = "state_variables"),
+            dr = modeldat() %>% 
+              dose_response()
+          )
+        )},
+        warning = function(cond){
+          #browser()
+          shinyjs::html(id = "error_text", 
+                        html = paste0("<div class = \"text-warning\">",as.character(cond),"</div>"),#$message, 
+                        add = TRUE)
+          },
+        error = function(cond){
+          #browser()
+          shinyjs::html(id = "error_text", 
+                        html = paste0("<div class = \"text-danger\">",as.character(cond),"</div>"),#$message, 
+                        add = TRUE)
+        }
+      )
+
     })
     
     output[["stat_var_plot"]] <- renderPlot({
@@ -53,7 +81,7 @@ mod_prediction_server <- function(id, modeldat){
                                    color = .data[["state_variables"]]
                       )
       ) + 
-        ggplot2::geom_point() +
+        ggplot2::geom_point() + 
         ggplot2::geom_line()
     })
     
