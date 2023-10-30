@@ -1,0 +1,6 @@
+ 
+.inputfields_flexbox {
+  display: flex; 
+  flex-wrap: wrap; 
+  justify-content: space-around;
+}

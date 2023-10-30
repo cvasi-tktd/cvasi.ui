@@ -11,7 +11,7 @@ app_ui <- function(request) {
     # Your application UI logic
     fluidPage(
       h1("efmui"),
-      verbatimTextOutput("showscen")
+      mod_prediction_workflow_ui("prediction_workflow")
     )
   )
 }

@@ -22,12 +22,25 @@ golem::fill_desc(
   pkg_name = "efmui", # The Name of the package containing the App
   pkg_title = "PKG_TITLE", # The Title of the package containing the App
   pkg_description = "PKG_DESC.", # The Description of the package containing the App
-  author_first_name = "AUTHOR_FIRST", # Your First Name
-  author_last_name = "AUTHOR_LAST", # Your Last Name
-  author_email = "AUTHOR@MAIL.COM", # Your Email
+  author_first_name = "Torben", # Your First Name
+  author_last_name = "Wittwer", # Your Last Name
+  author_email = "Torben.Wittwer@rifcon.de", # Your Email
   repo_url = NULL, # The URL of the GitHub Repo (optional),
   pkg_version = "0.0.0.9000" # The Version of the package containing the App
 )
+desc::desc_get_authors()
+
+# desc::desc_add_author(
+#   given = "firstname",
+#   family = "lastname",
+#   email = "",
+#   role = c('aut'),
+#   comment = NULL,
+#   orcid = NULL,
+#   file = ".",
+#   normalize = FALSE
+# )
+
 
 ## Set {golem} options ----
 golem::set_golem_options()
