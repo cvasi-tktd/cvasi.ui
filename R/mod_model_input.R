@@ -64,7 +64,7 @@ mod_model_input_server <- function(id, selected_model){
       #   )
       # }
 
-    })
+    }, ignoreInit = TRUE)
     
 
   })

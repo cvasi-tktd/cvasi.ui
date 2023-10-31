@@ -64,6 +64,15 @@ mod_prediction_workflow_server <- function(id){
           construct_model() %>% 
           neofm::set_param(do.call(c, parameter_defaults[[input[["active_model"]]]]))
       )
+      
+      # hard coded setting of forcings for testing; include user input for the forcings and remove later!
+      if (forcings_required(selected_model())){
+        f <- forcing_defaults[[input[["active_model"]]]]
+        selected_model(selected_model() %>% 
+                         set_forcings(f)
+                       )
+      }
+      
     }
     
     )

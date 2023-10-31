@@ -32,11 +32,7 @@ mod_exposure_input_server <- function(id, modeldat){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
-    default_exposure <- data.frame(
-      t=c(0,1,50,100,101,200,201,400),
-      #pec=c(0,0,0.1,0.1,0,0))
-      conc=c(0,0,0,0,1,0.1,0,0)
-    )
+
     
     
     observeEvent(input[["debug"]], {

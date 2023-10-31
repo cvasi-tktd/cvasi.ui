@@ -12,7 +12,10 @@ Imports:
     magrittr,
     neofm,
     rhandsontable,
-    shiny (>= 1.7.5)
+    shiny (>= 1.7.5),
+    shinybusy,
+    shinyjs,
+    tidyr
 Suggests: 
     spelling,
     testthat (>= 3.0.0)

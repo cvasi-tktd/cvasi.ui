@@ -18,7 +18,7 @@ construct_model <- function(model_name){
 
 #' Get the required parameter of init names of a model
 #'
-#' @param x the effect model data
+#' @param x the effect model object
 #' @param type the required type to get; either "param" or "init"
 #'
 #' @return
@@ -34,4 +34,18 @@ get_required <- function(x, type){
                 "init" = names(x@init)
                 )
   return( out )
+}
+
+
+#' Does the model require forcings?
+#'
+#' @param x the effect model object
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' forcings_required(metsulfuron)
+forcings_required <- function(x){
+  length(x@forcings.req)>0
 }

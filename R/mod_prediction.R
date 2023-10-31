@@ -11,20 +11,24 @@ mod_prediction_ui <- function(id){
   ns <- NS(id)
   tagList(
     #actionButton(ns("debug"), "debug"),
-    #actionButton(ns("predict"), "Predict"),
+    actionButton(ns("predict"), "Predict"),
     #tags$div(textOutput(ns("error_text")), class = "text-danger"),
-    textOutput(ns("error_text")),
+    
     
     fluidRow(
       column(6,
              tags$h3("State variables"),
+             textOutput(ns("error_text_sv")),
              plotOutput(ns("stat_var_plot"))
       ),
       column(6,
              tags$h3("Dose-response"),
+             textOutput(ns("error_text_dr")),
              plotOutput(ns("dr_plot"))
       )
-    )
+    )# end of fluidRow
+    
+    
   )  
   
 }
@@ -41,41 +45,63 @@ mod_prediction_server <- function(id, modeldat){
     }, ignoreNULL = TRUE)
     
     
-    sim_result <- reactiveVal()
+    #sim_result <- reactiveVal()
+    sim_result <- reactiveValues()
     
-    #observeEvent(input[["predict"]],{
     observeEvent(modeldat(),{
-
-      tryCatch({
-        shinyjs::html("error_text", "")
-        sim_result(
-          list(
-            stat_var = modeldat() %>% 
-              simulate() %>% 
-              tidyr::pivot_longer(!matches("time"), names_to = "state_variables"),
-            dr = modeldat() %>% 
-              dose_response()
-          )
-        )},
-        warning = function(cond){
-          #browser()
-          shinyjs::html(id = "error_text", 
-                        html = paste0("<div class = \"text-warning\">",as.character(cond),"</div>"),#$message, 
-                        add = TRUE)
-          },
-        error = function(cond){
-          #browser()
-          shinyjs::html(id = "error_text", 
-                        html = paste0("<div class = \"text-danger\">",as.character(cond),"</div>"),#$message, 
-                        add = TRUE)
-        }
-      )
-
+      sim_result[["stat_var"]] <- NULL
+      sim_result[["dr"]] <- NULL
     })
     
+    
+    observeEvent(input[["predict"]],{
+    #observeEvent(modeldat(),{
+      shinybusy::show_modal_spinner(text = "Predicting...")
+      tryCatch({
+        shinyjs::html("error_text_sv", "")
+        sim_result[["stat_var"]] <- NULL
+
+          sim_result[["stat_var"]] <- modeldat() %>% 
+            simulate() %>% 
+            tidyr::pivot_longer(!matches("time"), names_to = "state_variables")
+        },
+
+        warning = function(cond) warnings_f(cond, id = "error_text_sv"),
+
+        error = function(cond) error_f(cond, id = "error_text_sv")
+      )
+      
+      tryCatch({
+        shinyjs::html("error_text_dr", "")
+        sim_result[["dr"]] <- NULL
+
+        sim_result[["dr"]] <- modeldat() %>%
+          dose_response()
+        },
+        warning = function(cond) warnings_f(cond, id = "error_text_dr"),
+        error = function(cond) error_f(cond, id = "error_text_dr")
+      )
+      
+      shinybusy::remove_modal_spinner()
+
+    }, ignoreInit = TRUE)
+    
+    warnings_f <- function(cond, id){
+      shinyjs::html(id = id,
+                    html = paste0("<div class = \"text-warning\">",as.character(cond),"</div>"),
+                    add = TRUE)
+    }
+    error_f <- function(cond, id){
+      shinyjs::html(id = id, 
+                    html = paste0("<div class = \"alert alert-danger\">",as.character(cond),"</div>"),
+                    add = TRUE)
+    }
+
+    
+    
     output[["stat_var_plot"]] <- renderPlot({
-      req(length(sim_result()[["stat_var"]]) > 0)
-      ggplot2::ggplot(data = sim_result()[["stat_var"]],
+      req(length(sim_result[["stat_var"]]) > 0)
+      ggplot2::ggplot(data = sim_result[["stat_var"]],
                       ggplot2::aes(x = .data[["time"]], 
                                    y = .data[["value"]], 
                                    color = .data[["state_variables"]]
@@ -86,8 +112,8 @@ mod_prediction_server <- function(id, modeldat){
     })
     
     output[["dr_plot"]] <- renderPlot({
-      req(length(sim_result()[["dr"]]) > 0)
-      ggplot2::ggplot(data = sim_result()[["dr"]],
+      req(length(sim_result[["dr"]]) > 0)
+      ggplot2::ggplot(data = sim_result[["dr"]],
                       ggplot2::aes(x = .data[["mf"]], 
                                    y = .data[["effect"]], 
                                    color = .data[["endpoint"]]
