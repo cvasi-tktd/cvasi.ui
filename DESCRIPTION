@@ -7,6 +7,7 @@ Description: PKG_DESC.
 License: GPL (>= 3)
 Imports: 
     config (>= 0.3.2),
+    dplyr,
     ggplot2,
     golem (>= 0.4.1),
     magrittr,
@@ -14,8 +15,7 @@ Imports:
     rhandsontable,
     shiny (>= 1.7.5),
     shinybusy,
-    shinyjs,
-    tidyr
+    shinyjs
 Suggests: 
     spelling,
     testthat (>= 3.0.0)

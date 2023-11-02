@@ -28,7 +28,7 @@ mod_exposure_input_ui <- function(id){
 #' exposure_input Server Functions
 #'
 #' @noRd 
-mod_exposure_input_server <- function(id, modeldat){
+mod_exposure_input_server <- function(id, modeldat, exposure_time_series){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
@@ -57,17 +57,20 @@ mod_exposure_input_server <- function(id, modeldat){
       req(length(exposure_table()) > 0)
       
       ggplot2::ggplot(exposure_table()) + 
-      ggplot2::geom_area(ggplot2::aes(t,conc))
+        ggplot2::geom_area(ggplot2::aes(time,conc), alpha = 0.75) + 
+        #ggplot2::facet_grid(ggplot2::vars(trial))
+        ggplot2::facet_wrap(trial ~ ., ncol = 2)
 
     })
     
     
     observeEvent(input[["assign"]], {
       val <- exposure_table()
-      modeldat(
-        modeldat() %>% 
-          set_exposure(val)
-      )
+      exposure_time_series(val)
+      # modeldat(
+      #   modeldat() %>% 
+      #     set_exposure(val)
+      # )
     })
     
   })

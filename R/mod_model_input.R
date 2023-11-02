@@ -26,8 +26,7 @@ mod_model_input_server <- function(id, selected_model){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    #selected_model <- reactiveVal()
-    
+
     observeEvent(input[["debug"]], {
       browser()
     }, ignoreNULL = TRUE)
@@ -52,18 +51,6 @@ mod_model_input_server <- function(id, selected_model){
           set_init(iv)
       )
         
-      # if (type == "param"){
-      #   selected_model(
-      #     selected_model() %>%
-      #       set_param(vals)
-      #   )
-      # } else if (type == "init"){
-      #   selected_model(
-      #     selected_model() %>%
-      #       set_init(vals)
-      #   )
-      # }
-
     }, ignoreInit = TRUE)
     
 

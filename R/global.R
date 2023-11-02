@@ -51,14 +51,15 @@ model_choices <- c("Lemna_Schmitt", "Lemna_SETAC")
 
 
 # Default exposure ----
-default_exposure <- data.frame(
-  t=c(0,1,50,100,101,200,201,400),
-  #pec=c(0,0,0.1,0.1,0,0))
-  conc=c(0,0,0,0,1,0.1,0,0)
-)
+# default_exposure <- data.frame(
+#   t=c(0,1,50,100,101,200,201,400),
+#   #pec=c(0,0,0.1,0.1,0,0))
+#   conc=c(0,0,0,0,1,0.1,0,0)
+# )
 
-
-
+default_exposure <- neofm::Schmitt2013 |>#%>%
+  dplyr::select(t, ID, conc) |>#%>%
+  dplyr::rename(trial = "ID", time = "t")
 
 
 

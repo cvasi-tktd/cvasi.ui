@@ -11,7 +11,6 @@ mod_input_fields_ui <- function(id){
   ns <- NS(id)
   tagList(
     #actionButton(ns("debug"), "debug"),
-    #actionButton(ns("assign"), "Assign values"),
     uiOutput(ns("all_fields"))
     
   )

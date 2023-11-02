@@ -60,6 +60,7 @@ mod_prediction_workflow_server <- function(id){
     
     selected_model <- reactiveVal()
     all_model_dat <- reactiveValues()
+    exposure_time_series <- reactiveVal()
     
     lapply(model_choices, function(x){
       all_model_dat[[x]] <- x %>%
@@ -78,16 +79,14 @@ mod_prediction_workflow_server <- function(id){
     }, ignoreNULL = TRUE)
     
     
-    #output[["selected_model_name"]] <- renderText(input[["active_model"]])
-    
-    
+
     observeEvent(input[["active_model"]],{
-      shinyjs::html("model_description", model_descriptions[[input[["active_model"]]]])
+      shinyjs::html("model_description", {
+        paste0("<b>",input[["active_model"]],"</b><br>",model_descriptions[[input[["active_model"]]]])
+        })
       selected_model(
         all_model_dat[[input[["active_model"]]]]
-        # input[["active_model"]] %>%
-        #   construct_model() %>% 
-        #   neofm::set_param(do.call(c, parameter_defaults[[input[["active_model"]]]]))
+
       )
       
       # hard coded setting of forcings for testing; include user input for the forcings and remove later!
@@ -107,9 +106,9 @@ mod_prediction_workflow_server <- function(id){
     
     mod_model_input_server("para_init", selected_model)
 
-    mod_exposure_input_server("exposure_input", selected_model)
+    mod_exposure_input_server("exposure_input", selected_model, exposure_time_series)
 
-    mod_prediction_server("prediction", selected_model)
+    mod_prediction_server("prediction", selected_model, exposure_time_series)
     
     
   })
