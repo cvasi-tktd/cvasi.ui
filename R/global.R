@@ -1,7 +1,14 @@
 
+# Model descriptions ----
+model_descriptions <- list(
+  Lemna_Schmitt = "The model is a mechanistic combined toxicokinetic-toxicodynamic (TK/TD) and growth model for the aquatic macrophytes Lemna spp. The model simulates the development of Lemna biomass under laboratory and environmental conditions and was developed by Schmitt et al. (2013). Growth of the Lemna population is simulated on basis of photosynthesis and respiration rates which are functions of environmental conditions. The toxicodynamic sub-model describes the effects of growth-inhibiting substances by a respective reduction in the photosynthesis rate based on internal concentrations.",
+  Lemna_SETAC = "TBD. Lemna model by Klein et al. (2021)."
+)
 
 
 
+
+# Default parameters ----
 parameter_defaults <- list(
   GUTS_RED_SD = list(kd = 22, hb = 0.01, z = 0.5, kk = 0.08), # From howto
   GUTS_RED_IT = list(kd=1.2, hb=0, alpha=9.2, beta=4.3), # From Manual
@@ -35,6 +42,15 @@ parameter_defaults <- list(
                  MoA = NA)
 )
 
+# Model choices ----
+#model_choices <- c("GUTS_RED_SD", "GUTS_RED_IT", "Lemna_Schmitt", "Lemna_SETAC", "Myrio", "DEB_abj")
+model_choices <- c("Lemna_Schmitt", "Lemna_SETAC")
+#model_choices <- names(parameter_defaults)
+
+
+
+
+# Default exposure ----
 default_exposure <- data.frame(
   t=c(0,1,50,100,101,200,201,400),
   #pec=c(0,0,0.1,0.1,0,0))
@@ -43,39 +59,10 @@ default_exposure <- data.frame(
 
 
 
-#model_choices <- c("GUTS_RED_SD", "GUTS_RED_IT", "Lemna_Schmitt", "Lemna_SETAC", "Myrio", "DEB_abj")
-model_choices <- c("Lemna_Schmitt", "Lemna_SETAC")
-#model_choices <- names(parameter_defaults)
 
 
 
-# do.call(c, lapply(setNames(model_choices,model_choices), function(m){
-#   f <- get(m)
-#   x <- f()
-#   length(list(param.req = x@forcings.req))>0
-# }))
-
-# 
-# lapply(setNames(model_choices,model_choices), function(m){
-#   f <- get(m)
-#   x <- f()
-#   list(param.req = x@param.req)
-# })
-# 
-# 
-# 
-# 
-# a <- numeric()
-# a
-# ex@param.req
-# ?numeric
-# 
-# Lemna_Schmitt()@param.req
-# dput(do.call(c, Lemna_Schmitt()@param))
-
-
-
-
+# Default forcings ----
 forcing_defaults <- list(
   
   Lemna_Schmitt = list( # from metsulfuron
@@ -247,3 +234,36 @@ forcing_defaults <- list(
                                                                                                 -1L))
   )
 )
+
+
+
+
+
+
+
+
+# do.call(c, lapply(setNames(model_choices,model_choices), function(m){
+#   f <- get(m)
+#   x <- f()
+#   length(list(param.req = x@forcings.req))>0
+# }))
+
+# 
+# lapply(setNames(model_choices,model_choices), function(m){
+#   f <- get(m)
+#   x <- f()
+#   list(param.req = x@param.req)
+# })
+# 
+# 
+# 
+# 
+# a <- numeric()
+# a
+# ex@param.req
+# ?numeric
+# 
+# Lemna_Schmitt()@param.req
+# dput(do.call(c, Lemna_Schmitt()@param))
+
+

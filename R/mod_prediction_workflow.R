@@ -22,7 +22,8 @@ mod_prediction_workflow_ui <- function(id){
              ),
       column(6,
              wellPanel(
-               helpText("Model description")
+               #helpText("Model description")
+               textOutput(ns("model_description"))
                )
              )
     ),
@@ -81,6 +82,7 @@ mod_prediction_workflow_server <- function(id){
     
     
     observeEvent(input[["active_model"]],{
+      shinyjs::html("model_description", model_descriptions[[input[["active_model"]]]])
       selected_model(
         all_model_dat[[input[["active_model"]]]]
         # input[["active_model"]] %>%
