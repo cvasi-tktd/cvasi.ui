@@ -15,8 +15,17 @@ mod_prediction_workflow_ui <- function(id){
     selectInput(ns("active_model"), 
                 label = "Choose a model",
                 choices = model_choices),
-    textOutput(ns("selected_model_name")),
-    verbatimTextOutput(ns("selected_model")),
+    #textOutput(ns("selected_model_name")),
+    fluidRow(
+      column(6,
+             verbatimTextOutput(ns("selected_model"))
+             ),
+      column(6,
+             wellPanel(
+               helpText("Model description")
+               )
+             )
+    ),
     
     tabsetPanel(
       tabPanel("Parameters/Init", 
@@ -49,20 +58,34 @@ mod_prediction_workflow_server <- function(id){
     ns <- session$ns
     
     selected_model <- reactiveVal()
+    all_model_dat <- reactiveValues()
+    
+    lapply(model_choices, function(x){
+      all_model_dat[[x]] <- x %>%
+        construct_model() %>% 
+        neofm::set_param(do.call(c, parameter_defaults[[x]]))
+    })
+    
+    
+    observeEvent(selected_model(), {
+      all_model_dat[[input[["active_model"]]]] <- selected_model()
+    })
+    
     
     observeEvent(input[["debug"]], {
       browser()
     }, ignoreNULL = TRUE)
     
     
-    output[["selected_model_name"]] <- renderText(input[["active_model"]])
+    #output[["selected_model_name"]] <- renderText(input[["active_model"]])
     
     
     observeEvent(input[["active_model"]],{
       selected_model(
-        input[["active_model"]] %>%
-          construct_model() %>% 
-          neofm::set_param(do.call(c, parameter_defaults[[input[["active_model"]]]]))
+        all_model_dat[[input[["active_model"]]]]
+        # input[["active_model"]] %>%
+        #   construct_model() %>% 
+        #   neofm::set_param(do.call(c, parameter_defaults[[input[["active_model"]]]]))
       )
       
       # hard coded setting of forcings for testing; include user input for the forcings and remove later!

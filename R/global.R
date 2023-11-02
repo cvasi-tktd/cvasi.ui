@@ -43,7 +43,8 @@ default_exposure <- data.frame(
 
 
 
-model_choices <- c("GUTS_RED_SD", "GUTS_RED_IT", "Lemna_Schmitt", "Lemna_SETAC", "Myrio", "DEB_abj")
+#model_choices <- c("GUTS_RED_SD", "GUTS_RED_IT", "Lemna_Schmitt", "Lemna_SETAC", "Myrio", "DEB_abj")
+model_choices <- c("Lemna_Schmitt", "Lemna_SETAC")
 #model_choices <- names(parameter_defaults)
 
 
@@ -72,9 +73,12 @@ model_choices <- c("GUTS_RED_SD", "GUTS_RED_IT", "Lemna_Schmitt", "Lemna_SETAC",
 # Lemna_Schmitt()@param.req
 # dput(do.call(c, Lemna_Schmitt()@param))
 
+
+
+
 forcing_defaults <- list(
   
-  Lemna_Schmitt = list(
+  Lemna_Schmitt = list( # from metsulfuron
     temp = structure(list(t = 0, tmp = 12), class = "data.frame", row.names = c(NA, 
                                                                                 -1L)), 
     rad = structure(list(t = 0, rad = 15000), class = "data.frame", row.names = c(NA, 

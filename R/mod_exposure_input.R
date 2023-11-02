@@ -39,26 +39,30 @@ mod_exposure_input_server <- function(id, modeldat){
       browser()
     }, ignoreNULL = TRUE)
     
-    output[["exposure_table"]] <- default_exposure %>% 
-      rhandsontable::rhandsontable() %>% 
-      rhandsontable::renderRHandsontable()
     
     
+    # Render the exposure table ----
+    output[["exposure_table"]] <- rhandsontable::renderRHandsontable({
+      rhandsontable::rhandsontable(
+        default_exposure
+      )
+    })
+    
+    # 
     exposure_table <- reactive({
       rhandsontable::hot_to_r(input[["exposure_table"]])
       })
-    output[["table_data_print"]] <- renderPrint(exposure_table())
-    
+
     output[["exposure_plot"]] <- renderPlot({
       req(length(exposure_table()) > 0)
       
       ggplot2::ggplot(exposure_table()) + 
-        ggplot2::geom_polygon(ggplot2::aes(t,conc))
+      ggplot2::geom_area(ggplot2::aes(t,conc))
+
     })
     
     
     observeEvent(input[["assign"]], {
-      #browser()
       val <- exposure_table()
       modeldat(
         modeldat() %>% 
