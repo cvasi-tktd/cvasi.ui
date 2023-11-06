@@ -50,7 +50,9 @@ golem::add_fct("model_helpers", with_test = TRUE)
 ## Creates .js and .css files at inst/app/www
 #golem::add_js_file("script")
 #golem::add_js_handler("handlers")
+golem::add_css_file("generic")
 golem::add_css_file("parameters")
+golem::add_css_file("check_input")
 #golem::add_sass_file("custom")
 
 ## Add internal datasets ----

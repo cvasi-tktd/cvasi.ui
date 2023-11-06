@@ -16,15 +16,28 @@ mod_prediction_workflow_ui <- function(id){
                 label = "Choose a model",
                 choices = model_choices),
     #textOutput(ns("selected_model_name")),
+    
     fluidRow(
       column(6,
-             verbatimTextOutput(ns("selected_model"))
+             #verbatimTextOutput(ns("selected_model"))
+             wellPanel(
+               textOutput(ns("model_description"))
+             )
              ),
       column(6,
-             wellPanel(
-               #helpText("Model description")
-               textOutput(ns("model_description"))
+             # wellPanel(
+             #   textOutput(ns("model_description"))
+             #   ),
+             tagList(
+               tags$h3("Input check"),
+               tags$div(
+                 uiOutput(ns("complete_params")),
+                 uiOutput(ns("complete_init")),
+                 uiOutput(ns("complete_forcings")),
+                 uiOutput(ns("complete_exposure")),
+                 class = "bold"
                )
+             )
              )
     ),
     
@@ -101,6 +114,75 @@ mod_prediction_workflow_server <- function(id){
     
     )
     output[["selected_model"]] <- renderPrint(selected_model())
+    
+    
+    # check input data ----
+    output[["complete_params"]] <- renderUI({
+      if (check_model_complete(selected_model()))
+      {
+        set_class <- "text-success"
+        set_icon <- fontawesome::fa_i("check")
+      } else {
+        set_class <- "text-danger"
+        set_icon <- fontawesome::fa_i("xmark")
+      }
+        
+      tags$span(
+        paste0("Parameters "),
+        set_icon,
+        class = set_class
+      )
+    })
+    output[["complete_init"]] <- renderUI({
+      if (check_model_complete(selected_model(), type = "init"))
+      {
+        set_class <- "text-success"
+        set_icon <- fontawesome::fa_i("check")
+      } else {
+        set_class <- "text-danger"
+        set_icon <- fontawesome::fa_i("xmark")
+      }
+      tags$span(
+        paste0("Initial values"),
+        set_icon,
+        class = set_class
+      )
+      #paste0("Initial values")#: ", check_model_complete(selected_model(), "init"))
+    })
+    output[["complete_forcings"]] <- renderUI({
+      if (check_model_complete(selected_model(), type = "forcings"))
+      {
+        set_class <- "text-success"
+        set_icon <- fontawesome::fa_i("check")
+      } else {
+        set_class <- "text-danger"
+        set_icon <- fontawesome::fa_i("xmark")
+      }
+      tags$span(
+        paste0("Forcings"),
+        set_icon,
+        class = set_class
+      )
+    })
+    
+    output[["complete_exposure"]] <- renderUI({
+      if (check_exposure_complete(exposure_time_series()))
+      {
+        set_class <- "text-success"
+        set_icon <- fontawesome::fa_i("check")
+      } else {
+        set_class <- "text-danger"
+        set_icon <- fontawesome::fa_i("xmark")
+      }
+      tags$span(
+        paste0("Exposure"),
+        set_icon,
+        class = set_class
+      )
+      
+      
+     # paste0("Exposure")#: ", check_exposure_complete(exposure_time_series()))
+    })
     
     
     

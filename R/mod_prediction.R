@@ -131,6 +131,7 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series){
         #ggplot2::theme(axis.title=ggplot2::element_text(size=14)) +
         #ggplot2::theme(legend.text=ggplot2::element_text(size=12))
       
+      #plotly::ggplotly(g1)
       
     })
     
