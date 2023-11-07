@@ -29,6 +29,7 @@ construct_model <- function(model_name){
 #' dat <- neofm::GUTS_RED_IT()
 #' get_required(dat, type = "param")
 #' get_required(dat, type = "init")
+#' get_required(dat, type = "forcings")
 get_required <- function(x, type){
   out <- switch(type,
                 "param" = x@param.req,
@@ -48,6 +49,10 @@ get_required <- function(x, type){
 #' @export
 #'
 #' @examples
+#' dat <- neofm::GUTS_RED_IT()
+#' get_val(dat, type = "param")
+#' get_val(dat, type = "init")
+#' get_val(dat, type = "forcings")
 get_val <- function(x, type){
   out <- switch(type,
                 "param" = x@param,
@@ -121,7 +126,7 @@ check_model_complete <- function(x,
   
 }
 
-#' Title
+#' Checks if the exposure data is complete
 #'
 #' @param x 
 #'
@@ -133,7 +138,6 @@ check_model_complete <- function(x,
 #'                dplyr::select(t, ID, conc) |>
 #'                dplyr::rename(trial = "ID", time = "t")
 #' check_exposure_complete(exp_dat)
-#' 
 check_exposure_complete <- function(x){
   expected_colnames <- c("time", "trial", "conc")
   
