@@ -55,7 +55,6 @@ mod_model_input_server <- function(id, selected_model){
         )
       }
       
-      forcings_out <- NULL # remove line to include the forcings fields
       return(forcings_out)
     })
     
