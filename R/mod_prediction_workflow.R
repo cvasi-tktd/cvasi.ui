@@ -102,16 +102,9 @@ mod_prediction_workflow_server <- function(id){
 
       )
       
-      # hard coded setting of forcings for testing; include user input for the forcings and remove later!
+      # Forcings tab to show ####
       if (forcings_required(selected_model())){
         showTab( inputId = "iotabpanel", target = "Forcings")
-        #f <- forcing_defaults[[input[["active_model"]]]]
-        #forcings_time_series(f)
-        
-        # f <- forcing_defaults[[input[["active_model"]]]]
-        # selected_model(selected_model() %>% 
-        #                  set_forcings(f)
-        #                )
       } else {
         hideTab( inputId = "iotabpanel", target = "Forcings")
         
@@ -163,7 +156,10 @@ mod_prediction_workflow_server <- function(id){
     output[["complete_forcings"]] <- renderUI({
       if (forcings_required(selected_model())){
         
-        if (check_model_complete(selected_model(), type = "forcings"))
+        #if (check_model_complete(selected_model(), type = "forcings"))
+        if (check_forcings_complete(expected_forcings = get_required(selected_model(), "forcings"),
+                                    forcings = forcings_time_series()
+                                    ))
         {
           set_class <- "text-success"
           set_icon <- fontawesome::fa_i("check")
@@ -203,13 +199,13 @@ mod_prediction_workflow_server <- function(id){
     mod_model_input_server("para_init", selected_model)
 
     # Forcing input module server ----
-    mod_forcings_input_server("forcing_input", selected_model, forcings_time_series)
+    mod_forcings_input_server("forcings_input", selected_model, forcings_time_series)
     
     # Exposure input module server ----
     mod_exposure_input_server("exposure_input", selected_model, exposure_time_series)
 
     # Prediction module server ----
-    mod_prediction_server("prediction", selected_model, exposure_time_series)
+    mod_prediction_server("prediction", selected_model, exposure_time_series, forcings_time_series)
     
 
   })

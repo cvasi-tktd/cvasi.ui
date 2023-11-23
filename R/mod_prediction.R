@@ -39,7 +39,7 @@ mod_prediction_ui <- function(id){
 #' prediction Server Functions
 #'
 #' @noRd 
-mod_prediction_server <- function(id, modeldat, exposure_time_series){
+mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_time_series){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
@@ -56,20 +56,27 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series){
       #sim_result[["dr"]] <- NULL
     })
     
+    req_forcings <- reactive(
+      get_required(modeldat(), "forcings")
+    )
     
     observeEvent(input[["predict"]],{
-    #observeEvent(modeldat(),{
+
       shinybusy::show_modal_spinner(text = "Predicting...")
       tryCatch({
         shinyjs::html("error_text_sv", "")
         sim_result[["stat_var"]] <- NULL
 
-          # sim_result[["stat_var"]] <- modeldat() %>% 
-          #   simulate() %>% 
-          #   tidyr::pivot_longer(!matches("time"), names_to = "state_variables")
-          # 
-        #browser()
-        sim_result[["stat_var"]] <- simulate_batch(model_base = modeldat(),
+        model_input <- modeldat()
+        
+
+        if (length(req_forcings()) > 0){
+          model_input <- model_input %>% 
+                     set_forcings(forcings_time_series()
+          )
+        }
+        browser()
+        sim_result[["stat_var"]] <- simulate_batch(model_base = model_input,
                                                    treatments = exposure_time_series(),
                                                    param_sample = NULL)
           
@@ -79,18 +86,7 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series){
 
         error = function(cond) error_f(cond, id = "error_text_sv")
       )
-      
-      # tryCatch({
-      #   shinyjs::html("error_text_dr", "")
-      #   sim_result[["dr"]] <- NULL
-      # 
-      #   sim_result[["dr"]] <- modeldat() %>%
-      #     dose_response()
-      #   },
-      #   warning = function(cond) warnings_f(cond, id = "error_text_dr"),
-      #   error = function(cond) error_f(cond, id = "error_text_dr")
-      # )
-      
+
       shinybusy::remove_modal_spinner()
 
     }, ignoreInit = TRUE)

@@ -158,3 +158,14 @@ check_exposure_complete <- function(x){
   
 }
 
+
+check_forcings_complete <- function(expected_forcings, forcings){
+  if (length(expected_forcings) != length(forcings)){
+    return(FALSE)
+  } 
+  
+  if ( all(expected_forcings %in% names(forcings)) ) {
+    return(TRUE)
+  }
+}
+
