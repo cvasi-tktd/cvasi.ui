@@ -12,26 +12,10 @@ mod_prediction_ui <- function(id){
   tagList(
     #actionButton(ns("debug"), "debug"),
     actionButton(ns("predict"), "Predict"),
-    #tags$div(textOutput(ns("error_text")), class = "text-danger"),
-    
+
     textOutput(ns("error_text_sv")),
     plotOutput(ns("stat_var_plot"), width = "100%", height = "600px", fill = FALSE)
-    #plotly::plotlyOutput(ns("stat_var_plot"))
-    
-    # fluidRow(
-    #   column(6,
-    #          tags$h3("State variables"),
-    #          textOutput(ns("error_text_sv")),
-    #          plotOutput(ns("stat_var_plot"))
-    #   ),
-    #   column(6,
-    #          tags$h3("Dose-response"),
-    #          textOutput(ns("error_text_dr")),
-    #          plotOutput(ns("dr_plot"))
-    #   )
-    # )# end of fluidRow
-    
-    
+
   )  
   
 }
@@ -53,7 +37,6 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
     
     observeEvent(modeldat(),{
       sim_result[["stat_var"]] <- NULL
-      #sim_result[["dr"]] <- NULL
     })
     
     req_forcings <- reactive(
@@ -75,7 +58,7 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
                      set_forcings(forcings_time_series()
           )
         }
-        browser()
+
         sim_result[["stat_var"]] <- simulate_batch(model_base = model_input,
                                                    treatments = exposure_time_series(),
                                                    param_sample = NULL)
@@ -106,16 +89,7 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
     
     output[["stat_var_plot"]] <- renderPlot({#plotly::renderPlotly({#
       req(length(sim_result[["stat_var"]]) > 0)
-      
-      # ggplot2::ggplot(data = sim_result[["stat_var"]],
-      #                 ggplot2::aes(x = .data[["time"]], 
-      #                              y = .data[["value"]], 
-      #                              color = .data[["state_variables"]]
-      #                 )
-      # ) + 
-      #   ggplot2::geom_point() + 
-      #   ggplot2::geom_line()
-      #browser()
+
       plot_sd(model_base = modeldat(),
               treatments = exposure_time_series(),
               rs_mean = sim_result[["stat_var"]],
@@ -126,24 +100,9 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
                        ) #+
         #ggplot2::theme(axis.title=ggplot2::element_text(size=14)) +
         #ggplot2::theme(legend.text=ggplot2::element_text(size=12))
-      
-      #plotly::ggplotly(g1)
-      
+
     })
-    
-    # output[["dr_plot"]] <- renderPlot({
-    #   req(length(sim_result[["dr"]]) > 0)
-    #   ggplot2::ggplot(data = sim_result[["dr"]],
-    #                   ggplot2::aes(x = .data[["mf"]], 
-    #                                y = .data[["effect"]], 
-    #                                color = .data[["endpoint"]]
-    #                   )
-    #   ) + 
-    #     ggplot2::geom_point() +
-    #     ggplot2::geom_line()
-    # })
-    
- 
+
   })
 }
     

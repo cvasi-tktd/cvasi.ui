@@ -14,7 +14,7 @@ mod_forcings_input_ui <- function(id){
     tags$h2("Forcings"),
     textOutput(ns("req_f")),
     actionButton(ns("set_forcings"), "set forcings"),
-    uiOutput(ns("f_input"))
+    uiOutput(ns("f_constant_input"))
   )
 }
     
@@ -33,9 +33,23 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
       get_required(selected_model(), "forcings")
       )
     
+    
+    init_forcings <- reactive({
+      if (length(forcings_time_series()) > 0){
+        if (all(req_f() %in% names(forcings_time_series()))){
+          forcings_time_series()
+        }else {
+          forcing_defaults
+        }
+      } else {
+        forcing_defaults
+      }
+    })
+    
+    
     output[["req_f"]] <- renderText(req_f())
     
-    output[["f_input"]] <- renderUI({
+    output[["f_constant_input"]] <- renderUI({
       model_name()
       print("model name changed")
       req_forcings <- isolate(req_f())
@@ -43,10 +57,11 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
       
       do.call(tagList,
               lapply(req_forcings, function(f_name) {
+                print(paste0(f_name,": ",init_forcings()[[f_name]][,f_name]))
                 f_id <- ns(f_name)
                 numericInput(inputId = f_id,
                              label = f_name,
-                             value = 0
+                             value = init_forcings()[[f_name]][,f_name]
                              )
                 }
                 )

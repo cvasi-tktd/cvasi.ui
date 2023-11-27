@@ -17,14 +17,14 @@ mod_exposure_input_ui <- function(id){
            ),
     column(8,
            tagList(
-             plotOutput(ns("exposure_plot"))#,
-             #verbatimTextOutput(ns("table_data_print"))  
+             plotOutput(ns("exposure_plot"))
            )
            )
     
   )
 }
-    
+
+
 #' exposure_input Server Functions
 #'
 #' @noRd 
