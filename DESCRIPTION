@@ -8,11 +8,14 @@ License: GPL (>= 3)
 Imports: 
     config (>= 0.3.2),
     dplyr,
+    fontawesome,
     ggplot2,
     golem (>= 0.4.1),
     magrittr,
     neofm,
+    purrr,
     rhandsontable,
+    rlang,
     shiny (>= 1.7.5),
     shinybusy,
     shinyjs

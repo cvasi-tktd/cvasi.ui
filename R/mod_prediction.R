@@ -32,7 +32,6 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
     }, ignoreNULL = TRUE)
     
     
-    #sim_result <- reactiveVal()
     sim_result <- reactiveValues()
     
     observeEvent(modeldat(),{
