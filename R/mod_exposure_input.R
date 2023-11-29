@@ -17,14 +17,14 @@ mod_exposure_input_ui <- function(id){
            ),
     column(8,
            tagList(
-             plotOutput(ns("exposure_plot"))#,
-             #verbatimTextOutput(ns("table_data_print"))  
+             plotOutput(ns("exposure_plot"))
            )
            )
     
   )
 }
-    
+
+
 #' exposure_input Server Functions
 #'
 #' @noRd 
@@ -58,7 +58,6 @@ mod_exposure_input_server <- function(id, modeldat, exposure_time_series){
       
       ggplot2::ggplot(exposure_table()) + 
         ggplot2::geom_area(ggplot2::aes(time,conc), alpha = 0.75) + 
-        #ggplot2::facet_grid(ggplot2::vars(trial))
         ggplot2::facet_wrap(trial ~ ., ncol = 2)
 
     })
@@ -67,10 +66,7 @@ mod_exposure_input_server <- function(id, modeldat, exposure_time_series){
     observeEvent(input[["assign"]], {
       val <- exposure_table()
       exposure_time_series(val)
-      # modeldat(
-      #   modeldat() %>% 
-      #     set_exposure(val)
-      # )
+
     })
     
   })

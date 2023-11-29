@@ -41,26 +41,7 @@ mod_model_input_server <- function(id, selected_model){
                             modeldat = selected_model,
                             type = "init")
     
-    
-    # Forcings included check ----
-    output[["forcings_ui"]] <- renderUI({
-      
-      if ( !forcings_required(selected_model()) ){
-        forcings_out <- NULL
-      } else {
-        forcings_out <- tagList(
-          tags$h2("Forcings"),
-          "<<input fields for forcings>>",
-          paste(selected_model()@forcings.req, collapse = ", ")
-        )
-      }
-      
-      forcings_out <- NULL # remove line to include the forcings fields
-      return(forcings_out)
-    })
-    
-    
-    
+
     observeEvent(input[["assign"]], {
       pv <- lapply(rvtl(par_vals), function(x)x())
       iv <- lapply(rvtl(init_vals), function(x)x())

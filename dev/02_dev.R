@@ -38,13 +38,15 @@ golem::add_module(name = "model_input", with_test = FALSE) # Name of the module
 golem::add_module(name = "auto_input_field", with_test = FALSE) # Name of the module
 golem::add_module(name = "input_fields", with_test = FALSE) # Name of the module
 golem::add_module(name = "exposure_input", with_test = FALSE) # Name of the module
+golem::add_module(name = "forcings_input", with_test = FALSE) # Name of the module
 golem::add_module(name = "prediction", with_test = FALSE) # Name of the module
 
 
 ## Add helper functions ----
 ## Creates fct_* and utils_*
 golem::add_fct("model_helpers", with_test = TRUE)
-#golem::add_utils("helpers", with_test = TRUE)
+golem::add_fct("input_files", with_test = TRUE)
+golem::add_utils("helpers", with_test = TRUE)
 
 ## External resources
 ## Creates .js and .css files at inst/app/www
