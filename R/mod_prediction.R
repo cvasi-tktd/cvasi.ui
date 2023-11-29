@@ -42,6 +42,7 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
       get_required(modeldat(), "forcings")
     )
     
+    ## Predict button observer ---------------------------
     observeEvent(input[["predict"]],{
 
       shinybusy::show_modal_spinner(text = "Predicting...")
@@ -86,11 +87,11 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
 
     
     
-    output[["stat_var_plot"]] <- renderPlot({#plotly::renderPlotly({#
+    output[["stat_var_plot"]] <- renderPlot({
       req(length(sim_result[["stat_var"]]) > 0)
 
-      plot_sd(model_base = modeldat(),
-              treatments = exposure_time_series(),
+      plot_sd(model_base = isolate(modeldat()),
+              treatments = isolate(exposure_time_series()),
               rs_mean = sim_result[["stat_var"]],
               obs_mean = NULL) + 
         ggplot2::theme(axis.text = ggplot2::element_text(size = 13),
@@ -104,7 +105,7 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
 
   })
 }
-    
+  
 ## To be copied in the UI
 # mod_prediction_ui("prediction_1")
     
