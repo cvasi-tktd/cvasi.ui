@@ -2,7 +2,9 @@
 # Model descriptions ----
 model_descriptions <- list(
   Lemna_Schmitt = "The model is a mechanistic combined toxicokinetic-toxicodynamic (TK/TD) and growth model for the aquatic macrophytes Lemna spp. The model simulates the development of Lemna biomass under laboratory and environmental conditions and was developed by Schmitt et al. (2013). Growth of the Lemna population is simulated on basis of photosynthesis and respiration rates which are functions of environmental conditions. The toxicodynamic sub-model describes the effects of growth-inhibiting substances by a respective reduction in the photosynthesis rate based on internal concentrations.",
-  Lemna_SETAC = "TBD. Lemna model by Klein et al. (2021)."
+  Lemna_SETAC = "TBD. Lemna model by Klein et al. (2021).",
+  Myrio = "Model is derived from the Lemna TKTD model by Klein et al. (2021).",
+  Myrio_log = "Model is derived from the Lemna TKTD model by Klein et al. (2021)."
 )
 
 
@@ -19,21 +21,18 @@ parameter_defaults <- list(
                        a_P = 1, KiP = 101, C_N = 0.6, CN50 = 0.034, a_N = 1, KiN = 604, 
                        BM50 = 176, mass_per_frond = 1e-04, BMw2BMd = 16.7, EC50 = 0.3, 
                        b = 4.16, P_up = 0.0054), # from metsulfuron()@param
-  # Lemna_SETAC = list(k_photo_fixed = 0, k_photo_max = 0.47, k_loss = 0.05,
-  #                    BM_min = 5e-04, T_opt = 26.7, T_min = 8,
-  #                    T_max = 40.5, Q10 = 2, T_ref = 25,
-  #                    alpha = 5e-05, beta = 0.025, N_50 = 0.034,
-  #                    P_50 = 0.0043, BM_L = 177, E_max = 1, 
-  #                    r_A_DW = 1000, r_FW_DW = 16.7, r_FW_V = 1,
-  #                    r_DW_FN = 1e-04, K_pw = 1, k_met = 0), # from Lemna_SETAC()@param
   Lemna_SETAC = list(k_photo_fixed = 0, k_photo_max = 0.47, k_loss = 0.05, BM_min = 0, 
                      T_opt = 26.7, T_min = 8, T_max = 40.5, Q10 = 2, T_ref = 25, 
                      alpha = 5e-05, beta = 0.025, N_50 = 0.034, P_50 = 0.0043, 
                      BM_L = 176, E_max = 0.784, r_A_DW = 1000, r_FW_DW = 16.7, 
                      r_FW_V = 1, r_DW_FN = 4e-04, K_pw = 0.75, k_met = 0, EC50_int = 0.3, 
                      b = 4.16, P = 0.0054),
-  Myrio = list(k_photo_max = 0.47, E_max = 1, r_A_DW = 1000, r_FW_DW = 16.7, 
-               r_FW_V = 1, K_pw = 1, k_met = 0), # from Myrio()@param
+  Myrio = list(k_photo_max = 0.47, E_max = 1, r_A_DW = 1000, r_FW_DW = 16.7, r_FW_V = 1, K_pw = 1, k_met = 0, # from Myrio()@param
+               EC50_int = 1, b = 1, P = 0.0001, r_DW_TSL = 0.0001 # 
+               ), 
+  Myrio_log = list(k_photo_max = 0.47, E_max = 1, r_A_DW = 1000, r_FW_DW = 16.7, r_FW_V = 1, K_pw = 1, k_met = 0, # from Myrio_log()@param
+                   EC50_int = 1, b = 1, P = 0.0001, r_DW_TSL = 0.0001, BM_L = 1000 # 
+                   ), 
   DEB_abj = list(p_M = NA, v = NA, k_J = NA,
                  p_Am = NA, kap = NA, E_G = NA,
                  f = NA, E_Hj = NA, E_Hp = NA, 
@@ -44,7 +43,7 @@ parameter_defaults <- list(
 
 # Model choices ----
 #model_choices <- c("GUTS_RED_SD", "GUTS_RED_IT", "Lemna_Schmitt", "Lemna_SETAC", "Myrio", "DEB_abj")
-model_choices <- c("Lemna_Schmitt", "Lemna_SETAC")
+model_choices <- list("Lemna_Schmitt", "Myrio", "Myrio_log")
 #model_choices <- names(parameter_defaults)
 
 
