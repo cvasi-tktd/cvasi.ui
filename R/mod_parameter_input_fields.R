@@ -67,26 +67,55 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
         
         collapse_panel_list <- lapply(names(parameter_names_by_group), function(p_group){
           
-          input_fields <- lapply(parameter_names_by_group[[p_group]], function(parname_i){
-            mod_auto_input_field_ui(ns(parname_i))
-          })
+          parameter_names_expert <- expert_parameters(parameter_names_by_group[[p_group]],
+                                                      model_ = get_model_name(modeldat()))[["yes"]]
+          parameter_names_nonexpert <- expert_parameters(parameter_names_by_group[[p_group]],
+                                                      model_ = get_model_name(modeldat()))[["no"]]
+          
+          
+          input_fields_nonexpert <- tags$div(
+            do.call(tagList,
+                    lapply(parameter_names_nonexpert, function(parname_i){
+                      mod_auto_input_field_ui(ns(parname_i))
+                    })
+            ),
+            class = "inputfields_flexbox"
+          )
+          input_fields_expert <- tags$div(
+            do.call(tagList,lapply(parameter_names_expert, function(parname_i){
+              mod_auto_input_field_ui(ns(parname_i))
+            })
+            ),
+            class = "inputfields_flexbox"
+          )
+          if (length(parameter_names_expert)>0){
+            expert_collapse_panel <- shinyBS::bsCollapse(
+              id = paste0(p_group,"_expert"),
+              shinyBS::bsCollapsePanel(title = "expert", input_fields_expert)
+            )
+          } else {
+            expert_collapse_panel <- NULL
+          }
+ 
           
           panel_content <- tagList(
-            tags$div(
-              do.call(tagList, input_fields),
-              class = "inputfields_flexbox"
-            )
+            input_fields_nonexpert,
+            expert_collapse_panel
           )
           
           shinyBS::bsCollapsePanel(title = p_group, panel_content)
         })
         
+
         do.call(shinyBS::bsCollapse, 
-                c(id = "collapse_params", 
-                  open = NULL,#names(parameter_names_by_group)[1],
+                c(list(id = "collapse_params", 
+                  open = NULL,#names(parameter_names_by_group),
+                  multiple = TRUE),
                   collapse_panel_list
                 )
         )
+        
+        
         
       } else if (type == "init"){
         
