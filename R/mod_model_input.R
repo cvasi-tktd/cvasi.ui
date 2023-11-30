@@ -44,8 +44,10 @@ mod_model_input_server <- function(id, selected_model){
     
 
     observeEvent(input[["assign"]], {
-      pv <- lapply(rvtl(par_vals), function(x)x())
-      iv <- lapply(rvtl(init_vals), function(x)x())
+      pv <- lapply(rvtl(par_vals), function(x)x()) %>% 
+        purrr::discard(is.null)
+      iv <- lapply(rvtl(init_vals), function(x)x())%>% 
+        purrr::discard(is.null)
       
       selected_model(
         selected_model() %>%

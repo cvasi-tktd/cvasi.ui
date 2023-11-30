@@ -65,22 +65,27 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
       if (type == "param"){
         parameter_names_by_group <- group_parameters(parameter_names, model_ = get_model_name(modeldat()))
         
-        do.call(tagList, 
-                lapply(names(parameter_names_by_group), function(p_group){
-                  
-                  input_fields <- lapply(parameter_names_by_group[[p_group]], function(parname_i){
-                    mod_auto_input_field_ui(ns(parname_i))
-                  }
-                  )
-                  wellPanel(
-                    tags$h4(p_group),
-                    tags$div(
-                      do.call(tagList, input_fields),
-                      class = "inputfields_flexbox"
-                    )  
-                  )
-                  
-                })
+        collapse_panel_list <- lapply(names(parameter_names_by_group), function(p_group){
+          
+          input_fields <- lapply(parameter_names_by_group[[p_group]], function(parname_i){
+            mod_auto_input_field_ui(ns(parname_i))
+          })
+          
+          panel_content <- tagList(
+            tags$div(
+              do.call(tagList, input_fields),
+              class = "inputfields_flexbox"
+            )
+          )
+          
+          shinyBS::bsCollapsePanel(title = p_group, panel_content)
+        })
+        
+        do.call(shinyBS::bsCollapse, 
+                c(id = "collapse_params", 
+                  open = NULL,#names(parameter_names_by_group)[1],
+                  collapse_panel_list
+                )
         )
         
       } else if (type == "init"){
