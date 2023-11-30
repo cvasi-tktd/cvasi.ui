@@ -46,7 +46,7 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
                )
                field_return <- mod_auto_input_field_server(
                  id = parname_i, 
-                 label = field_label,#parname_i, 
+                 label = field_label,
                  value = modeldat() %>% 
                    slot(type) %>% 
                    .[[parname_i]],
@@ -56,39 +56,63 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
              })
     }) # end of observeEvent
     
+    
+    # Render input fields
     output[["all_fields"]] <- renderUI({
       parameter_names <- modeldat() %>% 
-        get_required(type = type)#slot("param.req")
-      inputFields <- lapply(parameter_names, function(parname_i){
-        mod_auto_input_field_ui(ns(parname_i))
-      }
-      )
+        get_required(type = type)
       
-      tags$div(
-        do.call(tagList, inputFields),
-        class = "inputfields_flexbox"
-      )
+      if (type == "param"){
+        parameter_names_by_group <- group_parameters(parameter_names, model_ = get_model_name(modeldat()))
+        
+        do.call(tagList, 
+                lapply(names(parameter_names_by_group), function(p_group){
+                  
+                  input_fields <- lapply(parameter_names_by_group[[p_group]], function(parname_i){
+                    mod_auto_input_field_ui(ns(parname_i))
+                  }
+                  )
+                  wellPanel(
+                    tags$h4(p_group),
+                    tags$div(
+                      do.call(tagList, input_fields),
+                      class = "inputfields_flexbox"
+                    )  
+                  )
+                  
+                })
+        )
+        
+      } else if (type == "init"){
+        
+        input_fields <- lapply(parameter_names, function(parname_i){
+          mod_auto_input_field_ui(ns(parname_i))
+        }
+        )
+        wellPanel(
+          tags$div(
+            do.call(tagList, input_fields),
+            class = "inputfields_flexbox"
+          )
+        )
+        
+      }
+      
+      
+      
+      
+      # input_fields <- lapply(parameter_names, function(parname_i){
+      #   mod_auto_input_field_ui(ns(parname_i))
+      # }
+      # )
+      # tags$div(
+      #   do.call(tagList, input_fields),
+      #   class = "inputfields_flexbox"
+      # )
+      
+      
     })
-    
-    
-    
-    # observeEvent(input[["assign"]], {
-    #   vals <- lapply(rvtl(input_field_vals), function(x)x())
-    #   if (type == "param"){
-    #     modeldat(
-    #       modeldat() %>% 
-    #         set_param(vals)
-    #     )
-    #   } else if (type == "init"){
-    #     modeldat(
-    #       modeldat() %>% 
-    #         set_init(vals)
-    #     )
-    #   }
-    #   
-    # })
-    #parameter_values <- reactive()
-    
+
     return(input_field_vals)
     
   })

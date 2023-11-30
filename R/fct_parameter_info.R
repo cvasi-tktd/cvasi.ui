@@ -31,5 +31,3 @@ get_parameter_info <- function(model_, parameter_, type_){
   mod_par %>% 
     dplyr::select(matches(type_))
 }
-
-

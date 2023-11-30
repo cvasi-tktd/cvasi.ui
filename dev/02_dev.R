@@ -47,6 +47,7 @@ golem::add_module(name = "prediction", with_test = FALSE) # Name of the module
 golem::add_fct("model_helpers", with_test = TRUE)
 golem::add_fct("input_files", with_test = TRUE)
 golem::add_fct("parameter_info", with_test = TRUE)
+golem::add_fct("parameter_gouping", with_test = TRUE)
 golem::add_utils("text_formatting", with_test = TRUE)
 golem::add_utils("helpers", with_test = TRUE)
 

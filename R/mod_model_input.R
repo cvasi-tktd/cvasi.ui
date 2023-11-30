@@ -14,6 +14,7 @@ mod_model_input_ui <- function(id){
         actionButton(ns("assign"), "Assign values"),
         tags$h2("Parameters"),
         mod_input_fields_ui(ns("parameter_input_fields")),
+        tags$hr(),
         tags$h2("Init"),
         mod_input_fields_ui(ns("init_input_fields")),
         uiOutput(ns("forcings_ui"))
