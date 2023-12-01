@@ -1,0 +1,63 @@
+model;parameter;description;unit;group;expert value;default
+Algae_Weber;mue_max;Maximum growth rate at optimum environmental conditions ;1/d;physiological;no;-
+Algae_Weber;m_max;Natural mortality rate;1/d;physiological;no;-
+Algae_Weber;v_max;Maximum P-uptake rate at non-limited growth ;?g P/?g fresh wt/d;physiological;no;-
+Algae_Weber;k_s;Half-saturation constant for extracellular P;mg P/L;physiological;no;-
+Algae_Weber;Q_min;Minimum intracellular P ;?g P/?g fresh wt;physiological;no;-
+Algae_Weber;Q_max;Maximum intracellular P;?g P/?g fresh wt;physiological;no;-
+Algae_Weber;R_0;Influx concentration of P;mg P/L;physiological;no;-
+Algae_Weber;D;Dilution rate;1/d;physiological;no;-
+Algae_Weber;T_opt;Optimum temperature for growth;°C;physiological;no;-
+Algae_Weber;T_min;Minimum temperature for growth;°C;physiological;no;-
+Algae_Weber;T_max;Maximum temperature for growth;°C;physiological;no;-
+Algae_Weber;I_opt;Optimum light intensity for growth;?E/m²/s;physiological;no;-
+Algae_Weber;EC_50;Effect concentration of 50% inhibition of growth rate;?g/L, mg/L;toxicodynamic;no;-
+Algae_Weber;b;Slope of concentration effect curve at EC_50;-;toxicodynamic;no;-
+Algae_Weber;k;Degradation rate of toxicant in aquatic environments;1/d;toxicokinetic;no;-
+Myriophyllum;k_photo_max;Maximum photosynthesis rate;1/d;physiological;no;0.47
+Myriophyllum;EC50_int;Internal concentration resulting in 50% effect;µg L-1;toxicodynamic;no;-
+Myriophyllum;E_max;Maximum inhibition;-;toxicodynamic;yes;1
+Myriophyllum;b;Slope of concentration effect curve at EC_50;-;toxicodynamic;no;-
+Myriophyllum;P;Permeability;cm/d;toxicokinetic;no;-
+Myriophyllum;r_A_DW;Area per dry-weight ratio;cm²/g;toxicokinetic;yes;1000
+Myriophyllum;r_FW_DW;Fresh weight per dry weight ratio;-;toxicokinetic;yes;16.7
+Myriophyllum;r_FW_V;Fresh weight density;g/cm³;toxicokinetic;yes;1
+Myriophyllum;r_DW_TSL;Dry weight per total shoot length ratio;-;toxicokinetic;yes;-
+Myriophyllum;K_pw;Partitioning coefficient plant:water;-;toxicokinetic;yes;1
+Myriophyllum;k_met;Metabolisation rate;1/d;toxicokinetic;yes;0
+Myriophyllum;BM;Biomass;g dw m-2;state variable;no;-
+Myriophyllum;M_int;Mass of toxicant in plant population;ug m-2;state variable;no;-
+Myriophyllum;BM_L;Carrying capacity;g dw m-2;physiological;no;-
+Lemna_Schmitt;k_phot_fix;Then k_phot_max is not changed by environmental factors, else FALSE;logical;physiological;yes;TRUE
+Lemna_Schmitt;k_phot_max;Maximum photosynthesis rate;1/d;physiological;no;-
+Lemna_Schmitt;k_resp;Respiration rate;1/d;physiological;yes;-
+Lemna_Schmitt;k_loss;Rate of loss (e.g. flow rate);1/d;physiological;yes;-
+Lemna_Schmitt;Tmin;Minimum temperature for growth;°C;physiological;yes;-
+Lemna_Schmitt;Tmax;Maximum temperature for growth;°C;physiological;yes;-
+Lemna_Schmitt;Topt;Optimal temperature for growth;°C;physiological;yes;-
+Lemna_Schmitt;t_ref;Reference temperature for respiration rate;°C;physiological;yes;-
+Lemna_Schmitt;Q10;Temperature dependence factor for respiration rate;-;physiological;yes;-
+Lemna_Schmitt;k_0;Light dependence: intercept of linear part;1/d;physiological;yes;-
+Lemna_Schmitt;a_k;Light dependence: slope of linear part;(1/d)/(kJ/m2.d);physiological;yes;-
+Lemna_Schmitt;C_P;Phosphorus concentration in water;mg/L;physiological;yes;-
+Lemna_Schmitt;CP50;Phosphorus conc. where growth rate is halfed;mg/L;physiological;yes;-
+Lemna_Schmitt;a_P;Hill coefficient;-;physiological;yes;-
+Lemna_Schmitt;KiP;P-inhibition constant for very high p-conc.;mg/L;physiological;yes;-
+Lemna_Schmitt;C_N;Nitrogen concentration in water;mg/L;physiological;yes;-
+Lemna_Schmitt;CN50;N-conc. where growth rate is halfed;mg/L;physiological;yes;-
+Lemna_Schmitt;a_N;Hill coefficient;-;physiological;yes;-
+Lemna_Schmitt;KiN;N-inhibition constant for very high p-conc.;mg/L;physiological;yes;-
+Lemna_Schmitt;BM50;Cut off BM;g_dw/m2;physiological;yes;-
+Lemna_Schmitt;mass_per_frond;Dry weight per frond;g_dw/frond;physiological;yes;-
+Lemna_Schmitt;BMw2BMd;Fresh weight/dry weight;g_fw/g_dw;physiological;yes;-
+Lemna_Schmitt;Emax;Maximum effect;-;toxicodynamic;yes;-
+Lemna_Schmitt;EC50;Effect concentration of 50% inhibition of growth rate;ug/L;toxicodynamic;no;-
+Lemna_Schmitt;b;Slope of concentration effect curve at EC_50;-;toxicodynamic;no;-
+Lemna_Schmitt;P_up;Permeability for uptake;cm/d;toxicokinetic;no;-
+Lemna_Schmitt;AperBM;A_leaf / d_leaf = 1/d_leaf (for circular disc, d=0.05 cm);cm2/g_dw;toxicokinetic;yes;-
+Lemna_Schmitt;Kbm;Biomass(fw) : water partition coefficient;-;toxicokinetic;yes;1
+Lemna_Schmitt;P_Temp;TRUE to enable temperature dependence of cuticle permeability, else FALSE;logical;toxicokinetic;yes;-
+Lemna_Schmitt;MolWeight;Molmass of molecule (determines Q10_permeability);g/mol;toxicokinetic;yes;-
+Lemna_Schmitt;BM;Dry weight biomass per square meter;g_dw/m2;state variable;no;-
+Lemna_Schmitt;E;Effect;-;state variable;no;-
+Lemna_Schmitt;M_int;Internal toxicant mass;ug;state variable;no;-

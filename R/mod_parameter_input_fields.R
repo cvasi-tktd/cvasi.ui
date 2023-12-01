@@ -37,52 +37,116 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
       
       lapply(parameter_names,
              function(parname_i){
+               field_label <- tooltip_text(mytext = parname_i, 
+                                           tooltip = get_parameter_info(
+                                             model_ = neofm::get_model_name(modeldat()), 
+                                             parameter_ = parname_i, 
+                                             type_ = "description"
+                                           )
+               )
                field_return <- mod_auto_input_field_server(
                  id = parname_i, 
-                 label = parname_i, 
+                 label = field_label,
                  value = modeldat() %>% 
                    slot(type) %>% 
                    .[[parname_i]],
                  datatype = "numerical"
                )
-               #browser()
                input_field_vals[[parname_i]] <- field_return
              })
     }) # end of observeEvent
     
+    
+    # Render input fields
     output[["all_fields"]] <- renderUI({
       parameter_names <- modeldat() %>% 
-        get_required(type = type)#slot("param.req")
-      inputFields <- lapply(parameter_names, function(parname_i){
-        mod_auto_input_field_ui(ns(parname_i))
-      }
-      )
+        get_required(type = type)
       
-      tags$div(
-        do.call(tagList, inputFields),
-        class = "inputfields_flexbox"
-      )
+      if (type == "param"){
+        parameter_names_by_group <- group_parameters(parameter_names, model_ = get_model_name(modeldat()))
+        
+        collapse_panel_list <- lapply(names(parameter_names_by_group), function(p_group){
+          
+          parameter_names_expert <- expert_parameters(parameter_names_by_group[[p_group]],
+                                                      model_ = get_model_name(modeldat()))[["yes"]]
+          parameter_names_nonexpert <- expert_parameters(parameter_names_by_group[[p_group]],
+                                                      model_ = get_model_name(modeldat()))[["no"]]
+          
+          
+          input_fields_nonexpert <- tags$div(
+            do.call(tagList,
+                    lapply(parameter_names_nonexpert, function(parname_i){
+                      mod_auto_input_field_ui(ns(parname_i))
+                    })
+            ),
+            class = "inputfields_flexbox"
+          )
+          input_fields_expert <- tags$div(
+            do.call(tagList,lapply(parameter_names_expert, function(parname_i){
+              mod_auto_input_field_ui(ns(parname_i))
+            })
+            ),
+            class = "inputfields_flexbox"
+          )
+          if (length(parameter_names_expert)>0){
+            expert_collapse_panel <- shinyBS::bsCollapse(
+              id = paste0(p_group,"_expert"),
+              shinyBS::bsCollapsePanel(title = "expert", input_fields_expert)
+            )
+          } else {
+            expert_collapse_panel <- NULL
+          }
+ 
+          
+          panel_content <- tagList(
+            input_fields_nonexpert,
+            expert_collapse_panel
+          )
+          
+          shinyBS::bsCollapsePanel(title = p_group, panel_content)
+        })
+        
+
+        do.call(shinyBS::bsCollapse, 
+                c(list(id = "collapse_params", 
+                  open = NULL,#names(parameter_names_by_group),
+                  multiple = TRUE),
+                  collapse_panel_list
+                )
+        )
+        
+        
+        
+      } else if (type == "init"){
+        
+        input_fields <- lapply(parameter_names, function(parname_i){
+          mod_auto_input_field_ui(ns(parname_i))
+        }
+        )
+        wellPanel(
+          tags$div(
+            do.call(tagList, input_fields),
+            class = "inputfields_flexbox"
+          )
+        )
+        
+      }
+      
+      
+      
+      
+      # input_fields <- lapply(parameter_names, function(parname_i){
+      #   mod_auto_input_field_ui(ns(parname_i))
+      # }
+      # )
+      # tags$div(
+      #   do.call(tagList, input_fields),
+      #   class = "inputfields_flexbox"
+      # )
+      
+      
     })
-    
-    
-    
-    # observeEvent(input[["assign"]], {
-    #   vals <- lapply(rvtl(input_field_vals), function(x)x())
-    #   if (type == "param"){
-    #     modeldat(
-    #       modeldat() %>% 
-    #         set_param(vals)
-    #     )
-    #   } else if (type == "init"){
-    #     modeldat(
-    #       modeldat() %>% 
-    #         set_init(vals)
-    #     )
-    #   }
-    #   
-    # })
-    #parameter_values <- reactive()
-    
+
     return(input_field_vals)
     
   })

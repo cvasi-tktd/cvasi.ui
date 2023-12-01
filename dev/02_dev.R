@@ -46,6 +46,9 @@ golem::add_module(name = "prediction", with_test = FALSE) # Name of the module
 ## Creates fct_* and utils_*
 golem::add_fct("model_helpers", with_test = TRUE)
 golem::add_fct("input_files", with_test = TRUE)
+golem::add_fct("parameter_info", with_test = TRUE)
+golem::add_fct("parameter_gouping", with_test = TRUE)
+golem::add_utils("text_formatting", with_test = TRUE)
 golem::add_utils("helpers", with_test = TRUE)
 
 ## External resources
@@ -59,7 +62,7 @@ golem::add_css_file("check_input")
 
 ## Add internal datasets ----
 ## If you have data in your package
-#usethis::use_data_raw(name = "my_dataset", open = FALSE)
+usethis::use_data_raw(name = "param_descr", open = TRUE)
 
 ## Tests ----
 ## Add one line by test you want to create

@@ -43,7 +43,6 @@ mod_prediction_workflow_ui <- function(id){
       ),
       tabPanel("Forcings",
                mod_forcings_input_ui(ns("forcings_input"))
-               #mod_exposure_input_ui(ns("forcings_input"))
       ),
       tabPanel("Exposure", 
                mod_exposure_input_ui(ns("exposure_input"))
@@ -156,7 +155,6 @@ mod_prediction_workflow_server <- function(id){
     output[["complete_forcings"]] <- renderUI({
       if (forcings_required(selected_model())){
         
-        #if (check_model_complete(selected_model(), type = "forcings"))
         if (check_forcings_complete(expected_forcings = get_required(selected_model(), "forcings"),
                                     forcings = forcings_time_series()
                                     ))

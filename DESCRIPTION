@@ -5,6 +5,8 @@ Authors@R:
     person("Torben", "Wittwer", , "Torben.Wittwer@rifcon.de", role = c("cre", "aut"))
 Description: PKG_DESC.
 License: GPL (>= 3)
+Depends: 
+    R (>= 2.10)
 Imports: 
     config (>= 0.3.2),
     dplyr,
@@ -17,6 +19,7 @@ Imports:
     rhandsontable,
     rlang,
     shiny (>= 1.7.5),
+    shinyBS,
     shinybusy,
     shinyjs
 Suggests: 
