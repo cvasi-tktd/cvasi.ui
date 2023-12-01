@@ -25,6 +25,9 @@ Myriophyllum;r_FW_V;Fresh weight density;g/cm³;toxicokinetic;yes;1
 Myriophyllum;r_DW_TSL;Dry weight per total shoot length ratio;-;toxicokinetic;yes;-
 Myriophyllum;K_pw;Partitioning coefficient plant:water;-;toxicokinetic;yes;1
 Myriophyllum;k_met;Metabolisation rate;1/d;toxicokinetic;yes;0
+Myriophyllum;BM;Biomass;g dw m-2;state variable;no;-
+Myriophyllum;M_int;Mass of toxicant in plant population;ug m-2;state variable;no;-
+Myriophyllum;BM_L;Carrying capacity;g dw m-2;physiological;no;-
 Lemna_Schmitt;k_phot_fix;Then k_phot_max is not changed by environmental factors, else FALSE;logical;physiological;yes;TRUE
 Lemna_Schmitt;k_phot_max;Maximum photosynthesis rate;1/d;physiological;no;-
 Lemna_Schmitt;k_resp;Respiration rate;1/d;physiological;yes;-
@@ -55,3 +58,6 @@ Lemna_Schmitt;AperBM;A_leaf / d_leaf = 1/d_leaf (for circular disc, d=0.05 cm);c
 Lemna_Schmitt;Kbm;Biomass(fw) : water partition coefficient;-;toxicokinetic;yes;1
 Lemna_Schmitt;P_Temp;TRUE to enable temperature dependence of cuticle permeability, else FALSE;logical;toxicokinetic;yes;-
 Lemna_Schmitt;MolWeight;Molmass of molecule (determines Q10_permeability);g/mol;toxicokinetic;yes;-
+Lemna_Schmitt;BM;Dry weight biomass per square meter;g_dw/m2;state variable;no;-
+Lemna_Schmitt;E;Effect;-;state variable;no;-
+Lemna_Schmitt;M_int;Internal toxicant mass;ug;state variable;no;-
