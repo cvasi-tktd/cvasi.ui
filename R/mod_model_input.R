@@ -15,7 +15,7 @@ mod_model_input_ui <- function(id){
         tags$h2("Parameters"),
         mod_input_fields_ui(ns("parameter_input_fields")),
         tags$hr(),
-        tags$h2("Init"),
+        tags$h2("Initial values"),
         mod_input_fields_ui(ns("init_input_fields")),
         uiOutput(ns("forcings_ui"))
         )
