@@ -11,13 +11,26 @@ app_ui <- function(request) {
     #golem_add_external_resources(),
     # Your application UI logic
     shinydashboard::dashboardPage(
-      skin = "green",
+      #skin = "green",
       title = "efmui",
       shinydashboard::dashboardHeader(title = "efmui"),
-      shinydashboard::dashboardSidebar(disable = TRUE, collapsed = TRUE),
+      shinydashboard::dashboardSidebar(disable = TRUE, collapsed = TRUE#,
+                                       # shinydashboard::sidebarMenu(
+                                       #   shinydashboard::menuItem("Prediction", tabName = "prediction"),
+                                       #   shinydashboard::menuItem("Calibration", tabName = "calibration"),
+                                       #   shinydashboard::menuItem("Validation", tabName = "validation")
+                                       # )
+                                       ),
       shinydashboard::dashboardBody(
         golem_add_external_resources(),
-        mod_prediction_workflow_ui("prediction_workflow")
+        # shinydashboard::tabItems(
+          # shinydashboard::tabItem("prediction",
+            mod_prediction_workflow_ui("prediction_workflow"),  
+          # ),
+          # shinydashboard::tabItem("calibration",""),
+          # shinydashboard::tabItem("validation","")
+        # )
+        
       )
     )
   #)

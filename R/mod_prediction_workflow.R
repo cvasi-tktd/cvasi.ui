@@ -15,6 +15,7 @@ mod_prediction_workflow_ui <- function(id){
     box(title = span(icon("sliders"), "Model input"), width = 12, status = "primary",
         
         box(title = span(icon("crosshairs"), "Model selection"),        
+            status = "primary",
             width = 12,
             fluidRow(
               column(6,
@@ -38,18 +39,22 @@ mod_prediction_workflow_ui <- function(id){
             #)
         ),
         box(title = span(icon("cogs"),"Parameters/Initial values"), 
+            status = "primary",
             width = 12,
             collapsed = TRUE, 
             collapsible = TRUE,
             mod_model_input_ui(ns("para_init"))
         ),
-        tags$span(id = "forcings_box", box(title = span(icon("thermometer-full"),"Forcings"),
-            width = 12,
-            collapsed = TRUE, 
-            collapsible = TRUE,
-            mod_forcings_input_ui(ns("forcings_input"))
-        )),
-        box(title = span(icon("shower"), "Exposure"), 
+        tags$span(id = "forcings_box", 
+                  box(title = span(icon("thermometer-full"),"Forcings"),
+                      status = "primary",
+                      width = 12,
+                      collapsed = TRUE, 
+                      collapsible = TRUE,
+                      mod_forcings_input_ui(ns("forcings_input"))
+                  )),
+        box(title = span(icon("shower"), "Exposure"),
+            status = "primary",
             width = 12,
             collapsed = TRUE, 
             collapsible = TRUE,

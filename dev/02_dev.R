@@ -58,6 +58,7 @@ golem::add_utils("helpers", with_test = TRUE)
 golem::add_css_file("generic")
 golem::add_css_file("parameters")
 golem::add_css_file("check_input")
+golem::add_css_file("dashboard")
 #golem::add_sass_file("custom")
 
 ## Add internal datasets ----
