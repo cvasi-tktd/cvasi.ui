@@ -38,12 +38,21 @@ mod_prediction_workflow_ui <- function(id){
             #class = "bold"
             #)
         ),
-        box(title = span(icon("cogs"),"Parameters/Initial values"), 
+        box(title = span(icon("cogs"),"Parameters"), 
             status = "primary",
             width = 12,
             collapsed = TRUE, 
             collapsible = TRUE,
-            mod_model_input_ui(ns("para_init"))
+            mod_parameter_input_ui(ns("para_input"))
+            #mod_model_input_ui(ns("para_init"))
+        ),
+        box(title = span(icon("flag"), "Initial values"), 
+            status = "primary",
+            width = 12,
+            collapsed = TRUE, 
+            collapsible = TRUE,
+            mod_init_input_ui(ns("init_input"))
+            #mod_model_input_ui(ns("para_init"))
         ),
         tags$span(id = "forcings_box", 
                   box(title = span(icon("thermometer-full"),"Forcings"),
@@ -164,7 +173,9 @@ mod_prediction_workflow_server <- function(id){
     
     
     # Parameter and init module server ----
-    mod_model_input_server("para_init", selected_model)
+    #mod_model_input_server("para_init", selected_model)
+    mod_parameter_input_server("para_input", selected_model)
+    mod_init_input_server("init_input", selected_model)
 
     # Forcing input module server ----
     mod_forcings_input_server("forcings_input", selected_model, forcings_time_series)

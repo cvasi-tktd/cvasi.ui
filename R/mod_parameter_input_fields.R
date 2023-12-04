@@ -119,11 +119,11 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
           mod_auto_input_field_ui(ns(parname_i))
         }
         )
-        box(title = span(icon("flag"), "Initial values"),
-            do.call(tagList, input_fields),
-            collapsed = TRUE, 
-            collapsible = TRUE
-        )
+        #box(title = span(icon("flag"), "Initial values"),
+            div(do.call(tagList, input_fields), class = "inputfields_flexbox")#,
+            #collapsed = TRUE, 
+            #collapsible = TRUE
+        #)
         
       }
       
