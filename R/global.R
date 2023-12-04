@@ -64,12 +64,12 @@ default_exposure <- neofm::Schmitt2013 |>#%>%
 
 # Default forcings ----
 forcing_defaults <- list(
-  temp = structure(list(t = 0, temp = 12), class = "data.frame", row.names = c(NA,-1L)), 
-  rad = structure(list(t = 0, rad = 15000), class = "data.frame", row.names = c(NA,-1L)),
-  tmp = structure(list(t = 0, tmp = 12), class = "data.frame", row.names = c(NA,-1L)),
-  irr = structure(list(t = 0, irr = 15000), class = "data.frame", row.names = c(NA,-1L)),
-  P = structure(list(t = 0, P = 0.3), class = "data.frame", row.names = c(NA,-1L)), 
-  N = structure(list(t = 0, N = 0.6), class = "data.frame", row.names = c(NA,-1L))
+  temp = structure(list(t = 0, value = 12), class = "data.frame", row.names = c(NA,-1L)), 
+  rad = structure(list(t = 0, value = 15000), class = "data.frame", row.names = c(NA,-1L)),
+  tmp = structure(list(t = 0, value = 12), class = "data.frame", row.names = c(NA,-1L)),
+  irr = structure(list(t = 0, value = 15000), class = "data.frame", row.names = c(NA,-1L)),
+  P = structure(list(t = 0, value = 0.3), class = "data.frame", row.names = c(NA,-1L)), 
+  N = structure(list(t = 0, value = 0.6), class = "data.frame", row.names = c(NA,-1L))
 )
 
 # forcing_defaults <- list(
