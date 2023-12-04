@@ -187,21 +187,20 @@ check_forcings_complete <- function(expected_forcings, forcings){
 #' 
 create_vb <- function(value, subtitle, width = 3) {
   
-  eval_val <- value
-  output_val <- switch(as.character(eval_val),
+  output_val <- switch(as.character(value),
                        `TRUE` = "Ok",
                        `FALSE` = "Missing",
                        `NA` = "minus")
   
-  icon_char <- switch(as.character(eval_val),
+  icon_char <- switch(as.character(value),
                       `TRUE` = "thumbs-up",
                       `FALSE` = "thumbs-down",
                       `NA` = "minus")
   
-  color_char <- switch(as.character(eval_val),
+  color_char <- switch(as.character(value),
                        `TRUE` = "green",
                        `FALSE` = "red",
-                       `NA` = "orange")
+                       `NA` = "yellow")
   
   valueBox(
     value = output_val,

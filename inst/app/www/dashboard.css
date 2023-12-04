@@ -15,3 +15,16 @@
 .box.box-primary {
     border-top-color: #5b604f !important;
 }
+
+div.small-box.bg-red {
+  background-color: #b57e74 !important;
+}
+
+div.small-box.bg-green {
+  background-color: #a0b674 !important;
+}
+
+div.small-box.bg-yellow {
+  background-color: #eddd9d !important;
+}
+
