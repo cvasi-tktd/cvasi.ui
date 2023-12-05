@@ -147,7 +147,11 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
       
       ggplot2::ggplot(plot_dat) + 
         ggplot2::geom_area(ggplot2::aes(time,value), alpha = 0.75) + 
-        ggplot2::facet_wrap(forcing ~ ., ncol = 2, scales = "free")
+        ggplot2::facet_wrap(forcing ~ ., ncol = 2, scales = "free")+ 
+        ggplot2::theme(axis.text = ggplot2::element_text(size = 13),
+                       axis.title = ggplot2::element_text(size = 14),
+                       strip.text = ggplot2::element_text(size = 14)
+        )
     })
     
     observeEvent(input[["set_var_forcings"]], {
