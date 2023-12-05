@@ -37,13 +37,19 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
       
       lapply(parameter_names,
              function(parname_i){
+               
+               tooltip <- paste0(get_parameter_info(
+                 model_ = neofm::get_model_name(modeldat()), 
+                 parameter_ = parname_i, 
+                 type_ = "description"),
+                 "; ", 
+                 get_parameter_info(
+                   model_ = neofm::get_model_name(modeldat()), 
+                   parameter_ = parname_i, 
+                   type_ = "unit"))
+               
                field_label <- tooltip_text(mytext = parname_i, 
-                                           tooltip = get_parameter_info(
-                                             model_ = neofm::get_model_name(modeldat()), 
-                                             parameter_ = parname_i, 
-                                             type_ = "description"
-                                           )
-               )
+                                           tooltip = tooltip)
                field_return <- mod_auto_input_field_server(
                  id = parname_i, 
                  label = field_label,
