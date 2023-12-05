@@ -48,3 +48,19 @@ expert_parameters <- function(p, model_){
   
   return(out)
 }
+
+
+#' Create a title with icon for the thematic parameter groups
+#'
+#' @param group_title 
+#'
+#' @return
+#' @export
+group_title_with_icon <- function(group_title){
+  switch(group_title,
+         "physiological" = span(icon("heartbeat"), "physiological"),
+         "toxicokinetic" = span(icon("exchange"), "toxicokinetic"),
+         "toxicodynamic" = span(icon("bolt"),"toxicodynamic"),
+         group_title
+         )
+}

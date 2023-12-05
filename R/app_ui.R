@@ -3,17 +3,37 @@
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @import shinydashboard
 #' @noRd
 app_ui <- function(request) {
-  tagList(
+  #tagList(
     # Leave this function for adding external resources
-    golem_add_external_resources(),
+    #golem_add_external_resources(),
     # Your application UI logic
-    fluidPage(
-      h1("efmui"),
-      mod_prediction_workflow_ui("prediction_workflow")
+    shinydashboard::dashboardPage(
+      #skin = "green",
+      title = "efmui",
+      shinydashboard::dashboardHeader(title = "efmui"),
+      shinydashboard::dashboardSidebar(disable = TRUE, collapsed = TRUE#,
+                                       # shinydashboard::sidebarMenu(
+                                       #   shinydashboard::menuItem("Prediction", tabName = "prediction"),
+                                       #   shinydashboard::menuItem("Calibration", tabName = "calibration"),
+                                       #   shinydashboard::menuItem("Validation", tabName = "validation")
+                                       # )
+                                       ),
+      shinydashboard::dashboardBody(
+        golem_add_external_resources(),
+        # shinydashboard::tabItems(
+          # shinydashboard::tabItem("prediction",
+            mod_prediction_workflow_ui("prediction_workflow"),  
+          # ),
+          # shinydashboard::tabItem("calibration",""),
+          # shinydashboard::tabItem("validation","")
+        # )
+        
+      )
     )
-  )
+  #)
 }
 
 #' Add external Resources to the Application

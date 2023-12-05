@@ -12,47 +12,64 @@ mod_prediction_workflow_ui <- function(id){
   
   tagList(
     #actionButton(ns("debug"), "debug"),
-    
-    selectInput(ns("active_model"), 
-                label = "Choose a model",
-                choices = model_choices),
-
-    fluidRow(
-      column(6,
-             wellPanel(
-               textOutput(ns("model_description"))
-             )
-             ),
-      column(6,
-             tagList(
-               tags$h3("Input check"),
-               tags$div(
-                 uiOutput(ns("complete_params")),
-                 uiOutput(ns("complete_init")),
-                 uiOutput(ns("complete_forcings")),
-                 uiOutput(ns("complete_exposure")),
-                 class = "bold"
-               )
-             )
-             )
+    box(title = span(icon("sliders"), "Model input"), width = 12, status = "primary",
+        
+        box(title = span(icon("crosshairs"), "Model selection"),        
+            status = "primary",
+            width = 12,
+            fluidRow(
+              column(6,
+              selectInput(ns("active_model"), 
+                          label = "Choose a model",
+                          choices = model_choices)
+              ),
+              column(6,
+              wellPanel(
+                textOutput(ns("model_description"))
+              )))
+        ),
+        box(title = span(icon("check-square"), "Input check"), 
+            width = 12, 
+            uiOutput(ns("complete_params")),
+            uiOutput(ns("complete_init")),
+            uiOutput(ns("complete_forcings")),
+            uiOutput(ns("complete_exposure")),
+        ),
+        box(title = span(icon("cogs"),"Parameters"), 
+            status = "primary",
+            width = 12,
+            collapsed = TRUE, 
+            collapsible = TRUE,
+            mod_parameter_input_ui(ns("para_input"))
+        ),
+        box(title = span(icon("flag"), "Initial values"), 
+            status = "primary",
+            width = 12,
+            collapsed = TRUE, 
+            collapsible = TRUE,
+            mod_init_input_ui(ns("init_input"))
+        ),
+        tags$span(id = "forcings_box", 
+                  box(title = span(icon("thermometer-full"),"Forcings"),
+                      status = "primary",
+                      width = 12,
+                      collapsed = TRUE, 
+                      collapsible = TRUE,
+                      mod_forcings_input_ui(ns("forcings_input"))
+                  )),
+        box(title = span(icon("shower"), "Exposure"),
+            status = "primary",
+            width = 12,
+            collapsed = TRUE, 
+            collapsible = TRUE,
+            mod_exposure_input_ui(ns("exposure_input"))
+        )
     ),
-    
-    tabsetPanel(
-      tabPanel("Parameters/Init", 
-               mod_model_input_ui(ns("para_init"))
-      ),
-      tabPanel("Forcings",
-               mod_forcings_input_ui(ns("forcings_input"))
-      ),
-      tabPanel("Exposure", 
-               mod_exposure_input_ui(ns("exposure_input"))
-               ),
-      tabPanel("Prediction", 
-               mod_prediction_ui(ns("prediction"))
-               ),
-      id = ns("iotabpanel")
+    box(title = span(icon("calculator"), "Model output"),width = 12, status = "primary",
+        collapsed = TRUE, 
+        collapsible = TRUE,
+        mod_prediction_ui(ns("prediction"))
     )
-    
   )
 }
 
@@ -98,15 +115,13 @@ mod_prediction_workflow_server <- function(id){
       
       selected_model(
         all_model_dat[[input[["active_model"]]]]
-
       )
       
       # Forcings tab to show ####
       if (forcings_required(selected_model())){
-        showTab( inputId = "iotabpanel", target = "Forcings")
+        shinyjs::show(id = "forcings_box", asis = TRUE)
       } else {
-        hideTab( inputId = "iotabpanel", target = "Forcings")
-        
+        shinyjs::hide(id = "forcings_box", asis = TRUE)
       }
       
     }
@@ -118,58 +133,27 @@ mod_prediction_workflow_server <- function(id){
     # check input data ----
     ## check parameters ----
     output[["complete_params"]] <- renderUI({
-      if (check_model_complete(selected_model()))
-      {
-        set_class <- "text-success"
-        set_icon <- fontawesome::fa_i("check")
-      } else {
-        set_class <- "text-danger"
-        set_icon <- fontawesome::fa_i("xmark")
-      }
-        
-      tags$span(
-        paste0("Parameters "),
-        set_icon,
-        class = set_class
-      )
+      create_vb(value = check_model_complete(selected_model()),
+                subtitle = "Parameters",
+                width = 3)
     })
     
     ## check init values ----
     output[["complete_init"]] <- renderUI({
-      if (check_model_complete(selected_model(), type = "init"))
-      {
-        set_class <- "text-success"
-        set_icon <- fontawesome::fa_i("check")
-      } else {
-        set_class <- "text-danger"
-        set_icon <- fontawesome::fa_i("xmark")
-      }
-      tags$span(
-        paste0("Initial values"),
-        set_icon,
-        class = set_class
-      )
+      create_vb(value = check_model_complete(selected_model(), type = "init"),
+                subtitle = "Initial values",
+                width = 3)
     })
     
     ## check forcings values ----
     output[["complete_forcings"]] <- renderUI({
       if (forcings_required(selected_model())){
-        
-        if (check_forcings_complete(expected_forcings = get_required(selected_model(), "forcings"),
-                                    forcings = forcings_time_series()
-                                    ))
-        {
-          set_class <- "text-success"
-          set_icon <- fontawesome::fa_i("check")
-        } else {
-          set_class <- "text-danger"
-          set_icon <- fontawesome::fa_i("xmark")
-        }
-        tags$span(
-          paste0("Forcings"),
-          set_icon,
-          class = set_class
-        )
+        create_vb(value = check_forcings_complete(
+          expected_forcings = get_required(selected_model(), "forcings"),
+          forcings = forcings_time_series()
+        ),
+        subtitle = "Forcings",
+        width = 3)
       } else {
         return(NULL)
       }
@@ -177,24 +161,17 @@ mod_prediction_workflow_server <- function(id){
     
     ## check exposure ----
     output[["complete_exposure"]] <- renderUI({
-      if (check_exposure_complete(exposure_time_series()))
-      {
-        set_class <- "text-success"
-        set_icon <- fontawesome::fa_i("check")
-      } else {
-        set_class <- "text-danger"
-        set_icon <- fontawesome::fa_i("xmark")
-      }
-      tags$span(
-        paste0("Exposure"),
-        set_icon,
-        class = set_class
-      )
+      create_vb(value = check_exposure_complete(exposure_time_series()),
+                subtitle = "Exposure",
+                width = 3)
     })
     
     
-    # Parameter and init module server ----
-    mod_model_input_server("para_init", selected_model)
+    # Parameter module server ----
+    mod_parameter_input_server("para_input", selected_model)
+    
+    # Init module server ----
+    mod_init_input_server("init_input", selected_model)
 
     # Forcing input module server ----
     mod_forcings_input_server("forcings_input", selected_model, forcings_time_series)

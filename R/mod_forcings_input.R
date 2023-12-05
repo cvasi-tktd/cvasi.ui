@@ -10,6 +10,7 @@
 mod_forcings_input_ui <- function(id){
   ns <- NS(id)
   tagList(
+    #actionButton(ns("debug"),"debug"),
     tags$h2("Forcings"),
     radioButtons(ns("f_source"), "Choose ", 
                  choices = list(
@@ -81,7 +82,7 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
                   f_id <- ns(f_name)
                   numericInput(inputId = f_id,
                                label = f_name,
-                               value = init_forcings()[[f_name]][,f_name]
+                               value = init_forcings()[[f_name]][1,"value"]
                   )
                 }
                 )
@@ -94,7 +95,7 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
       
       input_f_vals <- lapply(setNames(req_f(), req_f()), function(f_name) {
         out <- data.frame(0, input[[f_name]])
-        colnames(out) <- c("t", f_name)
+        colnames(out) <- c("t", "value")
         out
       })
       forcings_time_series(input_f_vals)
@@ -146,7 +147,11 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
       
       ggplot2::ggplot(plot_dat) + 
         ggplot2::geom_area(ggplot2::aes(time,value), alpha = 0.75) + 
-        ggplot2::facet_wrap(forcing ~ ., ncol = 2, scales = "free")
+        ggplot2::facet_wrap(forcing ~ ., ncol = 2, scales = "free")+ 
+        ggplot2::theme(axis.text = ggplot2::element_text(size = 13),
+                       axis.title = ggplot2::element_text(size = 14),
+                       strip.text = ggplot2::element_text(size = 14)
+        )
     })
     
     observeEvent(input[["set_var_forcings"]], {

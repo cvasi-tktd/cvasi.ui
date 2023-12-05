@@ -34,7 +34,8 @@ desc::desc_add_remotes("local::../efm")
 ## Add modules ----
 ## Create a module infrastructure in R/
 golem::add_module(name = "prediction_workflow", with_test = FALSE) # Name of the module
-golem::add_module(name = "model_input", with_test = FALSE) # Name of the module
+golem::add_module(name = "parameter_input", with_test = FALSE) # Name of the module
+golem::add_module(name = "init_input", with_test = FALSE) # Name of the module
 golem::add_module(name = "auto_input_field", with_test = FALSE) # Name of the module
 golem::add_module(name = "input_fields", with_test = FALSE) # Name of the module
 golem::add_module(name = "exposure_input", with_test = FALSE) # Name of the module
@@ -58,6 +59,7 @@ golem::add_utils("helpers", with_test = TRUE)
 golem::add_css_file("generic")
 golem::add_css_file("parameters")
 golem::add_css_file("check_input")
+golem::add_css_file("dashboard")
 #golem::add_sass_file("custom")
 
 ## Add internal datasets ----

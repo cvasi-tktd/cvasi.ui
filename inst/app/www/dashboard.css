@@ -1,0 +1,30 @@
+ 
+.main-header .logo {
+  background-color: #4a4a49 !important;
+}
+
+.main-header .navbar {
+  background-color: #4a4a49 !important;
+}
+
+.main-header .navbar .sidebar-toggle:hover {
+    background-color: #5b604f !important;
+}
+
+
+.box.box-primary {
+    border-top-color: #5b604f !important;
+}
+
+div.small-box.bg-red {
+  background-color: #b57e74 !important;
+}
+
+div.small-box.bg-green {
+  background-color: #a0b674 !important;
+}
+
+div.small-box.bg-yellow {
+  background-color: #eddd9d !important;
+}
+

@@ -10,7 +10,6 @@ Depends:
 Imports: 
     config (>= 0.3.2),
     dplyr,
-    fontawesome,
     ggplot2,
     golem (>= 0.4.1),
     magrittr,
@@ -21,6 +20,7 @@ Imports:
     shiny (>= 1.7.5),
     shinyBS,
     shinybusy,
+    shinydashboard,
     shinyjs
 Suggests: 
     spelling,

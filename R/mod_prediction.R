@@ -14,7 +14,11 @@ mod_prediction_ui <- function(id){
     actionButton(ns("predict"), "Predict"),
 
     textOutput(ns("error_text_sv")),
-    plotOutput(ns("stat_var_plot"), width = "100%", height = "600px", fill = FALSE)
+    div(
+      plotOutput(ns("stat_var_plot"), width = "100%", height = "600px", fill = FALSE), 
+      style = "max-width: 800px;"
+      )
+    
 
   )  
   

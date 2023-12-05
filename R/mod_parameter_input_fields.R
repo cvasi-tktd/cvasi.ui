@@ -103,18 +103,14 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
             expert_collapse_panel
           )
           
-          shinyBS::bsCollapsePanel(title = p_group, panel_content)
+          box(title = group_title_with_icon(p_group), 
+              panel_content, 
+              collapsed = TRUE, 
+              collapsible = TRUE)
         })
         
 
-        do.call(shinyBS::bsCollapse, 
-                c(list(id = "collapse_params", 
-                  open = NULL,#names(parameter_names_by_group),
-                  multiple = TRUE),
-                  collapse_panel_list
-                )
-        )
-        
+        fluidRow(do.call(tagList, collapse_panel_list))
         
         
       } else if (type == "init"){
@@ -123,27 +119,11 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
           mod_auto_input_field_ui(ns(parname_i))
         }
         )
-        wellPanel(
-          tags$div(
-            do.call(tagList, input_fields),
-            class = "inputfields_flexbox"
-          )
-        )
+        
+        div(do.call(tagList, input_fields), class = "inputfields_flexbox")
+        
         
       }
-      
-      
-      
-      
-      # input_fields <- lapply(parameter_names, function(parname_i){
-      #   mod_auto_input_field_ui(ns(parname_i))
-      # }
-      # )
-      # tags$div(
-      #   do.call(tagList, input_fields),
-      #   class = "inputfields_flexbox"
-      # )
-      
       
     })
 
