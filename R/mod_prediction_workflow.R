@@ -81,8 +81,8 @@ mod_prediction_workflow_server <- function(id){
     ns <- session$ns
     
     # reactiveVal(ues) definitions ----
-    selected_model <- reactiveVal()
     all_model_dat <- reactiveValues()
+    selected_model <- reactiveVal()
     exposure_time_series <- reactiveVal(default_exposure)
     forcings_time_series <- reactiveVal()
     
@@ -107,17 +107,20 @@ mod_prediction_workflow_server <- function(id){
     
     
 
+    # Active model change ----------------------------------------------------
     observeEvent(input[["active_model"]],{
       
       shinyjs::html("model_description", {
         paste0("<b>",input[["active_model"]],"</b><br>",model_descriptions[[input[["active_model"]]]])
         })
       
+      ## Set selected model -------------------------------------------------
       selected_model(
         all_model_dat[[input[["active_model"]]]]
       )
       
-      # Forcings tab to show ####
+      
+      ## Display forcings ----------------------------------------------------
       if (forcings_required(selected_model())){
         shinyjs::show(id = "forcings_box", asis = TRUE)
       } else {

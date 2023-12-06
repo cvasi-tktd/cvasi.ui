@@ -12,6 +12,7 @@ mod_parameter_input_ui <- function(id){
   
   tagList(
         actionButton(ns("assign"), "Assign values"),
+        uiOutput(ns("changed_text")),
         tags$h2("Parameters"),
         mod_input_fields_ui(ns("parameter_input_fields")),
         )
@@ -35,6 +36,22 @@ mod_parameter_input_server <- function(id, selected_model){
                             modeldat = selected_model,
                             type = "param")
 
+    
+    par_vals_differ <- reactive({
+      req(rvtl(par_vals), selected_model()@param)
+      pv <- lapply(rvtl(par_vals), function(x)x()) %>% 
+        purrr::discard(is.null) %>% 
+        .[get_required(selected_model(), "param")]
+      md5_stored <- digest::digest(do.call(cbind,selected_model()@param[names(pv)]), algo="md5")
+      md5_changed <- digest::digest(do.call(cbind,pv), algo="md5")
+      return(md5_stored != md5_changed)
+    })
+    
+    observeEvent(par_vals_differ(), {
+      shinyjs::toggleCssClass(id = "assign", 
+                              class = "yellow-background", 
+                              condition = par_vals_differ())
+    })
     
 
     observeEvent(input[["assign"]], {
