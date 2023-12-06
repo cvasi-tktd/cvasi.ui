@@ -54,7 +54,7 @@ golem::add_utils("helpers", with_test = TRUE)
 
 ## External resources
 ## Creates .js and .css files at inst/app/www
-#golem::add_js_file("script")
+golem::add_js_file("shinydashboard_box_update")
 #golem::add_js_handler("handlers")
 golem::add_css_file("generic")
 golem::add_css_file("parameters")

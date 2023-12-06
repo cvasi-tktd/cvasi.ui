@@ -67,7 +67,7 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
     output[["all_fields"]] <- renderUI({
       parameter_names <- modeldat() %>% 
         get_required(type = type)
-      
+
       if (type == "param"){
         parameter_names_by_group <- group_parameters(parameter_names, model_ = get_model_name(modeldat()))
         
@@ -111,7 +111,7 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
           
           box(title = group_title_with_icon(p_group), 
               panel_content, 
-              collapsed = TRUE, 
+              collapsed = FALSE, 
               collapsible = TRUE)
         })
         
