@@ -69,16 +69,16 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
     })
     
     ## Constant forcings input -------------------------------------------------
+    ### Generate input fields --------------------------------------------------
     output[["f_constant_input"]] <- renderUI({
       model_name()
       print("model name changed")
       req_forcings <- isolate(req_f())
       req( length(req_forcings) > 0 )
       tagList(
-        actionButton(ns("set_const_forcings"), "set forcings"),
+        actionButton(ns("set_const_forcings"), "Assign values"),
         do.call(tagList,
                 lapply(req_forcings, function(f_name) {
-                  #print(paste0(f_name,": ",init_forcings()[[f_name]][,f_name]))
                   f_id <- ns(f_name)
                   numericInput(inputId = f_id,
                                label = f_name,
@@ -90,6 +90,37 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
       )
     })
     
+    ### Check change of values and show in GUI ---------------------------------
+    const_f <- reactive({
+      req( req_f() )
+      req( length(req_f()) > 0 )
+      do.call(req, lapply(req_f(), function(x) input[[x]]))
+      input_f_vals <- lapply(setNames(req_f(), req_f()), function(f_name) {
+        out <- data.frame(0, input[[f_name]])
+        colnames(out) <- c("t", "value")
+        out
+      })
+      return(input_f_vals)
+    })
+    
+    const_f_diff <- reactive({
+      req(const_f(), forcings_time_series())
+      if (length(forcings_time_series())){
+        md5_stored <- digest::digest(forcings_time_series(), algo = "md5")
+        md5_changed <- digest::digest(const_f(), algo = "md5")
+        return(md5_stored != md5_changed)
+      } else {
+        return(FALSE)
+      }
+    })
+    
+    observeEvent(list(input[["f_source"]], const_f_diff()), {
+      shinyjs::toggleCssClass(id = "set_const_forcings",
+                              class = "input-change",
+                              condition = const_f_diff())
+    }, ignoreNULL = TRUE, ignoreInit = TRUE)
+
+    ### Set constant values --------------------------------------
     observeEvent(input[["set_const_forcings"]], {
       req( length(req_f()) > 0 )
       
@@ -99,7 +130,8 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
         out
       })
       forcings_time_series(input_f_vals)
-    })
+    }, ignoreInit = TRUE)
+    
     
     ## Variable forcings input -------------------------------------------------
     output[["f_variable_input"]] <- renderUI({
@@ -108,7 +140,7 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
                tagList(
                  fileInput(ns("forcings_inputfile"), label = "Upload forcings"),
                  textOutput(ns("error_text")),
-                 actionButton(ns("set_var_forcings"), "set forcings")
+                 actionButton(ns("set_var_forcings"), "Assign values")
                )
         ),
         column(8,
@@ -117,7 +149,7 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
       )
     })
     
-    
+    ### Load from file -----------------------------------
     observeEvent(input[["forcings_inputfile"]], {
       tryCatch({
         shinyjs::html("error_text", "")
@@ -139,7 +171,8 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
       })
       
     })
-
+    
+    ### Plot of loaded forcings timeseries -----------------------------------
     output[["forcings_plot"]] <- renderPlot({
       req(length(local_forcings_ts()) > 0)
       
@@ -154,6 +187,26 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
         )
     })
     
+    ### Check change of values and show in GUI ---------------------------------
+    var_f_diff <- reactive({
+      #req(local_forcings_ts())
+      if (length(local_forcings_ts())){
+        md5_stored <- digest::digest(forcings_time_series(), algo = "md5")
+        md5_changed <- digest::digest(local_forcings_ts(), algo = "md5")
+        return(md5_stored != md5_changed)
+      } else {
+        return(FALSE)
+      }
+    })
+    
+    observeEvent(list(var_f_diff(), input[["set_var_forcings"]]), {
+      print("changed")
+      shinyjs::toggleCssClass(id = "set_var_forcings",
+                              class = "input-change",
+                              condition = var_f_diff())
+    }, ignoreNULL = TRUE, ignoreInit = TRUE)
+    
+    ### Set time-variable forcings ----------------------------
     observeEvent(input[["set_var_forcings"]], {
       req( length(local_forcings_ts()) > 0 )
       forcings_time_series(local_forcings_ts())

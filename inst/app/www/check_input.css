@@ -1,0 +1,20 @@
+.warning-box {
+    width: fit-content;
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    position: relative;
+    padding: .75rem 1.25rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+
+.btn.btn-default.action-button.shiny-bound-input.input-change {
+  /*background-color: rgb(255, 243, 205);*/
+  background-color: #fff3cd;
+  /*color: rgb(133, 100, 4);*/
+  box-shadow: 1px 1px 0.5px #eddd9d;
+}
