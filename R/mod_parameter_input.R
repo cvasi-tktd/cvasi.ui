@@ -31,12 +31,12 @@ mod_parameter_input_server <- function(id, selected_model){
     }, ignoreNULL = TRUE)
     
     
-
+    # Render input fields ------------------------------------------------------
     par_vals <- mod_input_fields_server("parameter_input_fields",
                             modeldat = selected_model,
                             type = "param")
 
-    
+    # Check change of values and show in GUI -----------------------------------
     par_vals_differ <- reactive({
       req(rvtl(par_vals), selected_model()@param)
       pv <- lapply(rvtl(par_vals), function(x)x()) %>% 
@@ -53,7 +53,7 @@ mod_parameter_input_server <- function(id, selected_model){
                               condition = par_vals_differ())
     })
     
-
+    # Assign values button observer --------------------------------------------
     observeEvent(input[["assign"]], {
       pv <- lapply(rvtl(par_vals), function(x)x()) %>% 
         purrr::discard(is.null)

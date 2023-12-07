@@ -13,7 +13,9 @@ mod_exposure_input_ui <- function(id){
     column(4,
            #actionButton(ns("debug"), "debug"),
            actionButton(ns("assign"), "Assign values"),
-           rhandsontable::rHandsontableOutput(ns("exposure_table"), width = "100%", height = "100%")
+           rhandsontable::rHandsontableOutput(ns("exposure_table"),
+                                              width = "100%",
+                                              height = "100%")
            ),
     column(8,
            tagList(
@@ -41,18 +43,19 @@ mod_exposure_input_server <- function(id, modeldat, exposure_time_series){
     
     
     
-    # Render the exposure table ----
+    # Render the exposure table ------------------------------------------------
     output[["exposure_table"]] <- rhandsontable::renderRHandsontable({
       rhandsontable::rhandsontable(
         default_exposure
       )
     })
     
-    # 
+    # Reactive expression for the table content --------------------------------
     exposure_table <- reactive({
       rhandsontable::hot_to_r(input[["exposure_table"]])
       })
 
+    # Plot of the tabulated values ---------------------------------------------
     output[["exposure_plot"]] <- renderPlot({
       req(length(exposure_table()) > 0)
       
@@ -62,7 +65,24 @@ mod_exposure_input_server <- function(id, modeldat, exposure_time_series){
 
     })
     
+    # Check change of values and show in GUI ----------------------------------- 
+    exp_vals_differ <- reactive({
+      req(exposure_table())
+      if (all(dim(exposure_time_series()) == dim(exposure_table()))){
+        !all(exposure_time_series() == exposure_table())  
+      }else{
+        TRUE
+      }
+      
+    })
     
+    observeEvent(exp_vals_differ(), {
+      shinyjs::toggleCssClass(id = "assign", 
+                              class = "input-change", 
+                              condition = exp_vals_differ())
+    })
+    
+    # Assign values button observer --------------------------------------------
     observeEvent(input[["assign"]], {
       val <- exposure_table()
       exposure_time_series(val)
