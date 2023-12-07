@@ -48,7 +48,7 @@ mod_init_input_server <- function(id, selected_model){
 
     observeEvent(init_vals_differ(), {
       shinyjs::toggleCssClass(id = "assign", 
-                              class = "yellow-background", 
+                              class = "input-change", 
                               condition = init_vals_differ())
     })
     

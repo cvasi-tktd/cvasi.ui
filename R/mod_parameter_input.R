@@ -49,7 +49,7 @@ mod_parameter_input_server <- function(id, selected_model){
     
     observeEvent(par_vals_differ(), {
       shinyjs::toggleCssClass(id = "assign", 
-                              class = "yellow-background", 
+                              class = "input-change", 
                               condition = par_vals_differ())
     })
     
