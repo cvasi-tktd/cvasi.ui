@@ -41,6 +41,12 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
     observeEvent(modeldat(),{
       sim_result[["stat_var"]] <- NULL
     })
+    observeEvent(forcings_time_series(),{
+      sim_result[["stat_var"]] <- NULL
+    })
+    observeEvent(exposure_time_series(),{
+      sim_result[["stat_var"]] <- NULL
+    })
     
     req_forcings <- reactive(
       get_required(modeldat(), "forcings")
@@ -93,11 +99,17 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
     
     output[["stat_var_plot"]] <- renderPlot({
       req(length(sim_result[["stat_var"]]) > 0)
-
+      
       plot_sd(model_base = isolate(modeldat()),
               treatments = isolate(exposure_time_series()),
               rs_mean = sim_result[["stat_var"]],
-              obs_mean = NULL) + 
+              obs_mean = NULL,
+              x_breaks = axisTicks(
+                usr = range(isolate(exposure_time_series())[,"time"]),
+                log = FALSE, 
+                axp = NULL,
+                nint = 5)
+              ) + 
         ggplot2::theme(axis.text = ggplot2::element_text(size = 13),
                        axis.title = ggplot2::element_text(size = 14),
                        strip.text = ggplot2::element_text(size = 14)

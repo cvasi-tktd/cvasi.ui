@@ -9,20 +9,26 @@
 #' @importFrom shiny NS tagList 
 mod_exposure_input_ui <- function(id){
   ns <- NS(id)
-  fluidRow(
-    column(4,
-           #actionButton(ns("debug"), "debug"),
-           actionButton(ns("assign"), "Assign values"),
-           rhandsontable::rHandsontableOutput(ns("exposure_table"),
-                                              width = "100%",
-                                              height = "100%")
-           ),
-    column(8,
-           tagList(
-             plotOutput(ns("exposure_plot"))
-           )
-           )
-    
+  tagList(
+    fluidRow(
+      column(
+        radioButtons(inputId = ns("exposure_source"), 
+                     label = "Source",
+                     choices = list(Table = "table",
+                                    `Custom file` = "custom"#,
+                                    #`TOXSWA file` = "toxswa"
+                     )
+        ),
+        width = 3
+      ),
+      column(
+        textOutput(ns("input_description")),
+        width = 9 
+      )
+    ),# end of fluidRow
+    fluidRow(
+      uiOutput(ns("input_mod"))
+    )
   )
 }
 
@@ -35,60 +41,49 @@ mod_exposure_input_server <- function(id, modeldat, exposure_time_series){
     ns <- session$ns
     
 
-    
-    
     observeEvent(input[["debug"]], {
       browser()
     }, ignoreNULL = TRUE)
     
     
+    # input modules for the chosen input source --------------------------------
+    output[["input_mod"]] <- renderUI({
+      if (input[["exposure_source"]] == "table"){
+        mod_exposuretable_input_ui(ns("exposuretable_input"))
+      }else if (input[["exposure_source"]] == "custom"){
+        mod_exposurefile_input_ui(ns("exposurefile_input"))
+      } else {
+        NULL
+      }
+    })
     
-    # Render the exposure table ------------------------------------------------
-    output[["exposure_table"]] <- rhandsontable::renderRHandsontable({
-      rhandsontable::rhandsontable(
-        default_exposure
+    
+    # explanation text for the chosen input source ------------------------------
+    observeEvent(input[["exposure_source"]],{
+      if (input[["exposure_source"]] == "custom"){
+        custom_file_help_text <- "The file should have at least two columns with
+        the header 'time' and 'conc'. An optional third column with header 'trial'
+        could be added, if several trials are used." %>% 
+          div(class="well") %>% 
+          as.character()
+      } else {
+        custom_file_help_text <- ""
+      }
+      
+      shinyjs::html(
+        "input_description",
+        html = custom_file_help_text
       )
     })
     
-    # Reactive expression for the table content --------------------------------
-    exposure_table <- reactive({
-      rhandsontable::hot_to_r(input[["exposure_table"]])
-      })
+    
+    # Module servers -----------------------------------------------------------
+    ## Exposure table input module server --------------------------------------
+    mod_exposuretable_input_server("exposuretable_input", modeldat, exposure_time_series)
+    
+    ## Exposure file input module server ---------------------------------------
+    mod_exposurefile_input_server("exposurefile_input", exposure_time_series)
 
-    # Plot of the tabulated values ---------------------------------------------
-    output[["exposure_plot"]] <- renderPlot({
-      req(length(exposure_table()) > 0)
-      
-      ggplot2::ggplot(exposure_table()) + 
-        ggplot2::geom_area(ggplot2::aes(time,conc), alpha = 0.75) + 
-        ggplot2::facet_wrap(trial ~ ., ncol = 2)
-
-    })
-    
-    # Check change of values and show in GUI ----------------------------------- 
-    exp_vals_differ <- reactive({
-      req(exposure_table())
-      if (all(dim(exposure_time_series()) == dim(exposure_table()))){
-        !all(exposure_time_series() == exposure_table())  
-      }else{
-        TRUE
-      }
-      
-    })
-    
-    observeEvent(exp_vals_differ(), {
-      shinyjs::toggleCssClass(id = "assign", 
-                              class = "input-change", 
-                              condition = exp_vals_differ())
-    })
-    
-    # Assign values button observer --------------------------------------------
-    observeEvent(input[["assign"]], {
-      val <- exposure_table()
-      exposure_time_series(val)
-
-    })
-    
   })
 }
     
