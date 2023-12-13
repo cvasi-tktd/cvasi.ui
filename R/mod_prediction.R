@@ -41,6 +41,12 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
     observeEvent(modeldat(),{
       sim_result[["stat_var"]] <- NULL
     })
+    observeEvent(forcings_time_series(),{
+      sim_result[["stat_var"]] <- NULL
+    })
+    observeEvent(exposure_time_series(),{
+      sim_result[["stat_var"]] <- NULL
+    })
     
     req_forcings <- reactive(
       get_required(modeldat(), "forcings")
