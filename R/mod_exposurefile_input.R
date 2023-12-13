@@ -63,7 +63,9 @@ mod_exposurefile_input_server <- function(id, exposure_time_series){
       req(length(file_content()) > 0)
       
       ggplot2::ggplot(file_content()) + 
-        ggplot2::geom_area(ggplot2::aes(time,conc), alpha = 0.75) + 
+        ggplot2::geom_area(ggplot2::aes(time,conc),
+                           alpha = 0.75,
+                           position = "identity") + 
         ggplot2::facet_wrap(trial ~ ., ncol = 2)
     })
     
