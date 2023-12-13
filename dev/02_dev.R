@@ -39,6 +39,8 @@ golem::add_module(name = "init_input", with_test = FALSE) # Name of the module
 golem::add_module(name = "auto_input_field", with_test = FALSE) # Name of the module
 golem::add_module(name = "input_fields", with_test = FALSE) # Name of the module
 golem::add_module(name = "exposure_input", with_test = FALSE) # Name of the module
+golem::add_module(name = "exposuretable_input", with_test = FALSE) # Name of the module
+golem::add_module(name = "exposurefile_input", with_test = FALSE) # Name of the module
 golem::add_module(name = "forcings_input", with_test = FALSE) # Name of the module
 golem::add_module(name = "prediction", with_test = FALSE) # Name of the module
 
@@ -49,8 +51,11 @@ golem::add_fct("model_helpers", with_test = TRUE)
 golem::add_fct("input_files", with_test = TRUE)
 golem::add_fct("parameter_info", with_test = TRUE)
 golem::add_fct("parameter_gouping", with_test = TRUE)
+golem::add_fct("custom_widgets", with_test = TRUE)
+golem::add_fct("exposure_profiles", with_test = TRUE)
 golem::add_utils("text_formatting", with_test = TRUE)
 golem::add_utils("helpers", with_test = TRUE)
+
 
 ## External resources
 ## Creates .js and .css files at inst/app/www
