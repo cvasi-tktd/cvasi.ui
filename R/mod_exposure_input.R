@@ -61,8 +61,9 @@ mod_exposure_input_server <- function(id, modeldat, exposure_time_series){
     # explanation text for the chosen input source ------------------------------
     observeEvent(input[["exposure_source"]],{
       if (input[["exposure_source"]] == "custom"){
-        custom_file_help_text <- "Two columns ('time' and 'conc') and an optional 
-        'trial' column, if several trials are used." %>% 
+        custom_file_help_text <- "The file should have at least two columns with
+        the header 'time' and 'conc'. An optional third column with header 'trial'
+        could be added, if several trials are used." %>% 
           div(class="well") %>% 
           as.character()
       } else {
