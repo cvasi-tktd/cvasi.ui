@@ -73,6 +73,22 @@ mod_exposurefile_input_server <- function(id, exposure_time_series){
       exposure_time_series(val)
     })
     
+    # Check change of values and show in GUI ----------------------------------- 
+    exp_vals_differ <- reactive({
+      req(file_content())
+      if (all(dim(exposure_time_series()) == dim(file_content()))){
+        !all(exposure_time_series() == file_content())  
+      }else{
+        TRUE
+      }
+      
+    })
+    
+    observeEvent(exp_vals_differ(), {
+      shinyjs::toggleCssClass(id = "assign", 
+                              class = "input-change", 
+                              condition = exp_vals_differ())
+    })
     
   })
 }
