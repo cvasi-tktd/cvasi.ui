@@ -61,9 +61,11 @@ mod_exposuretable_input_server <- function(id, modeldat, exposure_time_series){
       req(length(exposure_table()) > 0)
       
       ggplot2::ggplot(exposure_table()) + 
-        ggplot2::geom_area(ggplot2::aes(time,conc), alpha = 0.75) + 
+        ggplot2::geom_area(ggplot2::aes(time,conc), 
+                           alpha = 0.75,
+                           position = "identity") + 
         ggplot2::facet_wrap(trial ~ ., ncol = 2)
-
+      
     })
     
     # Check change of values and show in GUI ----------------------------------- 
