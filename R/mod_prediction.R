@@ -43,12 +43,15 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
     
     observeEvent(modeldat(),{
       sim_result[["stat_var"]] <- NULL
+      sim_result[["epx_mtw"]] <- NULL
     })
     observeEvent(forcings_time_series(),{
       sim_result[["stat_var"]] <- NULL
+      sim_result[["epx_mtw"]] <- NULL
     })
     observeEvent(exposure_time_series(),{
       sim_result[["stat_var"]] <- NULL
+      sim_result[["epx_mtw"]] <- NULL
     })
     
     req_forcings <- reactive(
@@ -85,28 +88,30 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
       # Calculate EPx ----------------------------------------------------------
       shinybusy::update_modal_spinner(text = "Calculating EPx in moving time windows...")
 
+      if (length(unique(exposure_time_series()[,"trial"])) == 1){
+        tryCatch({
+          shinyjs::html("error_text_sv", "")
+          sim_result[["epx_mtw"]] <- NULL
+          #browser()  
+          model_input <- modeldat() %>% 
+            set_exposure(exposure_time_series() %>% dplyr::select(time,conc))
+          
+          if (length(req_forcings()) > 0){
+            model_input <- model_input %>% 
+              set_forcings(forcings_time_series()
+              )
+          }
+          
+          sim_result[["epx_mtw"]] <- model_input %>% 
+            epx_mtw(level = 10, factor_cutoff = 1000,
+                    window_length = 7, window_interval = 1)
+          
+        },
+        warning = function(cond) warnings_f(cond, id = "error_text_sv"),
+        error = function(cond) error_f(cond, id = "error_text_sv")
+        )
+      }
       
-      tryCatch({
-        shinyjs::html("error_text_sv", "")
-        sim_result[["epx_mtw"]] <- NULL
-        #browser()  
-        model_input <- modeldat() %>% 
-          set_exposure(exposure_time_series() %>% dplyr::select(time,conc))
-        
-        if (length(req_forcings()) > 0){
-          model_input <- model_input %>% 
-            set_forcings(forcings_time_series()
-            )
-        }
-
-        sim_result[["epx_mtw"]] <- model_input %>% 
-          epx_mtw(level = 10, factor_cutoff = 1000,
-                  window_length = 7, window_interval = 1)
-        
-      },
-      warning = function(cond) warnings_f(cond, id = "error_text_sv"),
-      error = function(cond) error_f(cond, id = "error_text_sv")
-      )
       
       shinybusy::remove_modal_spinner()
 
