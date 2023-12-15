@@ -38,9 +38,21 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
       browser()
     }, ignoreNULL = TRUE)
     
-    
+    # reactive value definition ------------------------------------------------
     sim_result <- reactiveValues()
+
     
+    # reactives ----------------------------------------------------------------
+    req_forcings <- reactive(
+      get_required(modeldat(), "forcings")
+    )
+    
+    n_trials <- reactive({
+      length(unique(exposure_time_series()[,"trial"]))
+      })
+    
+    
+    # observers ----------------------------------------------------------------
     observeEvent(modeldat(),{
       sim_result[["stat_var"]] <- NULL
       sim_result[["epx_mtw"]] <- NULL
@@ -54,9 +66,6 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
       sim_result[["epx_mtw"]] <- NULL
     })
     
-    req_forcings <- reactive(
-      get_required(modeldat(), "forcings")
-    )
     
     # Predict button observer -------------------------------------------------
     observeEvent(input[["predict"]],{
@@ -88,7 +97,7 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
       # Calculate EPx ----------------------------------------------------------
       shinybusy::update_modal_spinner(text = "Calculating EPx in moving time windows...")
 
-      if (length(unique(exposure_time_series()[,"trial"])) == 1){
+      if ( n_trials() == 1){
         tryCatch({
           shinyjs::html("error_text_sv", "")
           sim_result[["epx_mtw"]] <- NULL
