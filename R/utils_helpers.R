@@ -26,3 +26,30 @@ list_rbind2 <- function(x, listnames_to = "listname",... , names_to = rlang::zap
   
   purrr::list_rbind(lst)
 }
+
+
+#' Flatten a list to first layer
+#'
+#' @param lst the input list 
+#'
+#' @return a list 
+#' @export
+#'
+#' @examples
+#' iris_list <- split(iris, iris$Species)
+#' nested_list <- list(iris_list[1], list(iris_list[2], iris_list[3]))
+#' nested_list
+#' flatten_list(nested_list)
+flatten_list <- function(lst) {
+  flattened_list <- list()
+  
+  for (i in seq_along(lst)) {
+    if ( !("list" %in% class(lst[[i]])) ) {
+      flattened_list <- c(flattened_list, lst[i])
+    } else {
+      nested_list <- Recall(lst[[i]])
+      flattened_list <- c(flattened_list, nested_list)
+    }
+  }
+  return(flattened_list)
+}

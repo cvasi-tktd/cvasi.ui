@@ -15,8 +15,8 @@ mod_exposure_input_ui <- function(id){
         radioButtons(inputId = ns("exposure_source"), 
                      label = "Source",
                      choices = list(Table = "table",
-                                    `Custom file` = "custom"#,
-                                    #`TOXSWA file` = "toxswa"
+                                    `Custom file` = "custom",
+                                    `TOXSWA file` = "toxswa"
                      )
         ),
         width = 3
@@ -52,6 +52,8 @@ mod_exposure_input_server <- function(id, modeldat, exposure_time_series){
         mod_exposuretable_input_ui(ns("exposuretable_input"))
       }else if (input[["exposure_source"]] == "custom"){
         mod_exposurefile_input_ui(ns("exposurefile_input"))
+      } else if (input[["exposure_source"]] == "toxswa"){
+        mod_exposuretoxswa_input_ui(ns("exposuretoxswa_input"))
       } else {
         NULL
       }
@@ -83,6 +85,9 @@ mod_exposure_input_server <- function(id, modeldat, exposure_time_series){
     
     ## Exposure file input module server ---------------------------------------
     mod_exposurefile_input_server("exposurefile_input", exposure_time_series)
+    
+    ## Exposure toxswa input module server -------------------------------------
+    mod_exposuretoxswa_input_server("exposuretoxswa_input", exposure_time_series)
 
   })
 }
