@@ -11,22 +11,24 @@ mod_prediction_ui <- function(id){
   ns <- NS(id)
   tagList(
     #actionButton(ns("debug"), "debug"),
-    actionButton(ns("predict"), "Predict"),
-
+    actionButton(ns("predict"), "Predict", style = "margin-bottom: 1em;"),
     textOutput(ns("error_text_sv")),
+    uiOutput(ns("epx_fields")),
     div(
-      plotOutput(ns("stat_var_plot"), width = "100%", height = "600px", fill = FALSE), 
-      style = "max-width: 800px;"
+      div(
+        plotOutput(ns("stat_var_plot"), width = "100%", height = "600px", fill = FALSE), 
+        style = "max-width: 800px;"
       ),
-    tags$hr(),
-    div(
-      plotOutput(ns("epx_mtw_plot"), width = "100%", height = "600px", fill = FALSE), 
-      style = "max-width: 800px;"
+      tags$hr(),
+      div(
+        plotOutput(ns("epx_mtw_plot"), width = "100%", height = "600px", fill = FALSE), 
+        style = "max-width: 800px;"
+      )
     )
-  )  
+  )
   
 }
-    
+
 #' prediction Server Functions
 #'
 #' @noRd 
@@ -110,10 +112,13 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
               set_forcings(forcings_time_series()
               )
           }
-          
+
           sim_result[["epx_mtw"]] <- model_input %>% 
-            epx_mtw(level = 10, factor_cutoff = 1000,
-                    window_length = 7, window_interval = 1)
+            epx_mtw(level = epx_mtw_settings()[["level"]],#10, 
+                    factor_cutoff = epx_mtw_settings()[["factor_cutoff"]],#1000,
+                    window_length = epx_mtw_settings()[["window_length"]],#7, 
+                    window_interval = epx_mtw_settings()[["window_interval"]]#1)
+            )
           
         },
         warning = function(cond) warnings_f(cond, id = "error_text_sv"),
@@ -138,6 +143,20 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
                     add = TRUE)
     }
 
+    # Render EPx fields for setting input --------------------------------------
+    output[["epx_fields"]] <- renderUI({
+      if ( n_trials() == 1){
+        shinydashboard::box(
+          mod_epx_mtw_settings_ui(ns("epx_mtw_settings_1")),
+          title = "EPx and moving time window settings",
+          collapsible = TRUE, 
+          width = 12
+        )
+        } else {
+          NULL
+        }
+      })
+    epx_mtw_settings <- mod_epx_mtw_settings_server("epx_mtw_settings_1")
     
     # Render plots -------------------------------------------------------------
     ## Simulation results ------------------------------------------------------

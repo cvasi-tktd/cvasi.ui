@@ -11,7 +11,7 @@ mod_exposuretoxswa_input_ui <- function(id){
   ns <- NS(id)
   tagList(
 
-    actionButton(ns("debug"),"debug"),
+    #actionButton(ns("debug"),"debug"),
     fileInputOnlyButton(
       ns("importExpProfiles"),
       buttonLabel=list(

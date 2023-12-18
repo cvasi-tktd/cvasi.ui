@@ -42,6 +42,7 @@ golem::add_module(name = "exposure_input", with_test = FALSE) # Name of the modu
 golem::add_module(name = "exposuretable_input", with_test = FALSE) # Name of the module
 golem::add_module(name = "exposurefile_input", with_test = FALSE) # Name of the module
 golem::add_module(name = "forcings_input", with_test = FALSE) # Name of the module
+golem::add_module(name = "epx_mtw_settings", with_test = FALSE) # Name of the module
 golem::add_module(name = "prediction", with_test = FALSE) # Name of the module
 
 
