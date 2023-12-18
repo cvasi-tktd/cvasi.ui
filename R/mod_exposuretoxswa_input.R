@@ -46,7 +46,9 @@ mod_exposuretoxswa_input_server <- function(id, exposure_time_series){
       filesToImport <- input[["importExpProfiles"]]$datapath
       fileNames <- input[["importExpProfiles"]]$name %>% tools::file_path_sans_ext()
       if (length(filesToImport)){
+        shinybusy::show_modal_spinner(text = "loading Toxswa profile")
         expProfilesImported <- readToxswaExpProfiles(filesToImport, fileNames)
+        shinybusy::remove_modal_spinner()
         if(length(expProfilesImported)){
           file_content(expProfilesImported[[1]])
         } else {
