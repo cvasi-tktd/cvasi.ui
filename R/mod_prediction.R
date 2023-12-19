@@ -13,7 +13,9 @@ mod_prediction_ui <- function(id){
     #actionButton(ns("debug"), "debug"),
     actionButton(ns("predict"), "Predict", style = "margin-bottom: 1em;"),
     textOutput(ns("error_text_sv")),
-    uiOutput(ns("epx_fields")),
+    fluidRow(
+      uiOutput(ns("epx_fields"))  
+    ),
     div(
       div(
         plotOutput(ns("stat_var_plot"), width = "100%", height = "600px", fill = FALSE), 
