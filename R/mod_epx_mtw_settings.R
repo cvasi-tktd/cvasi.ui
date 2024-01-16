@@ -12,7 +12,7 @@ mod_epx_mtw_settings_ui <- function(id){
   tagList(
     #actionButton(ns("debug"), "debug"),
     tags$div(
-      numericInput(ns("level"), "Effect level", value = 10),
+      numericInput(ns("level"), "Effect level", value = 50),
       numericInput(ns("factor_cutoff"), "Cutoff value", value = 1000),
       numericInput(ns("window_length"), "Window length", value = 21),
       numericInput(ns("window_interval"), "Window interval", value = 1),
