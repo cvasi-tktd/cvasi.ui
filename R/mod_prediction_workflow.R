@@ -11,7 +11,6 @@ mod_prediction_workflow_ui <- function(id){
   ns <- NS(id)
   
   tagList(
-    #actionButton(ns("debug"), "debug"),
     box(title = span(icon("sliders"), "Model input"), width = 12, status = "primary",
         
         box(title = span(icon("crosshairs"), "Model selection"),        
@@ -19,53 +18,65 @@ mod_prediction_workflow_ui <- function(id){
             width = 12,
             fluidRow(
               column(6,
-              selectInput(ns("active_model"), 
-                          label = "Choose a model",
-                          choices = model_choices)
-              ),
+                     div(id = ns("active_model_wrapper"),
+                         selectInput(ns("active_model"), 
+                                     label = "Choose a model",
+                                     choices = model_choices)
+                     )),
               column(6,
               wellPanel(
                 textOutput(ns("model_description"))
               )))
         ),
-        box(title = span(icon("check-square"), "Input check"), 
-            width = 12, 
-            uiOutput(ns("complete_params")),
-            uiOutput(ns("complete_init")),
-            uiOutput(ns("complete_forcings")),
-            uiOutput(ns("complete_exposure")),
-        ),
-        box(title = span(icon("cogs"),"Parameters"), 
-            status = "primary",
-            width = 12,
-            collapsed = TRUE, 
-            collapsible = TRUE,
-            mod_parameter_input_ui(ns("para_input"))
-        ),
-        box(title = span(icon("flag"), "Initial values"), 
-            status = "primary",
-            width = 12,
-            collapsed = TRUE, 
-            collapsible = TRUE,
-            mod_init_input_ui(ns("init_input"))
-        ),
-        tags$span(id = "forcings_box", 
-                  box(title = span(icon("thermometer-full"),"Forcings"),
-                      status = "primary",
-                      width = 12,
-                      collapsed = TRUE, 
-                      collapsible = TRUE,
-                      mod_forcings_input_ui(ns("forcings_input"))
-                  )),
-        box(title = span(icon("shower"), "Exposure"),
-            status = "primary",
-            width = 12,
-            collapsed = TRUE, 
-            collapsible = TRUE,
-            mod_exposure_input_ui(ns("exposure_input"))
-        )
+        div( id = ns("check_wrapper"), 
+             class = "large_hilite",
+             box(title = span(icon("check-square"), "Input check"), 
+                 width = 12,
+                 uiOutput(ns("complete_params")),
+                 uiOutput(ns("complete_init")),
+                 uiOutput(ns("complete_forcings")),
+                 uiOutput(ns("complete_exposure"))
+             )),
+        div( id = ns("parameters_wrapper"), 
+             class = "large_hilite",
+             box(title = span(icon("cogs"),"Parameters"), 
+                 status = "primary",
+                 width = 12,
+                 collapsed = TRUE, 
+                 collapsible = TRUE,
+                 mod_parameter_input_ui(ns("para_input"))
+             )),
+        div( id = ns("init_wrapper"), 
+             class = "large_hilite",
+             box(title = span(icon("flag"), "Initial values"), 
+                 status = "primary",
+                 width = 12,
+                 collapsed = TRUE, 
+                 collapsible = TRUE,
+                 mod_init_input_ui(ns("init_input"))
+             )),
+        div(id = ns("forcings_wrapper"), 
+            class = "large_hilite",
+            box(title = span(icon("thermometer-full"),"Forcings"),
+                status = "primary",
+                width = 12,
+                collapsed = TRUE, 
+                collapsible = TRUE,
+                mod_forcings_input_ui(ns("forcings_input"))
+            )),
+        div(id = ns("exposure_wrapper"), 
+            class = "large_hilite",
+            box(title = div(id = ns("exposure_box_title"), span(icon("shower"), "Exposure")),
+                status = "primary",
+                width = 12,
+                collapsed = TRUE, 
+                collapsible = TRUE,
+                mod_exposure_input_ui(ns("exposure_input"))
+            ))
     ),
-    box(title = span(icon("calculator"), "Model output"),width = 12, status = "primary",
+    box(title = div(id = ns("output_box_title"),span(icon("calculator"), "Model output")),
+        status = "primary",
+        width = 12, 
         collapsed = TRUE, 
         collapsible = TRUE,
         mod_prediction_ui(ns("prediction"))

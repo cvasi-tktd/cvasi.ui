@@ -8,13 +8,12 @@ License: GPL (>= 3)
 Depends: 
     R (>= 2.10)
 Imports: 
-    attempt,
+    cicerone,
     config (>= 0.3.2),
     digest,
     dplyr,
     ggplot2,
     golem (>= 0.4.1),
-    lubridate,
     magrittr,
     neofm,
     purrr,
@@ -25,10 +24,7 @@ Imports:
     shinybusy,
     shinydashboard,
     shinyjs,
-    stringr,
-    tibble,
-    tools,
-    units
+    tools
 Suggests: 
     spelling,
     testthat (>= 3.0.0)
