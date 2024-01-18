@@ -16,17 +16,18 @@ mod_prediction_workflow_ui <- function(id){
         box(title = span(icon("crosshairs"), "Model selection"),        
             status = "primary",
             width = 12,
+            div(id = ns("active_model_wrapper"),
             fluidRow(
               column(6,
-                     div(id = ns("active_model_wrapper"),
+                     
                          selectInput(ns("active_model"), 
                                      label = "Choose a model",
                                      choices = model_choices)
-                     )),
+                     ),
               column(6,
               wellPanel(
                 textOutput(ns("model_description"))
-              )))
+              ))))
         ),
         div( id = ns("check_wrapper"), 
              class = "large_hilite",
