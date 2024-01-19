@@ -54,6 +54,7 @@ golem::add_fct("parameter_info", with_test = TRUE)
 golem::add_fct("parameter_gouping", with_test = TRUE)
 golem::add_fct("custom_widgets", with_test = TRUE)
 golem::add_fct("exposure_profiles", with_test = TRUE)
+golem::add_fct("guide", with_test = TRUE)
 golem::add_utils("text_formatting", with_test = TRUE)
 golem::add_utils("helpers", with_test = TRUE)
 
@@ -66,6 +67,7 @@ golem::add_css_file("generic")
 golem::add_css_file("parameters")
 golem::add_css_file("check_input")
 golem::add_css_file("dashboard")
+golem::add_css_file("cicerone")
 #golem::add_sass_file("custom")
 
 ## Add internal datasets ----
