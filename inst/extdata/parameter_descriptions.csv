@@ -14,6 +14,10 @@ Algae_Weber;I_opt;Optimum light intensity for growth;µE/m²/s;physiological;no;
 Algae_Weber;EC_50;Effect concentration of 50% inhibition of growth rate;µg/L, mg/L;toxicodynamic;no;-
 Algae_Weber;b;Slope of concentration effect curve at EC_50;-;toxicodynamic;no;-
 Algae_Weber;k;Degradation rate of toxicant in aquatic environments;1/d;toxicokinetic;no;-
+Algae_Weber;A;Biomass;?;state variable;no;-
+Algae_Weber;Q;Mass of phosphorous internal;?;state variable;no;-
+Algae_Weber;P;Mass of phosphorous external;?;state variable;no;-
+Algae_Weber;C;external substance concentration;?;state variable;no;-
 Myriophyllum;k_photo_max;Maximum photosynthesis rate;1/d;physiological;no;0.47
 Myriophyllum;EC50_int;Internal concentration resulting in 50% effect;µg/L;toxicodynamic;no;-
 Myriophyllum;E_max;Maximum inhibition;-;toxicodynamic;yes;1
