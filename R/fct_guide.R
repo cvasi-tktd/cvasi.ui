@@ -77,7 +77,7 @@ cicerone_textblocks <- function(){
     list(
       el = "prediction_workflow-parameters_wrapper",
       title = "Set parameter",
-      description = "The core of a model are its parameters. Here you can set 
+      description = "The core of a model is its parameters. Here you can set 
       values to all of the parameters of the chosen model. These parameters are 
       separated into several thematic groups to guide you on the parameter's 
       function. Within each of these groups a set of 'expert' parameters is hidden 
@@ -90,8 +90,8 @@ cicerone_textblocks <- function(){
     list(
       el = "prediction_workflow-init_wrapper",
       title = "Set init values",
-      description = "The initial values set the values of endpoints at the beginning 
-      of a simulation.  
+      description = "The initial values set the values of state variables like biomass
+      at the beginning of a simulation.  
       In this tutorial make sure that the endpoint 'BM' is 1. Set the value by clicking
       on the 'Assign values' button. Find out more about this initial value by 
       moving your mouse pointer over the title and answer to yourself why this 
@@ -110,9 +110,9 @@ cicerone_textblocks <- function(){
     list(
       el = "prediction_workflow-exposure_box_title",
       title = "Exposure",
-      description = "The exposure is another crucial component that describes when 
-      and with how much of a toxic substance the simulated organisms come into 
-      contact. In this web application you can set the exposure profile in different 
+      description = "Exposure is another crucial component that describes when 
+      and in what quantity the simulated organisms are exposed to a toxic substance. 
+      In this web application you can set the exposure profile in different 
       ways."
     ),  
     list(
@@ -137,7 +137,7 @@ cicerone_textblocks <- function(){
       title = "epx settings",
       description = "However, first you have to set the **settings for the EPx 
       moving time window** procedure.  
-      If you have used the default exposure profile which has values for 21 days, 
+      If you have used an exposure profile which has values for 21 days, 
       you should set the 'window length' to a value lower than 21 to get meaningful 
       results."
     ),
