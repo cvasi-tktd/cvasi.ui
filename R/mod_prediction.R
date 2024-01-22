@@ -10,11 +10,13 @@
 mod_prediction_ui <- function(id){
   ns <- NS(id)
   tagList(
-    #actionButton(ns("debug"), "debug"),
     actionButton(ns("predict"), "Predict", style = "margin-bottom: 1em;"),
     textOutput(ns("error_text_sv")),
     fluidRow(
-      uiOutput(ns("epx_fields"))  
+      div(id = ns("epx_fields_wrapper"), 
+          style = "display: inline-block; box-sizing: content-box; width: 100%;",
+          uiOutput(ns("epx_fields"))
+      )
     ),
     div(
       div(

@@ -7,32 +7,45 @@
 #' @noRd
 app_ui <- function(request) {
   #tagList(
-    # Leave this function for adding external resources
-    #golem_add_external_resources(),
-    # Your application UI logic
-    shinydashboard::dashboardPage(
-      #skin = "green",
-      title = "efmui",
-      shinydashboard::dashboardHeader(title = "efmui"),
-      shinydashboard::dashboardSidebar(disable = TRUE, collapsed = TRUE#,
-                                       # shinydashboard::sidebarMenu(
-                                       #   shinydashboard::menuItem("Prediction", tabName = "prediction"),
-                                       #   shinydashboard::menuItem("Calibration", tabName = "calibration"),
-                                       #   shinydashboard::menuItem("Validation", tabName = "validation")
-                                       # )
-                                       ),
-      shinydashboard::dashboardBody(
-        golem_add_external_resources(),
-        # shinydashboard::tabItems(
-          # shinydashboard::tabItem("prediction",
-            mod_prediction_workflow_ui("prediction_workflow"),  
-          # ),
-          # shinydashboard::tabItem("calibration",""),
-          # shinydashboard::tabItem("validation","")
-        # )
-        
-      )
+  # Leave this function for adding external resources
+  #golem_add_external_resources(),
+  # Your application UI logic
+  shinydashboard::dashboardPage(
+    #skin = "green",
+    title = "efmui",
+    shinydashboard::dashboardHeader(title = "efmui",
+                                    tags$li(class = "dropdown",
+                                            actionLink("guide", icon("question-circle")),
+                                            title = "Tutorial"
+                                    ),
+                                    tags$li(class = "dropdown",
+                                            actionLink("expand_boxes", icon("expand-arrows-alt")),
+                                            title = "Expand dashboard boxes"
+                                    ),
+                                    tags$li(class = "dropdown",
+                                            actionLink("collapse_boxes", icon("compress-arrows-alt")),
+                                            title = "Collapse dashboard boxes"
+                                    )
+    ),
+    shinydashboard::dashboardSidebar(disable = TRUE, collapsed = TRUE#,
+                                     # shinydashboard::sidebarMenu(
+                                     #   shinydashboard::menuItem("Prediction", tabName = "prediction"),
+                                     #   shinydashboard::menuItem("Calibration", tabName = "calibration"),
+                                     #   shinydashboard::menuItem("Validation", tabName = "validation")
+                                     # )
+    ),
+    shinydashboard::dashboardBody(
+      golem_add_external_resources(),
+      # shinydashboard::tabItems(
+      # shinydashboard::tabItem("prediction",
+      mod_prediction_workflow_ui("prediction_workflow"),  
+      # ),
+      # shinydashboard::tabItem("calibration",""),
+      # shinydashboard::tabItem("validation","")
+      # )
+      
     )
+  )
   #)
 }
 
@@ -49,7 +62,7 @@ golem_add_external_resources <- function() {
     "www",
     app_sys("app/www")
   )
-
+  
   tags$head(
     favicon(),
     bundle_resources(
@@ -58,6 +71,7 @@ golem_add_external_resources <- function() {
     ),
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()
-    shinyjs::useShinyjs()
+    shinyjs::useShinyjs(),
+    cicerone::use_cicerone()
   )
 }
