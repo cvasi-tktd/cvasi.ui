@@ -96,7 +96,6 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
                                                    param_sample = NULL)
           
         },
-        warning = function(cond) warnings_f(cond, id = "error_text_sv"),
         error = function(cond) error_f(cond, id = "error_text_sv")
       )
       
@@ -107,7 +106,7 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
         tryCatch({
           shinyjs::html("error_text_sv", "")
           sim_result[["epx_mtw"]] <- NULL
-          #browser()  
+
           model_input <- modeldat() %>% 
             set_exposure(exposure_time_series() %>% dplyr::select(time,conc))
           
@@ -124,8 +123,8 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
                     window_interval = epx_mtw_settings()[["window_interval"]]#1)
             )
           
+          
         },
-        warning = function(cond) warnings_f(cond, id = "error_text_sv"),
         error = function(cond) error_f(cond, id = "error_text_sv")
         )
       }
