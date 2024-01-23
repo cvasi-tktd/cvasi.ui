@@ -10,12 +10,31 @@
 mod_epx_mtw_settings_ui <- function(id){
   ns <- NS(id)
   tagList(
-    #actionButton(ns("debug"), "debug"),
     tags$div(
-      numericInput(ns("level"), "Effect level", value = 50),
-      numericInput(ns("factor_cutoff"), "Cutoff value", value = 1000),
-      numericInput(ns("window_length"), "Window length", value = 21),
-      numericInput(ns("window_interval"), "Window interval", value = 1),
+      numericInput(inputId = ns("level"),
+                   label = tooltip_text(
+                     "Effect level",
+                     tooltip = "The level \"x\" at which the effect is evaluated."
+                     ), 
+                   value = 50),
+      numericInput(inputId = ns("factor_cutoff"), 
+                   label = tooltip_text(
+                     "Cutoff value",
+                     tooltip = "The value above which the EPx is not evaluated exactly."
+                     ), 
+                   value = 1000),
+      numericInput(inputId = ns("window_length"), 
+                   label = tooltip_text(
+                     "Window length",
+                     tooltip = "The length of each moving time window for which the EPx is calculated."
+                     ), 
+                   value = 21),
+      numericInput(inputId = ns("window_interval"), 
+                   label = tooltip_text(
+                     "Window interval",
+                     tooltip = "The time interval a window moves each step."
+                     ), 
+                   value = 1),
       class = "inputfields_flexbox"
     )
   )
