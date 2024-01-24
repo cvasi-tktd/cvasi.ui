@@ -25,6 +25,7 @@ mod_prediction_ui <- function(id){
       ),
       tags$hr(),
       div(
+        DT::dataTableOutput(ns("epx_mtw_summary_table")),
         plotOutput(ns("epx_mtw_plot"), width = "100%", height = "600px", fill = FALSE), 
         style = "max-width: 800px;"
       )
@@ -193,10 +194,31 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
                exposure_ts = exposure)
     })
     
-
+    epx_mtw_summary <- reactive({
+      req(sim_result[["epx_mtw"]])
+      epx_summary <- epx_min_win(sim_result[["epx_mtw"]])
+      epx_summary
+    })
+    output[["epx_mtw_summary"]] <- renderPrint(epx_mtw_summary())
+    output[["epx_mtw_summary_table"]] <- DT::renderDataTable({
+      epx_mtw_summary() %>%
+        dplyr::rename_all(~ gsub("\\.", " ", .)) %>%
+        dplyr::rename_all(~ gsub("^(.)", "\\U\\1", ., perl = TRUE)) %>% 
+        DT::datatable(rownames = FALSE,
+                      filter = "none",
+                      selection = "none",
+                      options = list(
+                        dom = "t",
+                        scrollX = TRUE
+                      ))%>% 
+        DT::formatRound(columns=c('EPx'), digits=3)
+    })
+    
+    
+    
   })
 }
-  
+
 ## To be copied in the UI
 # mod_prediction_ui("prediction_1")
     
