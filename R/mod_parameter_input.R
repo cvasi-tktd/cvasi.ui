@@ -13,7 +13,6 @@ mod_parameter_input_ui <- function(id){
   tagList(
         actionButton(ns("assign"), "Assign values"),
         uiOutput(ns("changed_text")),
-        tags$h2("Parameters"),
         mod_input_fields_ui(ns("parameter_input_fields")),
         )
 }

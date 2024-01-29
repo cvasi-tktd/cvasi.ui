@@ -11,7 +11,6 @@ mod_forcings_input_ui <- function(id){
   ns <- NS(id)
   tagList(
     #actionButton(ns("debug"),"debug"),
-    tags$h2("Forcings"),
     radioButtons(ns("f_source"), "Choose ", 
                  choices = list(
                    `constant forcing` = "constant" ,

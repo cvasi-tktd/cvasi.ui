@@ -13,6 +13,7 @@ Imports:
     config (>= 0.3.2),
     digest,
     dplyr,
+    DT,
     ggplot2,
     golem (>= 0.4.1),
     magrittr,
