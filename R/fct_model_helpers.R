@@ -181,11 +181,16 @@ check_forcings_complete <- function(expected_forcings, forcings){
 
 #' Function to create value boxes
 #' 
+#' Create based on the value (logical) a green thumbs-up box if `TRUE`, or a red 
+#' thumbs-down box, if `FALSE`.
+#' 
 #' @param value to display in big bold letters
 #' @param subtitle to display in smaller letter below 'value'
 #' @param width width of the box
 #' 
-create_vb <- function(value, subtitle, width = 3) {
+#' @return
+#' @export
+create_valuebox <- function(value, subtitle, width = 3) {
   
   output_val <- switch(as.character(value),
                        `TRUE` = "Ok",

@@ -148,14 +148,14 @@ mod_prediction_workflow_server <- function(id){
     # check input data ----
     ## check parameters ----
     output[["complete_params"]] <- renderUI({
-      create_vb(value = check_model_complete(selected_model()),
+      create_valuebox(value = check_model_complete(selected_model()),
                 subtitle = "Parameters",
                 width = 3)
     })
     
     ## check init values ----
     output[["complete_init"]] <- renderUI({
-      create_vb(value = check_model_complete(selected_model(), type = "init"),
+      create_valuebox(value = check_model_complete(selected_model(), type = "init"),
                 subtitle = "Initial values",
                 width = 3)
     })
@@ -163,7 +163,7 @@ mod_prediction_workflow_server <- function(id){
     ## check forcings values ----
     output[["complete_forcings"]] <- renderUI({
       if (forcings_required(selected_model())){
-        create_vb(value = check_forcings_complete(
+        create_valuebox(value = check_forcings_complete(
           expected_forcings = get_required(selected_model(), "forcings"),
           forcings = forcings_time_series()
         ),
@@ -176,7 +176,7 @@ mod_prediction_workflow_server <- function(id){
     
     ## check exposure ----
     output[["complete_exposure"]] <- renderUI({
-      create_vb(value = check_exposure_complete(exposure_time_series()),
+      create_valuebox(value = check_exposure_complete(exposure_time_series()),
                 subtitle = "Exposure",
                 width = 3)
     })
