@@ -13,5 +13,5 @@ forcings_required(x)
 Does the model require forcings?
 }
 \examples{
-forcings_required(neofm::metsulfuron)
+forcings_required(cvasi::metsulfuron)
 }

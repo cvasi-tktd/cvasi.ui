@@ -15,9 +15,9 @@ check_model_complete(x, type = "param")
 Checks if the model parameters, forcings or initial values are complete
 }
 \examples{
-check_model_complete(neofm::metsulfuron, type = "param")
-check_model_complete(neofm::metsulfuron, type = "init")
-check_model_complete(neofm::metsulfuron, type = "forcing")
+check_model_complete(cvasi::metsulfuron, type = "param")
+check_model_complete(cvasi::metsulfuron, type = "init")
+check_model_complete(cvasi::metsulfuron, type = "forcing")
 
-check_model_complete(neofm::GUTS_RED_SD(), type = "forcings")
+check_model_complete(cvasi::GUTS_RED_SD(), type = "forcings")
 }

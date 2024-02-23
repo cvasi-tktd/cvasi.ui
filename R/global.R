@@ -36,7 +36,7 @@ parameter_defaults <- list(
   Myrio_log = list(k_photo_max = 0.47, E_max = 1, r_A_DW = 1000, r_FW_DW = 16.7, r_FW_V = 1, K_pw = 1, k_met = 0, # from Myrio_log()@param
                    EC50_int = 1, b = 1, P = 0.0001, r_DW_TSL = 0.0001, BM_L = 1000 # 
                    ),
-  Algae_Weber = list(mue_max=1.738, m_max=0.05, v_max=0.052, k_s=0.068, Q_min=0.0011, Q_max=0.0144, R_0=0.36, D=0.5, T_opt=27, T_min=0, T_max=35, I_opt=120, EC_50=115, b=1.268, k=0.2),
+  Algae_Weber = list(mu_max=1.738, m_max=0.05, v_max=0.052, k_s=0.068, Q_min=0.0011, Q_max=0.0144, R_0=0.36, D=0.5, T_opt=27, T_min=0, T_max=35, I_opt=120, EC_50=115, b=1.268, k=0.2),
   DEB_abj = list(p_M = NA, v = NA, k_J = NA,
                  p_Am = NA, kap = NA, E_G = NA,
                  f = NA, E_Hj = NA, E_Hp = NA, 

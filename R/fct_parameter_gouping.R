@@ -15,7 +15,7 @@
 #'                        ),
 #'                  model_ = "Lemna_Schmitt")
 group_parameters <- function(p, model_){
-  p_groups <- parameter_descriptions %>% 
+  p_groups <- cvasiUI::parameter_descriptions %>% 
     dplyr::filter(model == model_, parameter %in% p) %>% 
     dplyr::select(parameter, group) 
   
@@ -40,7 +40,7 @@ group_parameters <- function(p, model_){
 #'                        ),
 #'                  model_ = "Lemna_Schmitt")
 expert_parameters <- function(p, model_){
-  p_expert <- parameter_descriptions %>% 
+  p_expert <- cvasiUI::parameter_descriptions %>% 
     dplyr::filter(model == model_, parameter %in% p) %>% 
     dplyr::select(parameter, expert.value) 
   

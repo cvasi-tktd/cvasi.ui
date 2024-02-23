@@ -13,7 +13,7 @@ check_exposure_complete(x)
 Checks if the exposure data is complete
 }
 \examples{
-exp_dat <- neofm::Schmitt2013 |>
+exp_dat <- cvasi::Schmitt2013 |>
                dplyr::select(t, ID, conc) |>
                dplyr::rename(trial = "ID", time = "t")
 check_exposure_complete(exp_dat)

@@ -104,7 +104,7 @@ mod_prediction_workflow_server <- function(id){
     lapply(model_choices, function(x){
       all_model_dat[[x]] <- x %>%
         construct_model() %>% 
-        neofm::set_param(do.call(c, parameter_defaults[[x]]))
+        cvasi::set_param(do.call(c, parameter_defaults[[x]]))
     })
     
     

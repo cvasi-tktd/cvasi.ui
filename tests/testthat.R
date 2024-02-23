@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(efmui)
+library(cvasiUI)
 
-test_check("efmui")
+test_check("cvasiUI")

@@ -39,12 +39,12 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
              function(parname_i){
                
                tooltip <- paste0(get_parameter_info(
-                 model_ = neofm::get_model_name(modeldat()), 
+                 model_ = cvasi::get_model_name(modeldat()), 
                  parameter_ = parname_i, 
                  type_ = "description"),
                  "; ", 
                  get_parameter_info(
-                   model_ = neofm::get_model_name(modeldat()), 
+                   model_ = cvasi::get_model_name(modeldat()), 
                    parameter_ = parname_i, 
                    type_ = "unit"))
                

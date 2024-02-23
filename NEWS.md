@@ -1,3 +1,3 @@
-# efmui (development version)
+# cvasi (development version)
 
 * Initial CRAN submission.

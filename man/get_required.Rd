@@ -15,7 +15,7 @@ get_required(x, type)
 Get the required parameter of init names of a model
 }
 \examples{
-dat <- neofm::GUTS_RED_IT()
+dat <- cvasi::GUTS_RED_IT()
 get_required(dat, type = "param")
 get_required(dat, type = "init")
 get_required(dat, type = "forcings")

@@ -9,7 +9,7 @@
 #'
 #' @noRd
 app_sys <- function(...) {
-  system.file(..., package = "efmui")
+  system.file(..., package = "cvasiUI")
 }
 
 

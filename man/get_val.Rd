@@ -15,7 +15,7 @@ get_val(x, type)
 Get parameters, forcings or initial values of a
 }
 \examples{
-dat <- neofm::GUTS_RED_IT()
+dat <- cvasi::GUTS_RED_IT()
 get_val(dat, type = "param")
 get_val(dat, type = "init")
 get_val(dat, type = "forcings")

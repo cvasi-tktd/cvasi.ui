@@ -12,8 +12,8 @@ app_ui <- function(request) {
   # Your application UI logic
   shinydashboard::dashboardPage(
     #skin = "green",
-    title = "efmui",
-    shinydashboard::dashboardHeader(title = "efmui",
+    title = "cvasiUI",
+    shinydashboard::dashboardHeader(title = "cvasiUI",
                                     tags$li(class = "dropdown",
                                             actionLink("guide", icon("question-circle")),
                                             title = "Tutorial"
@@ -67,7 +67,7 @@ golem_add_external_resources <- function() {
     favicon(),
     bundle_resources(
       path = app_sys("app/www"),
-      app_title = "efmui"
+      app_title = "cvasiUI"
     ),
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()

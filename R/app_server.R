@@ -3,7 +3,7 @@
 #' @param input,output,session Internal parameters for {shiny}.
 #'     DO NOT REMOVE.
 #' @import shiny
-#' @import neofm
+#' @import cvasi
 #' @importFrom magrittr `%>%`
 #' @noRd
 app_server <- function(input, output, session) {

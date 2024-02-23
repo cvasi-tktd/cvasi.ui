@@ -1,5 +1,5 @@
 model;parameter;description;unit;group;expert value;default
-Algae_Weber;mue_max;Maximum growth rate at optimum environmental conditions ;1/d;physiological;no;-
+Algae_Weber;mu_max;Maximum growth rate at optimum environmental conditions ;1/d;physiological;no;-
 Algae_Weber;m_max;Natural mortality rate;1/d;physiological;no;-
 Algae_Weber;v_max;Maximum P-uptake rate at non-limited growth ;mg P/µg fresh wt/d;physiological;no;-
 Algae_Weber;k_s;Half-saturation constant for extracellular P;mg P/L;physiological;no;-

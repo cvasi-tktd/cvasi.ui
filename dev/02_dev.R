@@ -17,11 +17,11 @@
 ## Amend DESCRIPTION with dependencies read from package code parsing
 ## install.packages('attachment') # if needed.
 attachment::att_amend_desc()
-usethis::use_package("neofm")
+usethis::use_package("cvasi")
 #usethis::use_dev_package("neofm", remote = "local::neofm_0.1.0.tar.gz")
 
 # during dev use
-desc::desc_add_remotes("local::../efm")
+desc::desc_add_remotes("local::../cvasi")
 #desc::desc_clear_remotes() # clears all remotes links
 #desc::desc_get_remotes()
 

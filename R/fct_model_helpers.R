@@ -26,7 +26,7 @@ construct_model <- function(model_name){
 #' @export
 #'
 #' @examples
-#' dat <- neofm::GUTS_RED_IT()
+#' dat <- cvasi::GUTS_RED_IT()
 #' get_required(dat, type = "param")
 #' get_required(dat, type = "init")
 #' get_required(dat, type = "forcings")
@@ -49,7 +49,7 @@ get_required <- function(x, type){
 #' @export
 #'
 #' @examples
-#' dat <- neofm::GUTS_RED_IT()
+#' dat <- cvasi::GUTS_RED_IT()
 #' get_val(dat, type = "param")
 #' get_val(dat, type = "init")
 #' get_val(dat, type = "forcings")
@@ -70,7 +70,7 @@ get_val <- function(x, type){
 #' @export
 #'
 #' @examples
-#' forcings_required(neofm::metsulfuron)
+#' forcings_required(cvasi::metsulfuron)
 forcings_required <- function(x){
   length(x@forcings.req)>0
 }
@@ -86,11 +86,11 @@ forcings_required <- function(x){
 #' @export
 #'
 #' @examples
-#' check_model_complete(neofm::metsulfuron, type = "param")
-#' check_model_complete(neofm::metsulfuron, type = "init")
-#' check_model_complete(neofm::metsulfuron, type = "forcing")
+#' check_model_complete(cvasi::metsulfuron, type = "param")
+#' check_model_complete(cvasi::metsulfuron, type = "init")
+#' check_model_complete(cvasi::metsulfuron, type = "forcing")
 #' 
-#' check_model_complete(neofm::GUTS_RED_SD(), type = "forcings")
+#' check_model_complete(cvasi::GUTS_RED_SD(), type = "forcings")
 check_model_complete <- function(x, 
                                  type = "param"){
   supported_type <- c("param", "init", "forcings")
@@ -134,7 +134,7 @@ check_model_complete <- function(x,
 #' @export
 #'
 #' @examples
-#' exp_dat <- neofm::Schmitt2013 |>
+#' exp_dat <- cvasi::Schmitt2013 |>
 #'                dplyr::select(t, ID, conc) |>
 #'                dplyr::rename(trial = "ID", time = "t")
 #' check_exposure_complete(exp_dat)

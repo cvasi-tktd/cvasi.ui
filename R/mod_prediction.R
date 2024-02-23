@@ -118,7 +118,7 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
           }
 
           sim_result[["epx_mtw"]] <- model_input %>% 
-            epx_mtw(level = epx_mtw_settings()[["level"]],#10, 
+            cvasi:::epx_mtw(level = epx_mtw_settings()[["level"]],#10, 
                     factor_cutoff = epx_mtw_settings()[["factor_cutoff"]],#1000,
                     window_length = epx_mtw_settings()[["window_length"]],#7, 
                     window_interval = epx_mtw_settings()[["window_interval"]]#1)
@@ -190,13 +190,13 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
     output[["epx_mtw_plot"]] <- renderPlot({
       req(length(sim_result[["epx_mtw"]]) > 0)
       exposure <- isolate(exposure_time_series()[,c("time","conc")])
-      plot_EPx(EPx_ts = sim_result[["epx_mtw"]],
+      plot_epx(EPx_ts = sim_result[["epx_mtw"]],
                exposure_ts = exposure)
     })
     
     epx_mtw_summary <- reactive({
       req(sim_result[["epx_mtw"]])
-      epx_summary <- epx_min_win(sim_result[["epx_mtw"]])
+      epx_summary <- cvasi:::epx_min_win(sim_result[["epx_mtw"]])
       epx_summary
     })
     output[["epx_mtw_summary"]] <- renderPrint(epx_mtw_summary())

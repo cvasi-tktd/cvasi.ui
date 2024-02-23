@@ -1,4 +1,4 @@
-Package: efmui
+Package: cvasiUI
 Title: PKG_TITLE
 Version: 0.0.0.9000
 Authors@R: 
@@ -11,13 +11,13 @@ Imports:
     cicerone,
     commonmark,
     config (>= 0.3.2),
+    cvasi,
     digest,
     dplyr,
     DT,
     ggplot2,
     golem (>= 0.4.1),
     magrittr,
-    neofm,
     purrr,
     rhandsontable,
     rlang,
@@ -31,7 +31,7 @@ Suggests:
     spelling,
     testthat (>= 3.0.0)
 Remotes: 
-    local::../efm
+    local::../cvasi
 Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
