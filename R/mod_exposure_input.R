@@ -65,7 +65,7 @@ mod_exposure_input_server <- function(id, modeldat, exposure_time_series){
       if (input[["exposure_source"]] == "custom"){
         custom_file_help_text <- "The file should have at least two columns with
         the header 'time' and 'conc'. An optional third column with header 'trial'
-        could be added, if several trials are used." %>% 
+        could be added, if several trials are used. The columns should be tab-separated." %>% 
           div(class="well") %>% 
           as.character()
       } else {

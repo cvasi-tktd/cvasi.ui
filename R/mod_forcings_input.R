@@ -143,7 +143,14 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
                )
         ),
         column(8,
-               plotOutput(ns("forcings_plot"))
+               tagList(
+                 "The file should have three columns with the header 'time', 
+                 'forcing' and 'value'. The columns should be semicolon-separated." %>% 
+                   div(class="well") %>% 
+                   as.character() %>% 
+                   HTML(),
+                plotOutput(ns("forcings_plot"))
+               )
                )
       )
     })
