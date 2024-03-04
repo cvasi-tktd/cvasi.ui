@@ -31,7 +31,7 @@ remotes::install_local("../cvasiUI_0.0.0.9000.tar.gz")
 ## If you want to deploy on RStudio related platforms
 #golem::add_rstudioconnect_file()
 #golem::add_shinyappsio_file()
-#golem::add_shinyserver_file()
+golem::add_shinyserver_file()
 
 ## Docker ----
 ## If you want to deploy via a generic Dockerfile
