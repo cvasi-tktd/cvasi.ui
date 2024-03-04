@@ -137,7 +137,17 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
       fluidRow(
         column(4,
                tagList(
-                 fileInput(ns("forcings_inputfile"), label = "Upload forcings"),
+                 #fileInput(ns("forcings_inputfile"), label = "Upload forcings"),
+                 fileInputOnlyButton(
+                   ns("forcings_inputfile"),
+                   buttonLabel=list(
+                     icon("upload", class = NULL, lib = "font-awesome"),
+                     "Upload forcings"
+                   ),
+                   accept=c(".txt",".csv"),
+                   multiple = FALSE,
+                   width=72
+                 ),
                  textOutput(ns("error_text")),
                  actionButton(ns("set_var_forcings"), "Assign values")
                )
