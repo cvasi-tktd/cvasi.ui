@@ -45,14 +45,19 @@ mod_exposuretable_input_server <- function(id, modeldat, exposure_time_series){
     
     # Render the exposure table ------------------------------------------------
     output[["exposure_table"]] <- rhandsontable::renderRHandsontable({
+      #n_decimals <- min(5,max(count_decimal_places(default_exposure$conc)))
       rhandsontable::rhandsontable(
         cvasiUI::default_exposure,
         height=600
-      )
+      ) %>%
+        rhandsontable::hot_col("conc",
+                               format = "0.00[000]"
+                               )
     })
     
     # Reactive expression for the table content --------------------------------
     exposure_table <- reactive({
+
       rhandsontable::hot_to_r(input[["exposure_table"]])
       })
 
