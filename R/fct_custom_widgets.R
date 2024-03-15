@@ -19,3 +19,26 @@ fileInputOnlyButton <- function(..., label="") {
   temp$children[[1]]$children[[1]]$attribs$class <- NULL
   temp
 }
+
+#' Create a dashboard box collapsible on click on title
+#'
+#' @param ... arguments passed to `shinydashboard::box()`
+#'
+#' @return
+dashboardbox_left <- function(...){
+  x <- shinydashboard::box(...)
+  f_args <- list(...)
+  if (length(f_args)){
+    if (all(c("title", "collapsible") %in% names(f_args))){
+      if (f_args[["collapsible"]]){
+        box_title <- x$children[[1]]$children[[1]]$children[[1]]
+        x$children[[1]]$children[[1]]$children <- x$children[[1]]$children[[1]]$children[[2]]$children
+        x$children[[1]]$children[[1]]$children[[1]]$children[[2]] <- box_title
+      }
+    }
+  }
+  return(x)
+}
+
+
+

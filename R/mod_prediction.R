@@ -150,7 +150,7 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
     # Render EPx fields for setting input --------------------------------------
     output[["epx_fields"]] <- renderUI({
       if ( n_trials() == 1){
-        shinydashboard::box(
+        dashboardbox_left(
           mod_epx_mtw_settings_ui(ns("epx_mtw_settings_1")),
           title = "EPx and moving time window settings",
           collapsible = TRUE, 

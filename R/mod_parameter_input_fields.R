@@ -109,7 +109,7 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
             expert_collapse_panel
           )
           
-          box(title = group_title_with_icon(p_group), 
+          dashboardbox_left(title = group_title_with_icon(p_group), 
               panel_content, 
               collapsed = FALSE, 
               collapsible = TRUE)

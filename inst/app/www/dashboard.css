@@ -7,6 +7,14 @@
   background-color: #4a4a49 !important;
 }
 
+.btn-box-tool {
+  color: #4a4a49 !important;
+}
+
+.btn-box-tool:hover {
+  color: #9b9b9b !important;
+}
+
 .main-header .navbar .sidebar-toggle:hover {
     background-color: #5b604f !important;
 }
