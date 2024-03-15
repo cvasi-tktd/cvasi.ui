@@ -55,6 +55,7 @@ golem::add_fct("parameter_gouping", with_test = TRUE)
 golem::add_fct("custom_widgets", with_test = TRUE)
 golem::add_fct("exposure_profiles", with_test = TRUE)
 golem::add_fct("guide", with_test = TRUE)
+golem::add_fct("js", with_test = FALSE)
 golem::add_utils("text_formatting", with_test = TRUE)
 golem::add_utils("helpers", with_test = TRUE)
 

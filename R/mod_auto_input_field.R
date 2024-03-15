@@ -37,6 +37,8 @@ mod_auto_input_field_server <- function(id,
     output[["inputField"]] <- renderUI({
       tags$div(
         tagList(
+          deactivateMouseWheel(),
+          
           switch(datatype,
                  
                  logical = checkboxInput(
