@@ -67,14 +67,6 @@ cicerone_textblocks <- function(){
       position = "bottom"
     ),
     list(
-      el = "prediction_workflow-check_wrapper",
-      title = "Check fields",
-      description = "In the next steps, you can enter model inputs, 
-      such as parameter values and exposure profiles/time series.  
-      The 'input check' fields give you hints about where data is missing 
-      before you execute the calculations."
-    ),
-    list(
       el = "prediction_workflow-parameters_wrapper",
       title = "Set parameters",
       description = "Here you can set 
@@ -114,6 +106,14 @@ cicerone_textblocks <- function(){
       description = "Exposure is another crucial component that describes the timing 
       and concentration to which the simulated organisms are exposed to a toxic substance. 
       Here, you can set the exposure profile in different ways."
+    ),
+    list(
+      el = "prediction_workflow-check_wrapper",
+      title = "Check fields",
+      description = "In the previous steps, you have hopefully entered all necessary
+      information.  
+      The 'input check' fields give you hints about where data is missing 
+      before you execute the calculations."
     ),  
     list(
       el = "prediction_workflow-exposure_input-exposure_source",

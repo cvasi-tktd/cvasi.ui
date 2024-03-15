@@ -29,15 +29,6 @@ mod_prediction_workflow_ui <- function(id){
                 textOutput(ns("model_description"))
               ))))
         ),
-        div( id = ns("check_wrapper"), 
-             class = "large_hilite",
-             dashboardbox_left(title = span(icon("check-square"), "Input check"), 
-                 width = 12,
-                 uiOutput(ns("complete_params")),
-                 uiOutput(ns("complete_init")),
-                 uiOutput(ns("complete_forcings")),
-                 uiOutput(ns("complete_exposure"))
-             )),
         div( id = ns("parameters_wrapper"), 
              class = "large_hilite",
              dashboardbox_left(title = span(icon("cogs"),"Parameters"),
@@ -73,7 +64,16 @@ mod_prediction_workflow_ui <- function(id){
                 collapsed = TRUE, 
                 collapsible = TRUE,
                 mod_exposure_input_ui(ns("exposure_input"))
-            ))
+            )),
+        div( id = ns("check_wrapper"), 
+             class = "large_hilite",
+             dashboardbox_left(title = span(icon("check-square"), "Input check"), 
+                               width = 12,
+                               uiOutput(ns("complete_params")),
+                               uiOutput(ns("complete_init")),
+                               uiOutput(ns("complete_forcings")),
+                               uiOutput(ns("complete_exposure"))
+             ))
     ),
     dashboardbox_left(title = div(id = ns("output_box_title"),span(icon("calculator"), "Model output")),
         status = "primary",
