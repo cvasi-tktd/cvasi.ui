@@ -82,7 +82,7 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
                   numericInput(inputId = f_id,
                                label = f_name,
                                value = init_forcings()[[f_name]][1,"value"]
-                  )
+                  ) %>% set_lang()
                 }
                 )
         )

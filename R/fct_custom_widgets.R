@@ -40,5 +40,14 @@ dashboardbox_left <- function(...){
   return(x)
 }
 
-
+#' Set locale of input container
+#'
+#' @param x result of `shiny::numericInput()`
+#' @param locale locale as string, e.g. "de-DE" for German locale
+set_lang <- function(x, locale = "en-US"){
+  stopifnot(class(x) == "shiny.tag")
+  stopifnot(x$attribs$class == "form-group shiny-input-container")
+  x$children[[2]]$attribs$lang <- locale  
+  return(x)
+}
 

@@ -32,7 +32,6 @@ mod_auto_input_field_server <- function(id,
       browser()
     }, ignoreNULL = TRUE)
     
-    
     # input field depending on the datatype ----
     output[["inputField"]] <- renderUI({
       tags$div(
@@ -51,7 +50,7 @@ mod_auto_input_field_server <- function(id,
                    inputId = ns(id),
                    label = label,
                    value = value
-                 ),
+                 ) %>% set_lang(),
                  
                  text = textInput(
                    inputId = ns(id),
@@ -72,7 +71,8 @@ mod_auto_input_field_server <- function(id,
                    value = value
                  )
           )
-        ))
+        )
+        )# end of div
     }) # end of renderUI
     
     

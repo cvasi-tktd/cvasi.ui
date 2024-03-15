@@ -16,25 +16,25 @@ mod_epx_mtw_settings_ui <- function(id){
                      "Effect level",
                      tooltip = "The level \"x\" at which the effect is evaluated."
                      ), 
-                   value = 50),
+                   value = 50) %>% set_lang(),
       numericInput(inputId = ns("factor_cutoff"), 
                    label = tooltip_text(
                      "Cutoff value",
                      tooltip = "The value above which the EPx is not evaluated exactly."
                      ), 
-                   value = 1000),
+                   value = 1000) %>% set_lang(),
       numericInput(inputId = ns("window_length"), 
                    label = tooltip_text(
                      "Window length",
                      tooltip = "The length of each moving time window for which the EPx is calculated."
                      ), 
-                   value = 21),
+                   value = 21) %>% set_lang(),
       numericInput(inputId = ns("window_interval"), 
                    label = tooltip_text(
                      "Window interval",
                      tooltip = "The time interval a window moves each step."
                      ), 
-                   value = 1),
+                   value = 1) %>% set_lang(),
       class = "inputfields_flexbox"
     )
   )
