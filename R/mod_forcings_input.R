@@ -46,10 +46,10 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
         if (all(req_f() %in% names(forcings_time_series()))){
           forcings_time_series()
         }else {
-          forcing_defaults
+          cvasiUI::model_defaults[[selected_model()%>% get_model_name()]][["forcing_defaults"]]
         }
       } else {
-        forcing_defaults
+        cvasiUI::model_defaults[[selected_model()%>% get_model_name()]][["forcing_defaults"]]
       }
     })
     

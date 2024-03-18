@@ -46,7 +46,7 @@ mod_exposuretable_input_server <- function(id, modeldat, exposure_time_series){
     # Render the exposure table ------------------------------------------------
     output[["exposure_table"]] <- rhandsontable::renderRHandsontable({
       rhandsontable::rhandsontable(
-        default_exposure,
+        cvasiUI::default_exposure,
         height=600
       )
     })

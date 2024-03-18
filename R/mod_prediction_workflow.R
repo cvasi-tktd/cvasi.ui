@@ -22,7 +22,7 @@ mod_prediction_workflow_ui <- function(id){
                      
                          selectInput(ns("active_model"), 
                                      label = "Choose a model",
-                                     choices = model_choices)
+                                     choices = cvasiUI::model_choices)
                      ),
               column(6,
               wellPanel(
@@ -104,7 +104,8 @@ mod_prediction_workflow_server <- function(id){
     lapply(model_choices, function(x){
       all_model_dat[[x]] <- x %>%
         construct_model() %>% 
-        cvasi::set_param(do.call(c, parameter_defaults[[x]]))
+        cvasi::set_param(do.call(c, cvasiUI::model_defaults[[x]][["parameter_defaults"]])) %>% 
+        cvasi::set_init(do.call(c, cvasiUI::model_defaults[[x]][["init_defaults"]]))
     })
     
     
@@ -123,7 +124,7 @@ mod_prediction_workflow_server <- function(id){
     observeEvent(input[["active_model"]],{
       
       shinyjs::html("model_description", {
-        paste0("<b>",input[["active_model"]],"</b><br>",model_descriptions[[input[["active_model"]]]])
+        paste0("<b>",input[["active_model"]],"</b><br>",cvasiUI::model_descriptions[[input[["active_model"]]]])
         })
       
       ## Set selected model -------------------------------------------------
