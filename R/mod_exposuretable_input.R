@@ -51,8 +51,19 @@ mod_exposuretable_input_server <- function(id, modeldat, exposure_time_series){
         height=600
       ) %>%
         rhandsontable::hot_col("conc",
-                               format = paste0("0.",paste(rep("0",n_decimals), collapse=""))
-                               )
+                               renderer =
+                               'function(instance, td, row, col, prop, value, cellProperties) {
+                                Handsontable.renderers.NumericRenderer.apply(this, arguments);
+                                var locale = d3.formatLocale({
+                                  decimal: ".",
+                                  thousands: "",
+                                  grouping: [3]
+                                });
+                                var fformat = locale.format(",");
+                                var roundedValue = parseFloat(value).toFixed(7); // Limit to 7 decimal places
+                                td.innerHTML = fformat(roundedValue);
+                            }'
+        )
     })
     
     # Reactive expression for the table content --------------------------------
