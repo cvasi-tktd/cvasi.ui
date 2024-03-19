@@ -84,10 +84,9 @@ cicerone_textblocks <- function(){
       title = "Set init values",
       description = "Set initial values for state variables such as biomass
       at the beginning of a simulation.  
-      In this tutorial, make sure that the endpoint 'BM' is 1. Set the value by clicking
-      on the 'Assign values' button. Find out more about this initial value by 
-      hovering your mouse pointer over the title and answer yourself why this 
-      initial value should be larger than 0."
+      In this tutorial, make sure that the endpoint 'BM' is larger than 0. 
+      Set the value by clicking on the 'Assign values' button. Find out more 
+      about this initial value by hovering your mouse pointer over the title."
     ),
     list(
       el = "prediction_workflow-forcings_wrapper",
