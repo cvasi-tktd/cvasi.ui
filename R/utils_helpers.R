@@ -26,14 +26,3 @@ list_rbind2 <- function(x, listnames_to = "listname",... , names_to = rlang::zap
   
   purrr::list_rbind(lst)
 }
-
-#' Count Decimal Places
-#'
-#' This function counts the number of decimal places in a given number.
-#'
-#' @param x A numeric value.
-#'
-#' @return An integer indicating the number of decimal places.
-count_decimal_places <- function(x) {
-  nchar(sub(".*\\.","",x))
-}

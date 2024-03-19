@@ -45,13 +45,13 @@ mod_exposuretable_input_server <- function(id, modeldat, exposure_time_series){
     
     # Render the exposure table ------------------------------------------------
     output[["exposure_table"]] <- rhandsontable::renderRHandsontable({
-      #n_decimals <- min(5,max(count_decimal_places(default_exposure$conc)))
+      n_decimals <- 7
       rhandsontable::rhandsontable(
         cvasiUI::default_exposure,
         height=600
       ) %>%
         rhandsontable::hot_col("conc",
-                               format = "0.00[000]"
+                               format = paste0("0.",paste(rep("0",n_decimals), collapse=""))
                                )
     })
     
