@@ -124,7 +124,15 @@ mod_prediction_workflow_server <- function(id){
     observeEvent(input[["active_model"]],{
       
       shinyjs::html("model_description", {
-        paste0("<b>",input[["active_model"]],"</b><br>",cvasiUI::model_descriptions[[input[["active_model"]]]])
+        #paste0("<b>",input[["active_model"]],"</b><br>",cvasiUI::model_descriptions[[input[["active_model"]]]])
+        paste0("<b>",
+               input[["active_model"]],
+               "</b><br>",
+               read_roxygen(package = "cvasi",
+                            f_name = input[["active_model"]],
+                            tag = "\\description")
+               #cvasiUI::model_descriptions[[]]
+               )
         })
       
       ## Set selected model -------------------------------------------------
