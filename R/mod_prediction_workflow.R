@@ -135,9 +135,9 @@ mod_prediction_workflow_server <- function(id){
       
       ## Display forcings ----------------------------------------------------
       if (forcings_required(selected_model())){
-        shinyjs::show(id = "forcings_box", asis = TRUE)
+        shinyjs::show(id = "prediction_workflow-forcings_wrapper", asis = TRUE)
       } else {
-        shinyjs::hide(id = "forcings_box", asis = TRUE)
+        shinyjs::hide(id = "prediction_workflow-forcings_wrapper", asis = TRUE)
       }
       
     }
