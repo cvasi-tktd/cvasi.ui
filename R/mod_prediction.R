@@ -19,16 +19,9 @@ mod_prediction_ui <- function(id){
       )
     ),
     div(
-      div(
-        plotOutput(ns("stat_var_plot"), width = "100%", height = "600px", fill = FALSE), 
-        style = "max-width: 800px;"
-      ),
+      uiOutput(ns("stat_plot_UI")),
       tags$hr(),
-      div(
-        DT::dataTableOutput(ns("epx_mtw_summary_table")),
-        plotOutput(ns("epx_mtw_plot"), width = "100%", height = "600px", fill = FALSE), 
-        style = "max-width: 800px;"
-      )
+      uiOutput(ns("epx_plot_UI"))
     )
   )
   
@@ -176,14 +169,20 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
                 log = FALSE, 
                 axp = NULL,
                 nint = 5)
-              ) + 
+      ) + 
         ggplot2::theme(axis.text = ggplot2::element_text(size = 13),
                        axis.title = ggplot2::element_text(size = 14),
                        strip.text = ggplot2::element_text(size = 14)
-                       ) #+
-        #ggplot2::theme(axis.title=ggplot2::element_text(size=14)) +
-        #ggplot2::theme(legend.text=ggplot2::element_text(size=12))
-
+        ) +
+        ggplot2::scale_color_manual(name = "",
+                                    labels = "Prediction",
+                                    values="black") +
+        ggplot2::scale_fill_manual(name = "",
+                                   labels = "Concentration",
+                                   values="black") +
+        ggplot2::theme(legend.position = "right",
+                       # legend.spacing.y = ggplot2::unit(-1.2, "cm"),
+                       legend.text = ggplot2::element_text(size = 13))
     })
     
     ## EPx results -------------------------------------------------------------
@@ -213,6 +212,98 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
                       ))%>% 
         DT::formatRound(columns=c('EPx'), digits=3)
     })
+    
+    # Plot panels ----
+    output[["stat_plot_UI"]] <- renderUI({
+      req(req(length(sim_result[["stat_var"]]) > 0))
+      
+      tagList(
+        h4("Prediction results"),
+        div(
+          plotOutput(ns("stat_var_plot"), width = "100%", height = "600px", fill = FALSE), 
+          style = "max-width: 800px;"
+        )
+      )
+    })
+    
+    output[["epx_plot_UI"]] <- renderUI({
+      req(sim_result[["epx_mtw"]])
+      tagList(
+        h4("EPx results"),
+        div(
+          HTML("Summary table of worst case windows per endpoint",
+               as.character(
+                 actionLink(inputId=ns("info_button_summarytable"),
+                            label="",
+                            icon=icon("info-circle"),
+                            class="info-circle-link"
+                 )
+               )),
+          DT::dataTableOutput(ns("epx_mtw_summary_table")),
+          div(
+            HTML("Plot of EPx values in moving time windows",
+                 as.character(
+                   actionLink(inputId=ns("info_button_epx"),
+                              label="",
+                              icon=icon("info-circle"),
+                              class="info-circle-link"
+                   )
+                 )),
+            style = "padding-top: 30px;"),
+          plotOutput(ns("epx_mtw_plot"), width = "100%", height = "600px", fill = FALSE), 
+          style = "max-width: 800px;"
+        )
+      )
+      
+    })
+    
+    ## Info section - plot panels ----
+    ### observers ----
+    observeEvent(input[["info_button_summarytable"]], {
+      showModal(modalDialog(title = NULL,
+                            HTML(
+                              paste0(
+                                tags$h3("Info summary table"),
+                                "<br>",
+                                "The table summarizes the EPx values calculated
+                                for all windows of the moving time windows. In 
+                                detail \"moving time window\" approach means that
+                                the whole exposure profile is devided into smaller
+                                overlapping segments and for each segment the EPx 
+                                is calculated.<br>
+                                This table shows the windows that yield the lowest
+                                EPx of all windows for each relevant endpoint."
+                              )
+                            ),
+                            footer=tagList(NULL),
+                            easyClose=TRUE)
+      )
+    })
+    
+    observeEvent(input[["info_button_epx"]], {
+            showModal(modalDialog(title = NULL,
+                                  HTML(
+                                    paste0(
+                                      tags$h3("Info EPx plot"),
+                                      "<br>",
+                                      "The top panel shows the exposure 
+                                      concentration given for the exposure 
+                                      profile with a blue shaded area. The bottom
+                                      panel shows the corresponding EPx (solid 
+                                      orange line) calculated for the time window
+                                      starting at the corresponding point on the
+                                      x-axis. The <b>EPx</b> is the effective 
+                                      multiplication factor by which the profile 
+                                      needs to be multiplied to achieve a x% 
+                                      effect on the selected endpoint at the 
+                                      end of the window."
+                                    )
+                                  ),
+                                  footer=tagList(NULL),
+                                  easyClose=TRUE)
+      )
+    })
+    
     
     
     

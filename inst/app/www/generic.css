@@ -17,7 +17,20 @@ input[type=number]::-webkit-inner-spin-button {
   font-weight: bold;
 } 
 
-
 div.wrapper {
   background-color: #ecf0f5 !important;
+}
+
+.info-circle-link{
+  font-size: 9px;
+  vertical-align: super;
+  color: #4A4A49;
+}
+
+.info-circle-link:hover {
+  color: #5B604F;
+}
+
+.info-circle-link:active, .info-circle-link:focus {
+  color: #5B604F;
 }
