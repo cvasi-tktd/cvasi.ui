@@ -95,13 +95,13 @@ mod_prediction_workflow_server <- function(id){
     # reactiveVal(ues) definitions ----
     all_model_dat <- reactiveValues()
     selected_model <- reactiveVal()
-    exposure_time_series <- reactiveVal(default_exposure)
+    exposure_time_series <- reactiveVal(cvasiUI::default_exposure)
     forcings_time_series <- reactiveVal()
     
     # pre-construct all models ----
     # commment: it is not necessary to pre-construct all models. 
     #  Rather only construct the model if selected
-    lapply(model_choices, function(x){
+    lapply(cvasiUI::model_choices, function(x){
       all_model_dat[[x]] <- x %>%
         construct_model() %>% 
         cvasi::set_param(do.call(c, cvasiUI::model_defaults[[x]][["parameter_defaults"]])) %>% 
