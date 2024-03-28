@@ -36,10 +36,3 @@
 #' }
 "parameter_descriptions"
 
-#' Generic description of the models
-#' 
-#' NB: This data set is planned to be removed and exchanged by an automated 
-#' extraction of model descriptions directly from the CVASI documentation.#' 
-#' 
-#' @format a list with an element for each model with a string describing the model
-"model_descriptions"
