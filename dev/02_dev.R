@@ -21,13 +21,13 @@ usethis::use_package("cvasi")
 #usethis::use_dev_package("neofm", remote = "local::neofm_0.1.0.tar.gz")
 
 # during dev use
-desc::desc_add_remotes("local::../cvasi")
+#desc::desc_add_remotes("local::../cvasi")
 #desc::desc_clear_remotes() # clears all remotes links
 #desc::desc_get_remotes()
 
 # when efm backend package is open on github use:
-#desc::desc_del_remotes("local::../neofm_0.1.0.tar.gz")
-#desc::desc_add_remotes("github::bayer-int/efm")
+#desc::desc_del_remotes("local::../cvasi")
+desc::desc_add_remotes("github::Bayer-Group/cvasi")
 
 
 

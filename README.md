@@ -1,26 +1,26 @@
 
-# cvasi
+# cvasiUI
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-The goal of cvasi is to ...
+cvasiUI provides a [shiny](https://www.rstudio.com/products/shiny/) graphical user 
+interface for the [cvasi](https://github.com/Bayer-Group/cvasi) R-package
 
 ## Installation
 
-You can install the development version of cvasi like so:
-
+Install latest version from github
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+install.packages("remotes", dependencies=TRUE)
+remotes::install_github("Bayer-Group/cvasi-ui", dependencies=TRUE, upgrade="never")
 ```
 
-## Example
+## Start the GUI
 
-This is a basic example which shows you how to solve a common problem:
-
+After successful installation you can start the GUI with
 ``` r
-library(cvasi)
-## basic example code
+library(cvasiUI)
+run_app()
 ```
 

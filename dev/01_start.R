@@ -20,8 +20,9 @@
 ##
 golem::fill_desc(
   pkg_name = "cvasiUI", # The Name of the package containing the App
-  pkg_title = "PKG_TITLE", # The Title of the package containing the App
-  pkg_description = "PKG_DESC.", # The Description of the package containing the App
+  pkg_title = "Shiny GUI for cvasi", # The Title of the package containing the App
+  pkg_description = "Package provides a shiny GUI for the cvasi package
+               \"Calibration, Validation, and Simulation of TKTD models in R\".", # The Description of the package containing the App
   author_first_name = "Torben", # Your First Name
   author_last_name = "Wittwer", # Your Last Name
   author_email = "Torben.Wittwer@rifcon.de", # Your Email
@@ -40,7 +41,6 @@ desc::desc_get_authors()
 #   file = ".",
 #   normalize = FALSE
 # )
-
 
 ## Set {golem} options ----
 golem::set_golem_options()
