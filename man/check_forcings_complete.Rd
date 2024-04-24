@@ -11,6 +11,9 @@ check_forcings_complete(expected_forcings, forcings)
 
 \item{forcings}{}
 }
+\value{
+TRUE if forcings are complete, FALSE otherwise
+}
 \description{
 Checks if the forcing data is complete
 }

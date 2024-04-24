@@ -19,6 +19,9 @@ import_forcings(
 
 \item{forcing_col}{columnname that contains the}
 }
+\value{
+a list of forcings with a data.frame for each forcing
+}
 \description{
 Import a text file with three c
 }

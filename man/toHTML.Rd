@@ -16,6 +16,8 @@ html character
 Convert to md to html
 }
 \examples{
+\dontrun{
 s <- c("This ", "is not ", "a test")
 toHTML(s)
+}
 }

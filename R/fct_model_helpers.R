@@ -5,14 +5,18 @@
 #' 
 #' @param model_name 
 #'
-#' @return
-#' @export
+#' @return the corresponding model object
 #'
 #' @examples
+#' \dontrun{
 #' construct_model("GUTS_RED_IT")
+#' }
 construct_model <- function(model_name){
   f <- get(model_name)
-  f()
+  x <- f()
+  stopifnot(inherits(x, "EffectScenario"))
+  
+  return(x)
 }
 
 
@@ -22,15 +26,18 @@ construct_model <- function(model_name){
 #' @param x the effect model object
 #' @param type the type to check; either "param", "init" or forcing
 #'
-#' @return
-#' @export
+#' @return a vector with the names of the required parameters, initial values or forcings
 #'
 #' @examples
+#' \dontrun{
 #' dat <- cvasi::GUTS_RED_IT()
 #' get_required(dat, type = "param")
 #' get_required(dat, type = "init")
 #' get_required(dat, type = "forcings")
-get_required <- function(x, type){
+#' }
+get_required <- function(x, type = c("param", "init", "forcings")){
+  stopifnot(inherits(x, "EffectScenario"))
+  type <- match.arg(type)
   out <- switch(type,
                 "param" = x@param.req,
                 "init" = names(x@init),
@@ -45,15 +52,18 @@ get_required <- function(x, type){
 #' @param x the effect model object
 #' @param type the type to check; either "param", "init" or forcings
 #'
-#' @return
-#' @export
+#' @return list of parameters, initial values or forcings
 #'
 #' @examples
-#' dat <- cvasi::GUTS_RED_IT()
+#' \dontrun{
+#' dat <- cvasi::Lemna_Schmitt()
 #' get_val(dat, type = "param")
 #' get_val(dat, type = "init")
 #' get_val(dat, type = "forcings")
-get_val <- function(x, type){
+#' }
+get_val <- function(x, type = c("param", "init", "forcings")){
+  stopifnot(inherits(x, "EffectScenario"))
+  type <- match.arg(type)
   out <- switch(type,
                 "param" = x@param,
                 "init" = x@init,
@@ -66,12 +76,14 @@ get_val <- function(x, type){
 #'
 #' @param x the effect model object
 #'
-#' @return
-#' @export
+#' @return TRUE if forcings are required, FALSE otherwise
 #'
 #' @examples
+#' \dontrun{
 #' forcings_required(cvasi::metsulfuron)
+#' }
 forcings_required <- function(x){
+  stopifnot(inherits(x, "EffectScenario"))
   length(x@forcings.req)>0
 }
 
@@ -82,23 +94,26 @@ forcings_required <- function(x){
 #' @param x the effect model object
 #' @param type the type to check; either "param", "init" or forcings
 #'
-#' @return
-#' @export
+#' @return TRUE if model complete, FALSE otherwise
 #'
 #' @examples
+#' \dontrun{
 #' check_model_complete(cvasi::metsulfuron, type = "param")
 #' check_model_complete(cvasi::metsulfuron, type = "init")
 #' check_model_complete(cvasi::metsulfuron, type = "forcing")
 #' 
 #' check_model_complete(cvasi::GUTS_RED_SD(), type = "forcings")
+#' }
 check_model_complete <- function(x, 
                                  type = "param"){
+  stopifnot(inherits(x, "EffectScenario"))
+  
   supported_type <- c("param", "init", "forcings")
   if (!(type %in% supported_type)){
     stop("Chosen type not supported.")
   }
   
-  if (type == "forcing" & !forcings_required(x)){
+  if (type == "forcings" && !forcings_required(x)){
     warning("Forcing not required. Returning 'TRUE'")
     return(TRUE)
   }
@@ -118,7 +133,7 @@ check_model_complete <- function(x,
   # any value non-NULL/non-NA?
   has_value <- !(any(is.na(val)) | any(is.null(val)))
   
-  if (names_complete & has_value){
+  if (names_complete && has_value){
     return(TRUE)
   } else {
     return(FALSE)
@@ -130,25 +145,26 @@ check_model_complete <- function(x,
 #'
 #' @param x 
 #'
-#' @return
-#' @export
+#' @return TRUE if exposure data is complete, FALSE otherwise
 #'
 #' @examples
+#' \dontrun{
 #' exp_dat <- cvasi::Schmitt2013 |>
 #'                dplyr::select(t, ID, conc) |>
 #'                dplyr::rename(trial = "ID", time = "t")
 #' check_exposure_complete(exp_dat)
+#' }
 check_exposure_complete <- function(x){
   expected_colnames <- c("time", "trial", "conc")
-  
   x_exist <- length(x) > 0
+  
   if (x_exist){
-    all_cols_exist <- all(expected_colnames  %in% colnames(x))
+    all_cols_exist <- all(expected_colnames %in% colnames(x))
   } else {
     all_cols_exist <- FALSE
   }
   
-  if (x_exist & all_cols_exist){
+  if (x_exist && all_cols_exist){
     return(TRUE)
   }else{
     return(FALSE)
@@ -164,10 +180,7 @@ check_exposure_complete <- function(x){
 #' @param expected_forcings 
 #' @param forcings 
 #'
-#' @return
-#' @export
-#'
-#' @examples
+#' @return TRUE if forcings are complete, FALSE otherwise
 check_forcings_complete <- function(expected_forcings, forcings){
   if (length(expected_forcings) != length(forcings)){
     return(FALSE)
@@ -176,42 +189,4 @@ check_forcings_complete <- function(expected_forcings, forcings){
   if ( all(expected_forcings %in% names(forcings)) ) {
     return(TRUE)
   }
-}
-
-
-#' Function to create value boxes
-#' 
-#' Create based on the value (logical) a green thumbs-up box if `TRUE`, or a red 
-#' thumbs-down box, if `FALSE`.
-#' 
-#' @param value to display in big bold letters
-#' @param subtitle to display in smaller letter below 'value'
-#' @param width width of the box
-#' 
-#' @return
-#' @export
-create_valuebox <- function(value, subtitle, width = 3) {
-  
-  output_val <- switch(as.character(value),
-                       `TRUE` = "Ok",
-                       `FALSE` = "Missing",
-                       `NA` = "minus")
-  
-  icon_char <- switch(as.character(value),
-                      `TRUE` = "thumbs-up",
-                      `FALSE` = "thumbs-down",
-                      `NA` = "minus")
-  
-  color_char <- switch(as.character(value),
-                       `TRUE` = "green",
-                       `FALSE` = "red",
-                       `NA` = "yellow")
-  
-  valueBox(
-    value = output_val,
-    subtitle = subtitle,
-    icon = icon(icon_char),
-    color = color_char,
-    width = width
-  )
 }

@@ -1,3 +1,40 @@
+#' Function to create value boxes
+#' 
+#' Create based on the value (logical) a green thumbs-up box if `TRUE`, or a red 
+#' thumbs-down box, if `FALSE`.
+#' 
+#' @param value to display in big bold letters
+#' @param subtitle to display in smaller letter below 'value'
+#' @param width width of the box
+#' 
+#' @return a shinydashboard value box
+create_valuebox <- function(value, subtitle, width = 3) {
+  
+  output_val <- switch(as.character(value),
+                       `TRUE` = "Ok",
+                       `FALSE` = "Missing",
+                       `NA` = "minus")
+  
+  icon_char <- switch(as.character(value),
+                      `TRUE` = "thumbs-up",
+                      `FALSE` = "thumbs-down",
+                      `NA` = "minus")
+  
+  color_char <- switch(as.character(value),
+                       `TRUE` = "green",
+                       `FALSE` = "red",
+                       `NA` = "yellow")
+  
+  valueBox(
+    value = output_val,
+    subtitle = subtitle,
+    icon = icon(icon_char),
+    color = color_char,
+    width = width
+  )
+}
+
+
 #' fileInputOnlyButton
 #'
 #' A simplified version of the shiny::fileInputButton.
@@ -24,7 +61,7 @@ fileInputOnlyButton <- function(..., label="") {
 #'
 #' @param ... arguments passed to `shinydashboard::box()`
 #'
-#' @return
+#' @return a shinydasboard box with collapse icon on the left side
 dashboardbox_left <- function(...){
   x <- shinydashboard::box(...)
   f_args <- list(...)

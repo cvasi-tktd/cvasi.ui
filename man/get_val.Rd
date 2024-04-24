@@ -4,19 +4,24 @@
 \alias{get_val}
 \title{Get parameters, forcings or initial values of a}
 \usage{
-get_val(x, type)
+get_val(x, type = c("param", "init", "forcings"))
 }
 \arguments{
 \item{x}{the effect model object}
 
 \item{type}{the type to check; either "param", "init" or forcings}
 }
+\value{
+list of parameters, initial values or forcings
+}
 \description{
 Get parameters, forcings or initial values of a
 }
 \examples{
-dat <- cvasi::GUTS_RED_IT()
+\dontrun{
+dat <- cvasi::Lemna_Schmitt()
 get_val(dat, type = "param")
 get_val(dat, type = "init")
 get_val(dat, type = "forcings")
+}
 }

@@ -7,19 +7,24 @@
 get_parameter_info(model_, parameter_, type_)
 }
 \arguments{
-\item{model}{}
+\item{model}{the model as defined in cvasiUI::parameter_descriptions}
 
-\item{parameter}{}
+\item{parameter}{the parameter as defined in cvasiUI::parameter_descriptions}
 
 \item{type}{one of "description", "unit", "group", "expert.value", "default"}
+}
+\value{
+a string for the model and parameter and column type
 }
 \description{
 get info from parameter_descriptions data
 }
 \examples{
+\dontrun{
 get_parameter_info(model_ = "Lemna_Schmitt", parameter_ = "Tmin", type_ ="description")
 get_parameter_info(model_ = "Lemna_Schmitt", parameter_ = "Tmin", type_ ="unit")
 get_parameter_info(model_ = "Lemna_Schmitt", parameter_ = "Tmin", type_ ="group")
 get_parameter_info(model_ = "Lemna_Schmitt", parameter_ = "Tmin", type_ ="expert.value")
 get_parameter_info(model_ = "Lemna_Schmitt", parameter_ = "Tmin", type_ ="default")
+}
 }

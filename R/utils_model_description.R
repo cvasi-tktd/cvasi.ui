@@ -5,9 +5,12 @@
 #' @return html character
 #'
 #' @examples
+#' \dontrun{
 #' s <- c("This ", "is not ", "a test")
 #' toHTML(s)
+#' }
 toHTML <- function(x){
+  stopifnot(is.character(x))
   htmltools::HTML(commonmark::markdown_html(paste(x, collapse="")))
 }
 
@@ -18,12 +21,16 @@ toHTML <- function(x){
 #' @param tag the tag of the paragraph you want to extract
 #' @param print_tags_only if TRUE the available tags are printed
 #'
-#' @return a string of the content of the respective roxygen header tag
+#' @return a string of the content of the respective roxygen header tag or a vector with available tags of a function
 #'
 #' @examples
-#' read_roxygen("base", "data.frame", "\\details")
+#' \dontrun{
+#' read_roxygen(package = "base", f_name = "data.frame", tag = "\\details")
+#' }
 read_roxygen <- function(package, f_name, tag, print_tags_only = FALSE){
   e <- new.env(parent = emptyenv())
+  stopifnot(require(package, character.only = TRUE))
+  
   f <- paste0(system.file("help/",package = package),"/",package)
   
   lazyLoad(f, envir = e)
@@ -31,6 +38,7 @@ read_roxygen <- function(package, f_name, tag, print_tags_only = FALSE){
   
   tags <- tools:::RdTags(help_txt)
   if (print_tags_only) return(tags)
+  stopifnot(!missing(tag))
   flag_tags <- which(tags == tag)
   extr_text <- unlist(help_txt[flag_tags])
   

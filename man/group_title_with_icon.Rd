@@ -7,7 +7,10 @@
 group_title_with_icon(group_title)
 }
 \arguments{
-\item{group_title}{}
+\item{group_title}{a string}
+}
+\value{
+a shiny.tag object with specified icon or if group not defined the input string is returned unmodified
 }
 \description{
 Create a title with icon for the thematic parameter groups

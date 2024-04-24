@@ -7,14 +7,18 @@
 tooltip_text(mytext, tooltip)
 }
 \arguments{
-\item{mytext}{}
+\item{mytext}{the text to be displayed}
 
-\item{tooltip}{}
+\item{tooltip}{The text that appears when the mouse hovers over `mytext`}
+}
+\value{
+an html div-container
 }
 \description{
 create an div container with title
 }
 \examples{
+\dontrun{
 tooltip_text(mytext = "Tmin", 
              tooltip = get_parameter_info(
                           model_ = "Lemna_Schmitt", 
@@ -23,4 +27,5 @@ tooltip_text(mytext = "Tmin",
                           )
              )
 tooltip_text(mytext = "Tmin")
+}
 }

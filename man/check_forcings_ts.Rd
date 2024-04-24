@@ -13,10 +13,14 @@ check_forcings_ts(forcings, expected_forcings)
 
 \item{forcing_col}{the column of the forcings data in which the forcing names are listed}
 }
+\value{
+NULL if requirements are met; error if not
+}
 \description{
 check if the imported forcings meet the requirements
 }
 \examples{
+\dontrun{
 f_dat <- list(
                rad = data.frame(time = 1:10, value = rnorm(10)),
                temp = data.frame(time = 1:10, value = rnorm(10))
@@ -26,4 +30,5 @@ check_forcings_ts(f_dat, exp_f)
 
 exp_f <- c("irr", "tmp")
 check_forcings_ts(f_dat, exp_f)
+}
 }

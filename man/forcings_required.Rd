@@ -9,9 +9,14 @@ forcings_required(x)
 \arguments{
 \item{x}{the effect model object}
 }
+\value{
+TRUE if forcings are required, FALSE otherwise
+}
 \description{
 Does the model require forcings?
 }
 \examples{
+\dontrun{
 forcings_required(cvasi::metsulfuron)
+}
 }

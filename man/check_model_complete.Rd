@@ -11,13 +11,18 @@ check_model_complete(x, type = "param")
 
 \item{type}{the type to check; either "param", "init" or forcings}
 }
+\value{
+TRUE if model complete, FALSE otherwise
+}
 \description{
 Checks if the model parameters, forcings or initial values are complete
 }
 \examples{
+\dontrun{
 check_model_complete(cvasi::metsulfuron, type = "param")
 check_model_complete(cvasi::metsulfuron, type = "init")
 check_model_complete(cvasi::metsulfuron, type = "forcing")
 
 check_model_complete(cvasi::GUTS_RED_SD(), type = "forcings")
+}
 }

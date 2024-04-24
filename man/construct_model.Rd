@@ -9,9 +9,14 @@ construct_model(model_name)
 \arguments{
 \item{model_name}{}
 }
+\value{
+the corresponding model object
+}
 \description{
 Call the constructor of a model by its name as "string"
 }
 \examples{
+\dontrun{
 construct_model("GUTS_RED_IT")
+}
 }

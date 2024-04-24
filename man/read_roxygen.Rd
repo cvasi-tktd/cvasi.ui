@@ -16,11 +16,13 @@ read_roxygen(package, f_name, tag, print_tags_only = FALSE)
 \item{print_tags_only}{if TRUE the available tags are printed}
 }
 \value{
-a string of the content of the respective roxygen header tag
+a string of the content of the respective roxygen header tag or a vector with available tags of a function
 }
 \description{
 Read roxygen help
 }
 \examples{
-read_roxygen("base", "data.frame", "\\\\details")
+\dontrun{
+read_roxygen(package = "base", f_name = "data.frame", tag = "\\\\details")
+}
 }

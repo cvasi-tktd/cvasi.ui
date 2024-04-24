@@ -4,31 +4,28 @@
 \alias{list_rbind2}
 \title{Extension of purrr::list_rbind}
 \usage{
-list_rbind2(
-  x,
-  listnames_to = "listname",
-  ...,
-  names_to = rlang::zap(),
-  ptype = NULL
-)
+list_rbind2(x, listnames_to = "listname", ...)
 }
 \arguments{
-\item{x}{}
+\item{x}{a list with data.frame elements}
 
-\item{listnames_to}{}
+\item{listnames_to}{the name of the column in the returned data.frame that contains the list names}
 
-\item{...}{}
-
-\item{names_to}{}
-
-\item{ptype}{}
+\item{...}{passed to `purrr::list_rbind`}
+}
+\value{
+a data.frame that is merged from the data.frames of the list
 }
 \description{
-When list is bind the names of the list elements are added as additional column
+When list is bind, the names of the list elements are added as additional column
 }
 \examples{
+\dontrun{
 x1 <- list(a = data.frame(time=1:3, value = rnorm(3)),
            b = data.frame(time=1:3, value = rnorm(3)),
            c = data.frame(time=1:3, value = rnorm(3)))
 list_rbind2(x1, listnames_to = "my_factor")
+# compare with 
+list(rbind(x1))
+}
 }

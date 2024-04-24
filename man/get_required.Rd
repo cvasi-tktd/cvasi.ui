@@ -4,19 +4,24 @@
 \alias{get_required}
 \title{Get the required parameter of init names of a model}
 \usage{
-get_required(x, type)
+get_required(x, type = c("param", "init", "forcings"))
 }
 \arguments{
 \item{x}{the effect model object}
 
 \item{type}{the type to check; either "param", "init" or forcing}
 }
+\value{
+a vector with the names of the required parameters, initial values or forcings
+}
 \description{
 Get the required parameter of init names of a model
 }
 \examples{
+\dontrun{
 dat <- cvasi::GUTS_RED_IT()
 get_required(dat, type = "param")
 get_required(dat, type = "init")
 get_required(dat, type = "forcings")
+}
 }

@@ -9,6 +9,9 @@ dashboardbox_left(...)
 \arguments{
 \item{...}{arguments passed to `shinydashboard::box()`}
 }
+\value{
+a shinydasboard box with collapse icon on the left side
+}
 \description{
 Create a dashboard box collapsible on click on title
 }
