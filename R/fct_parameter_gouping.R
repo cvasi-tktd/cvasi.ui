@@ -1,11 +1,12 @@
 
 #' Create a list of grouped parameters
 #'
-#' @param p 
-#' @param model_ 
+#' @param p a character vector listing the parameter names
+#' @param model_ the model for which the parameters should be grouped
 #'
 #' @return a list with parameters seperated into groups as specified by cvasiUI::parameter_descriptions
 #'
+#' @seealso [cvasiUI::parameter_descriptions]
 #' @examples
 #' \dontrun{
 #' group_parameters(p = c("k_phot_fix", "k_phot_max", "k_resp", "k_loss", "Tmin", "Tmax", 
@@ -30,11 +31,12 @@ group_parameters <- function(p, model_){
 
 #' Seperate parameters into expert or non-expert groups
 #'
-#' @param p 
-#' @param model_ 
+#' @param p a character vector listing the parameter names
+#' @param model_  the model for which the parameters should be grouped into expert and non-expert
 #'
 #' @return  a list with parameters seperated into expert and non-expert groups as specified by cvasiUI::parameter_descriptions
 #'
+#' @seealso [cvasiUI::parameter_descriptions]
 #' @examples
 #' \dontrun{
 #' expert_parameters(p = c("k_phot_fix", "k_phot_max", "k_resp", "k_loss", "Tmin", "Tmax", 
@@ -60,7 +62,7 @@ expert_parameters <- function(p, model_){
 
 #' Create a title with icon for the thematic parameter groups
 #'
-#' @param group_title a string
+#' @param group_title a string denoting the parameter group
 #'
 #' @return a shiny.tag object with specified icon or if group not defined the input string is returned unmodified
 group_title_with_icon <- function(group_title){

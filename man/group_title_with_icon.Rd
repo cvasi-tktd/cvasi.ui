@@ -7,7 +7,7 @@
 group_title_with_icon(group_title)
 }
 \arguments{
-\item{group_title}{a string}
+\item{group_title}{a string denoting the parameter group}
 }
 \value{
 a shiny.tag object with specified icon or if group not defined the input string is returned unmodified

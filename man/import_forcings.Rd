@@ -17,7 +17,11 @@ import_forcings(
 
 \item{sep}{value seperator}
 
-\item{forcing_col}{columnname that contains the}
+\item{time_col}{columnname that contains the time}
+
+\item{forcing_col}{columnname that contains the forcing name}
+
+\item{value_col}{columnname that contains the forcing values}
 }
 \value{
 a list of forcings with a data.frame for each forcing

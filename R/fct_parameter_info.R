@@ -1,9 +1,9 @@
 
 #' get info from parameter_descriptions data
 #'
-#' @param model the model as defined in cvasiUI::parameter_descriptions
-#' @param parameter the parameter as defined in cvasiUI::parameter_descriptions
-#' @param type one of "description", "unit", "group", "expert.value", "default"
+#' @param model_ the model as defined in cvasiUI::parameter_descriptions
+#' @param parameter_ the parameter as defined in cvasiUI::parameter_descriptions
+#' @param type_ one of "description", "unit", "group", "expert.value", "default"
 #'
 #' @return a string for the model and parameter and column type
 #' 

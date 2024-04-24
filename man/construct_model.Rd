@@ -7,7 +7,7 @@
 construct_model(model_name)
 }
 \arguments{
-\item{model_name}{}
+\item{model_name}{the model name as string}
 }
 \value{
 the corresponding model object

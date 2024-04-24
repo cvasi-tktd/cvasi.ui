@@ -3,7 +3,7 @@
 #' Call the constructor of a model by its name as "string" 
 #' 
 #' 
-#' @param model_name 
+#' @param model_name the model name as string
 #'
 #' @return the corresponding model object
 #'
@@ -143,7 +143,7 @@ check_model_complete <- function(x,
 
 #' Checks if the exposure data is complete
 #'
-#' @param x 
+#' @param x a data.frame for the exposure
 #'
 #' @return TRUE if exposure data is complete, FALSE otherwise
 #'
@@ -177,8 +177,8 @@ check_exposure_complete <- function(x){
 
 #' Checks if the forcing data is complete
 #'
-#' @param expected_forcings 
-#' @param forcings 
+#' @param expected_forcings a character vector listing the expected forcings
+#' @param forcings a character vector listing the available forcings
 #'
 #' @return TRUE if forcings are complete, FALSE otherwise
 check_forcings_complete <- function(expected_forcings, forcings){

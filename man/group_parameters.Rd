@@ -7,9 +7,9 @@
 group_parameters(p, model_)
 }
 \arguments{
-\item{p}{}
+\item{p}{a character vector listing the parameter names}
 
-\item{model_}{}
+\item{model_}{the model for which the parameters should be grouped}
 }
 \value{
 a list with parameters seperated into groups as specified by cvasiUI::parameter_descriptions
@@ -26,4 +26,7 @@ group_parameters(p = c("k_phot_fix", "k_phot_max", "k_resp", "k_loss", "Tmin", "
                        ),
                  model_ = "Lemna_Schmitt")
 }
+}
+\seealso{
+[cvasiUI::parameter_descriptions]
 }

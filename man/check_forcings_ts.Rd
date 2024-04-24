@@ -10,8 +10,6 @@ check_forcings_ts(forcings, expected_forcings)
 \item{forcings}{the imported forcings data in long format}
 
 \item{expected_forcings}{the forcings required as a character vector}
-
-\item{forcing_col}{the column of the forcings data in which the forcing names are listed}
 }
 \value{
 NULL if requirements are met; error if not

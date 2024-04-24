@@ -4,7 +4,9 @@
 #'
 #' @param filepath path to file with forcings data
 #' @param sep value seperator
-#' @param forcing_col columnname that contains the 
+#' @param forcing_col columnname that contains the forcing name
+#' @param time_col columnname that contains the time
+#' @param value_col columnname that contains the forcing values
 #'
 #' @return a list of forcings with a data.frame for each forcing
 import_forcings <- function(filepath, 
@@ -29,7 +31,6 @@ import_forcings <- function(filepath,
 #'
 #' @param forcings the imported forcings data in long format
 #' @param expected_forcings the forcings required as a character vector
-#' @param forcing_col the column of the forcings data in which the forcing names are listed
 #'
 #' @return NULL if requirements are met; error if not
 #'

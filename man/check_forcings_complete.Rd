@@ -7,9 +7,9 @@
 check_forcings_complete(expected_forcings, forcings)
 }
 \arguments{
-\item{expected_forcings}{}
+\item{expected_forcings}{a character vector listing the expected forcings}
 
-\item{forcings}{}
+\item{forcings}{a character vector listing the available forcings}
 }
 \value{
 TRUE if forcings are complete, FALSE otherwise

@@ -7,7 +7,7 @@
 check_exposure_complete(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{a data.frame for the exposure}
 }
 \value{
 TRUE if exposure data is complete, FALSE otherwise
