@@ -137,3 +137,35 @@ test_that("check_exposure_complete", {
   expect_false(check_exposure_complete(1:10))
 })
 
+
+test_that("lookup_name works", {
+
+  o <- do.call(c, lapply(model_choices, function(x){
+    m <- x %>% 
+      construct_model() %>% 
+      class()
+    m %>% lookup_name(lookup_table = model_lookup,
+                      from = "scenario",
+                      to = "model_f")
+  }))
+  
+  expect_equal(o, dplyr::pull(model_lookup, "model_f"))
+})
+
+test_that("lookup_name stops with erro", {
+  
+  expect_error(
+    "LemnaSchmittScenario" %>% 
+      lookup_name(lookup_table = model_lookup,
+                  from = "scenarioqwertz",
+                  to = "model_f")
+  )
+  
+  expect_error(
+    "LemnaSchmittScenario" %>% 
+      lookup_name(lookup_table = model_lookup,
+                  from = "scenario",
+                  to = "model_fqwertz")
+  )
+  
+})

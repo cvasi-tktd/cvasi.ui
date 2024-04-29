@@ -190,3 +190,31 @@ check_forcings_complete <- function(expected_forcings, forcings){
     return(TRUE)
   }
 }
+
+
+#' Lookup model/scenario/contructor name
+#'
+#' @param x the string to lookup
+#' @param lookup_table the lookup table to use
+#' @param from find x in column "from"
+#' @param to get value in column "to
+#'
+#' @return a string with the found value in column "to"
+#' @examples
+#' \dontrun{
+#' "LemnaSchmittScenario" %>% 
+#'   lookup_name(model_lookup,
+#'             from = "scenario",
+#'             to = "model_f")
+#'}
+lookup_name <- function(x, 
+                        lookup_table = model_lookup,
+                        from = "scenario", 
+                        to = "model_f"){
+  stopifnot(from %in% colnames(lookup_table))
+  stopifnot(to %in% colnames(lookup_table))
+  
+  lookup_table %>% 
+    dplyr::filter(!!as.symbol(from) == !!x ) %>% 
+    dplyr::pull(to)
+}

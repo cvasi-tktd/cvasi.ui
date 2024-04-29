@@ -96,7 +96,7 @@ mod_prediction_workflow_server <- function(id){
     all_model_dat <- reactiveValues()
     selected_model <- reactiveVal()
     exposure_time_series <- reactiveVal(cvasiUI::default_exposure)
-    forcings_time_series <- reactiveVal()
+    forcings_time_series <- do.call(reactiveValues, lapply(cvasiUI::model_defaults, function(x) x[["forcing_defaults"]]))
     
     # pre-construct all models ----
     # commment: it is not necessary to pre-construct all models. 
@@ -174,7 +174,9 @@ mod_prediction_workflow_server <- function(id){
       if (forcings_required(selected_model())){
         create_valuebox(value = check_forcings_complete(
           expected_forcings = get_required(selected_model(), "forcings"),
-          forcings = forcings_time_series()
+          forcings = rvtl(forcings_time_series)[[selected_model() 
+                                                 %>% class() %>% 
+                                                   lookup_name()]]
         ),
         subtitle = "Forcings",
         width = 3)

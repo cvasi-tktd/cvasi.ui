@@ -42,14 +42,23 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
       )
 
     init_forcings <- reactive({
-      if (length(forcings_time_series()) > 0){
-        if (all(req_f() %in% names(forcings_time_series()))){
-          forcings_time_series()
+      req(length(rvtl(forcings_time_series)))
+      forcings_ts <- rvtl(forcings_time_series)[[selected_model() 
+                                                 %>% class() %>% 
+                                                   lookup_name()]]
+      if (length(forcings_ts) > 0){
+        if (all(req_f() %in% names(forcings_ts))){
+          local_forcings_ts(forcings_ts)
+          forcings_ts
         }else {
-          cvasiUI::model_defaults[[selected_model()%>% get_model_name()]][["forcing_defaults"]]
+          o <- cvasiUI::model_defaults[[selected_model()%>% get_model_name()]][["forcing_defaults"]]
+          local_forcings_ts(o)
+          o
         }
       } else {
-        cvasiUI::model_defaults[[selected_model()%>% get_model_name()]][["forcing_defaults"]]
+        o <- cvasiUI::model_defaults[[selected_model()%>% get_model_name()]][["forcing_defaults"]]
+        local_forcings_ts(o)
+        o
       }
     })
     
@@ -103,9 +112,12 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
     })
     
     const_f_diff <- reactive({
-      req(const_f(), forcings_time_series())
-      if (length(forcings_time_series())){
-        md5_stored <- digest::digest(forcings_time_series(), algo = "md5")
+      forcings_ts <- rvtl(forcings_time_series)[[selected_model() 
+                                                 %>% class() %>% 
+                                                   lookup_name()]]
+      req(const_f(), forcings_ts)
+      if (length(forcings_ts)){
+        md5_stored <- digest::digest(forcings_ts, algo = "md5")
         md5_changed <- digest::digest(const_f(), algo = "md5")
         return(md5_stored != md5_changed)
       } else {
@@ -122,16 +134,20 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
     ### Set constant values --------------------------------------
     observeEvent(input[["set_const_forcings"]], {
       req( length(req_f()) > 0 )
+      print(input[["set_const_forcings"]])
       
       input_f_vals <- lapply(setNames(req_f(), req_f()), function(f_name) {
         out <- data.frame(0, input[[f_name]])
         colnames(out) <- c("t", "value")
         out
       })
-      forcings_time_series(input_f_vals)
+      local_forcings_ts(input_f_vals)
+      forcings_time_series[[selected_model() 
+                            %>% class() %>% 
+                              lookup_name()]] <- input_f_vals
     }, ignoreInit = TRUE)
     
-    
+
     ## Variable forcings input -------------------------------------------------
     output[["f_variable_input"]] <- renderUI({
       fluidRow(
@@ -208,8 +224,11 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
     ### Check change of values and show in GUI ---------------------------------
     var_f_diff <- reactive({
       #req(local_forcings_ts())
+      forcings_ts <- rvtl(forcings_time_series)[[selected_model() 
+                                                 %>% class() %>% 
+                                                   lookup_name()]]
       if (length(local_forcings_ts())){
-        md5_stored <- digest::digest(forcings_time_series(), algo = "md5")
+        md5_stored <- digest::digest(forcings_ts, algo = "md5")
         md5_changed <- digest::digest(local_forcings_ts(), algo = "md5")
         return(md5_stored != md5_changed)
       } else {
@@ -227,7 +246,9 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
     ### Set time-variable forcings ----------------------------
     observeEvent(input[["set_var_forcings"]], {
       req( length(local_forcings_ts()) > 0 )
-      forcings_time_series(local_forcings_ts())
+      forcings_time_series[[selected_model() 
+                            %>% class() %>% 
+                              lookup_name()]] <- local_forcings_ts()
     })
 
 

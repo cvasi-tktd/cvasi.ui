@@ -4,6 +4,24 @@
 model_choices <- list("Lemna_Schmitt", "Myrio", "Myrio_log", "Algae_Weber")
 usethis::use_data(model_choices, overwrite = TRUE)
 
+# Model names, scenario/class names and constructor function names lookup table
+all_model_dat <- lapply(setNames(cvasiUI::model_choices,cvasiUI::model_choices),
+                        function(x){
+                          x %>%
+                            cvasiUI:::construct_model()
+                        })
+
+
+model_lookup <- data.frame(
+  do.call(rbind, lapply(all_model_dat, function(x) {
+    data.frame(
+      model_name = x %>% cvasi::get_model_name(), 
+      scenario = x %>% class())
+  }
+  )),
+  model_f = names(all_model_dat))
+usethis::use_data(model_lookup, overwrite = TRUE)
+
 ## what are the default values the models are constructed with?
 model_inputs <- lapply(setNames(model_choices,model_choices), function(m){
   x <- eval(parse(text = paste0("cvasi::",m)[[1]]))()
