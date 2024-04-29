@@ -44,7 +44,7 @@ test_that("expert_parameters works", {
     cvasiUI:::get_required("param")
   m <- "Lemna_Schmitt"
   o <- expert_parameters(p = p,
-                        model_ = m)
+                         model_ = m)
   expect_equal(names(o), c("no", "yes"))
   
   
@@ -55,14 +55,14 @@ test_that("expert_parameters works", {
     cvasiUI:::get_required("param")
   m <- "Myriophyllum"
   o <- expert_parameters(p = p,
-                        model_ = m)
+                         model_ = m)
   expect_equal(names(o), c("no", "yes"))
   
   p <- cvasi::Algae_Weber() %>% 
     cvasiUI:::get_required("param")
   m <- "Algae_Weber"
   o <- expert_parameters(p = p,
-                        model_ = m)
+                         model_ = m)
   expect_equal(names(o), c("no"))
   
 })
@@ -84,4 +84,27 @@ test_that("group_title_with_icon works", {
   expect_error(group_title_with_icon(x2))
   x3 <- c("a", "b")
   expect_error(group_title_with_icon(x3))
+})
+
+
+
+test_that("order_parameter_groups works", {
+  p_order <- c("toxicodynamic", "toxicokinetic", "physiological")
+  
+  parameter_groups <- list(
+    physiological = c("k_phot_fix", "k_phot_max", "k_resp",
+                      "k_loss", "Tmin", "Tmax", "Topt", "t_ref", "Q10", "k_0", "a_k",
+                      "C_P", "CP50", "a_P", "KiP", "C_N", "CN50", "a_N", "KiN", "BM50",
+                      "mass_per_frond", "BMw2BMd"),
+    toxicodynamic = c("Emax", "EC50", "b"),
+    toxicokinetic = c("P_up", "AperBM", "Kbm", "P_Temp", "MolWeight"))
+  
+  # list is same length as p_order
+  o1 <- order_parameter_groups(parameter_groups, p_order)
+  expect_equal(names(o1), p_order)
+
+  # list is shorter than p_order
+  o2 <- order_parameter_groups(parameter_groups[1:2], p_order)
+  expect_equal(names(o2), c("toxicodynamic", "physiological"))
+  
 })

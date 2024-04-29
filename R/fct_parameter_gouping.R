@@ -22,9 +22,11 @@ group_parameters <- function(p, model_){
   stopifnot(length(model_) == 1)
   p_groups <- cvasiUI::parameter_descriptions %>% 
     dplyr::filter(model == model_, parameter %in% p) %>% 
-    dplyr::select(parameter, group) 
+    dplyr::select(parameter, group)
   
-  out <- split(p_groups[,"parameter"], p_groups[,"group"])
+  out <- split(p_groups[,"parameter"], p_groups[,"group"]) %>% 
+    order_parameter_groups(c("toxicodynamic", "toxicokinetic", "physiological"))
+    
   
   return(out)
 }
@@ -74,4 +76,30 @@ group_title_with_icon <- function(group_title){
          "toxicodynamic" = span(icon("bolt"),"toxicodynamic"),
          group_title
          )
+}
+
+#' Order parameter groups
+#'
+#' @param x a list with grouped parameter names; result from `group_parameters`
+#' @param group_order a character vector indicating the order of parameter groups
+#'
+#' @return `x` ordered by `group_order`
+#' @examples
+#' \dontrun{
+#' parameter_groups <- list(
+#' physiological = c("k_phot_fix", "k_phot_max", "k_resp", 
+#'    "k_loss", "Tmin", "Tmax", "Topt", "t_ref", "Q10", "k_0", "a_k", 
+#'    "C_P", "CP50", "a_P", "KiP", "C_N", "CN50", "a_N", "KiN", "BM50", 
+#'    "mass_per_frond", "BMw2BMd"), 
+#'toxicodynamic = c("Emax", "EC50", "b"), 
+#'toxicokinetic = c("P_up", "AperBM", "Kbm", "P_Temp", "MolWeight"))
+#'
+#' parameter_groups
+#' order_parameter_groups(parameter_groups, c("toxicodynamic", "toxicokinetic", "physiological"))
+#' }
+order_parameter_groups <- function(x, group_order){
+  x_names <- names(x)
+  
+  x[order(match(x_names, group_order))]
+  
 }
