@@ -97,7 +97,7 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
           if (length(parameter_names_expert)>0){
             expert_collapse_panel <- shinyBS::bsCollapse(
               id = paste0(p_group,"_expert"),
-              shinyBS::bsCollapsePanel(title = "expert", input_fields_expert)
+              shinyBS::bsCollapsePanel(title = "show expert parameters", input_fields_expert)
             )
           } else {
             expert_collapse_panel <- NULL

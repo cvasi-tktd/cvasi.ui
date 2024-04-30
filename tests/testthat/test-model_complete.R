@@ -36,7 +36,6 @@ test_that("validate model initial value defaults available", {
 
 test_that("validate model forcing defaults available", {
   o <- lapply(setNames(cvasiUI::model_choices, cvasiUI::model_choices), function(x){
-    browser()
     i_expected <- cvasiUI::model_defaults[[x]][["forcing_defaults"]] %>% names
     i_ <- x %>% 
       construct_model() %>% 

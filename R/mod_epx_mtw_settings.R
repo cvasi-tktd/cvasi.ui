@@ -13,7 +13,7 @@ mod_epx_mtw_settings_ui <- function(id){
     tags$div(
       numericInput(inputId = ns("level"),
                    label = tooltip_text(
-                     "Effect level",
+                     "% Effect level",
                      tooltip = "The level \"x\" at which the effect is evaluated."
                      ), 
                    value = 50) %>% set_lang(),

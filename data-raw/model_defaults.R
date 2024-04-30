@@ -1,7 +1,13 @@
 ## code to prepare `model_defaults` dataset goes here
 
 # Model choices ----
-model_choices <- list("Lemna_Schmitt", "Lemna_SETAC", "Myrio", "Myrio_log", "Algae_Weber", "Algae_Simple")
+model_choices <- list(`Lemna (Schmitt)` = "Lemna_Schmitt", 
+                      `Lemna (SETAC)` = "Lemna_SETAC", 
+                      `Myriophyllum (exponential)` = "Myrio", 
+                      `Myriophyllum (log)` = "Myrio_log", 
+                      `Algae (Weber)` = "Algae_Weber",
+                      `Algae (simplified)` = "Algae_Simple")
+
 usethis::use_data(model_choices, overwrite = TRUE)
 
 # Model names, scenario/class names and constructor function names lookup table

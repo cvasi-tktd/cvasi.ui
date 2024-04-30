@@ -11,59 +11,60 @@ mod_prediction_workflow_ui <- function(id){
   ns <- NS(id)
   
   tagList(
+    #actionButton(ns("debug"), "debug"),
     box(title = span(icon("sliders"), "Model input"), width = 12, status = "primary",
         
         box(title = span(icon("crosshairs"), "Model selection"),        
             status = "primary",
             width = 12,
             div(id = ns("active_model_wrapper"),
-            fluidRow(
-              column(6,
-                     
+                fluidRow(
+                  column(6,
+                         
                          selectInput(ns("active_model"), 
                                      label = "Choose a model",
                                      choices = cvasiUI::model_choices)
-                     ),
-              column(6,
-              wellPanel(
-                textOutput(ns("model_description"))
-              ))))
+                  ),
+                  column(6,
+                         wellPanel(
+                           textOutput(ns("model_description"))
+                         ))))
         ),
         div( id = ns("parameters_wrapper"), 
              class = "large_hilite",
              dashboardbox_left(title = span(icon("cogs"),"Parameters"),
-                 status = "primary",
-                 width = 12,
-                 collapsed = TRUE, 
-                 collapsible = TRUE,
-                 mod_parameter_input_ui(ns("para_input"))
+                               status = "primary",
+                               width = 12,
+                               collapsed = TRUE, 
+                               collapsible = TRUE,
+                               mod_parameter_input_ui(ns("para_input"))
              )),
         div( id = ns("init_wrapper"), 
              class = "large_hilite",
              dashboardbox_left(title = span(icon("flag"), "Initial values"), 
-                 status = "primary",
-                 width = 12,
-                 collapsed = TRUE, 
-                 collapsible = TRUE,
-                 mod_init_input_ui(ns("init_input"))
+                               status = "primary",
+                               width = 12,
+                               collapsed = TRUE, 
+                               collapsible = TRUE,
+                               mod_init_input_ui(ns("init_input"))
              )),
         div(id = ns("forcings_wrapper"), 
             class = "large_hilite",
-            dashboardbox_left(title = span(icon("thermometer-full"),"Forcings"),
-                status = "primary",
-                width = 12,
-                collapsed = TRUE, 
-                collapsible = TRUE,
-                mod_forcings_input_ui(ns("forcings_input"))
+            dashboardbox_left(title = span(icon("thermometer-full"), "External drivers"),
+                              status = "primary",
+                              width = 12,
+                              collapsed = TRUE, 
+                              collapsible = TRUE,
+                              mod_forcings_input_ui(ns("forcings_input"))
             )),
         div(id = ns("exposure_wrapper"), 
             class = "large_hilite",
             dashboardbox_left(title = div(id = ns("exposure_box_title"), span(icon("shower"), "Exposure")),
-                status = "primary",
-                width = 12,
-                collapsed = TRUE, 
-                collapsible = TRUE,
-                mod_exposure_input_ui(ns("exposure_input"))
+                              status = "primary",
+                              width = 12,
+                              collapsed = TRUE, 
+                              collapsible = TRUE,
+                              mod_exposure_input_ui(ns("exposure_input"))
             )),
         div( id = ns("check_wrapper"), 
              class = "large_hilite",
@@ -76,11 +77,11 @@ mod_prediction_workflow_ui <- function(id){
              ))
     ),
     dashboardbox_left(title = div(id = ns("output_box_title"),span(icon("calculator"), "Model output")),
-        status = "primary",
-        width = 12, 
-        collapsed = TRUE, 
-        collapsible = TRUE,
-        mod_prediction_ui(ns("prediction"))
+                      status = "primary",
+                      width = 12, 
+                      collapsed = TRUE, 
+                      collapsible = TRUE,
+                      mod_prediction_ui(ns("prediction"))
     )
   )
 }
@@ -91,6 +92,8 @@ mod_prediction_workflow_ui <- function(id){
 mod_prediction_workflow_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
+    
+    observeEvent(input[["debug"]], browser())
     
     # reactiveVal(ues) definitions ----
     all_model_dat <- reactiveValues()
@@ -119,7 +122,7 @@ mod_prediction_workflow_server <- function(id){
     }, ignoreNULL = TRUE)
     
     
-
+    
     # Active model change ----------------------------------------------------
     observeEvent(input[["active_model"]],{
       
@@ -132,8 +135,8 @@ mod_prediction_workflow_server <- function(id){
                             f_name = input[["active_model"]],
                             tag = "\\description")
                #cvasiUI::model_descriptions[[]]
-               )
-        })
+        )
+      })
       
       ## Set selected model -------------------------------------------------
       selected_model(
@@ -158,15 +161,15 @@ mod_prediction_workflow_server <- function(id){
     ## check parameters ----
     output[["complete_params"]] <- renderUI({
       create_valuebox(value = check_model_complete(selected_model()),
-                subtitle = "Parameters",
-                width = 3)
+                      subtitle = "Parameters",
+                      width = 3)
     })
     
     ## check init values ----
     output[["complete_init"]] <- renderUI({
       create_valuebox(value = check_model_complete(selected_model(), type = "init"),
-                subtitle = "Initial values",
-                width = 3)
+                      subtitle = "Initial values",
+                      width = 3)
     })
     
     ## check forcings values ----
@@ -174,8 +177,8 @@ mod_prediction_workflow_server <- function(id){
       if (forcings_required(selected_model())){
         create_valuebox(value = check_forcings_complete(
           expected_forcings = get_required(selected_model(), "forcings"),
-          forcings = rvtl(forcings_time_series)[[selected_model() 
-                                                 %>% class() %>% 
+          forcings = rvtl(forcings_time_series)[[selected_model() %>% 
+                                                   class() %>% 
                                                    lookup_name()]]
         ),
         subtitle = "Forcings",
@@ -188,8 +191,8 @@ mod_prediction_workflow_server <- function(id){
     ## check exposure ----
     output[["complete_exposure"]] <- renderUI({
       create_valuebox(value = check_exposure_complete(exposure_time_series()),
-                subtitle = "Exposure",
-                width = 3)
+                      subtitle = "Exposure",
+                      width = 3)
     })
     
     
@@ -198,23 +201,23 @@ mod_prediction_workflow_server <- function(id){
     
     # Init module server ----
     mod_init_input_server("init_input", selected_model)
-
+    
     # Forcing input module server ----
     mod_forcings_input_server("forcings_input", selected_model, forcings_time_series)
     
     # Exposure input module server ----
     mod_exposure_input_server("exposure_input", selected_model, exposure_time_series)
-
+    
     # Prediction module server ----
     mod_prediction_server("prediction", selected_model, exposure_time_series, forcings_time_series)
     
-
+    
   })
 }
 
 
 ## To be copied in the UI
 # mod_prediction_workflow_ui("prediction_workflow_1")
-    
+
 ## To be copied in the server
 # mod_prediction_workflow_server("prediction_workflow_1")

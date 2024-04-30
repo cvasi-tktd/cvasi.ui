@@ -140,7 +140,7 @@ test_that("check_exposure_complete", {
 
 test_that("lookup_name works", {
 
-  o <- do.call(c, lapply(model_choices, function(x){
+  o <- do.call(c, lapply(unname(model_choices), function(x){
     m <- x %>% 
       construct_model() %>% 
       class()
