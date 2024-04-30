@@ -134,8 +134,7 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
     ### Set constant values --------------------------------------
     observeEvent(input[["set_const_forcings"]], {
       req( length(req_f()) > 0 )
-      print(input[["set_const_forcings"]])
-      
+
       input_f_vals <- lapply(setNames(req_f(), req_f()), function(f_name) {
         out <- data.frame(0, input[[f_name]])
         colnames(out) <- c("t", "value")
@@ -223,7 +222,6 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
     
     ### Check change of values and show in GUI ---------------------------------
     var_f_diff <- reactive({
-      #req(local_forcings_ts())
       forcings_ts <- rvtl(forcings_time_series)[[selected_model() 
                                                  %>% class() %>% 
                                                    lookup_name()]]
@@ -237,7 +235,6 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
     })
     
     observeEvent(list(var_f_diff(), input[["set_var_forcings"]]), {
-      print("changed")
       shinyjs::toggleCssClass(id = "set_var_forcings",
                               class = "input-change",
                               condition = var_f_diff())
