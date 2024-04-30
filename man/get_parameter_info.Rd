@@ -7,9 +7,9 @@
 get_parameter_info(model_, parameter_, type_)
 }
 \arguments{
-\item{model_}{the model as defined in cvasiUI::parameter_descriptions}
+\item{model_}{the model as defined in cvasi.ui::parameter_descriptions}
 
-\item{parameter_}{the parameter as defined in cvasiUI::parameter_descriptions}
+\item{parameter_}{the parameter as defined in cvasi.ui::parameter_descriptions}
 
 \item{type_}{one of "description", "unit", "group", "expert.value", "default"}
 }

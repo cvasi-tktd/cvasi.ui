@@ -47,7 +47,7 @@ mod_exposuretable_input_server <- function(id, modeldat, exposure_time_series){
     output[["exposure_table"]] <- rhandsontable::renderRHandsontable({
       n_decimals <- 7
       rhandsontable::rhandsontable(
-        cvasiUI::default_exposure,
+        cvasi.ui::default_exposure,
         height=600
       ) %>%
         rhandsontable::hot_col("conc",

@@ -51,12 +51,12 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
           local_forcings_ts(forcings_ts)
           forcings_ts
         }else {
-          o <- cvasiUI::model_defaults[[selected_model()%>% get_model_name()]][["forcing_defaults"]]
+          o <- cvasi.ui::model_defaults[[selected_model()%>% get_model_name()]][["forcing_defaults"]]
           local_forcings_ts(o)
           o
         }
       } else {
-        o <- cvasiUI::model_defaults[[selected_model()%>% get_model_name()]][["forcing_defaults"]]
+        o <- cvasi.ui::model_defaults[[selected_model()%>% get_model_name()]][["forcing_defaults"]]
         local_forcings_ts(o)
         o
       }

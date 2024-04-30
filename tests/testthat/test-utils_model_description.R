@@ -33,7 +33,7 @@ test_that("read_roxygen works", {
     ))
   
   
-  model_titles <- lapply(setNames(cvasiUI::model_choices,cvasiUI::model_choices), function(x){
+  model_titles <- lapply(setNames(cvasi.ui::model_choices,cvasi.ui::model_choices), function(x){
     read_roxygen(package = "cvasi",
                  f_name = x,
                  tag = "\\title")

@@ -25,7 +25,7 @@ devtools::check()
 ## sent to CRAN, or to a package manager
 devtools::build()
 #undebug(normalizePath)
-remotes::install_local("../cvasiUI_0.0.0.9000.tar.gz")
+remotes::install_local("../cvasi.ui_0.0.0.9000.tar.gz")
 
 ## RStudio ----
 ## If you want to deploy on RStudio related platforms

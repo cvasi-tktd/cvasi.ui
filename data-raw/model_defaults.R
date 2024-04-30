@@ -11,10 +11,10 @@ model_choices <- list(`Lemna (Schmitt)` = "Lemna_Schmitt",
 usethis::use_data(model_choices, overwrite = TRUE)
 
 # Model names, scenario/class names and constructor function names lookup table
-all_model_dat <- lapply(setNames(cvasiUI::model_choices,cvasiUI::model_choices),
+all_model_dat <- lapply(setNames(cvasi.ui::model_choices,cvasi.ui::model_choices),
                         function(x){
                           x %>%
-                            cvasiUI:::construct_model()
+                            cvasi.ui:::construct_model()
                         })
 
 

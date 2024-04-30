@@ -18,16 +18,13 @@
 ## install.packages('attachment') # if needed.
 attachment::att_amend_desc()
 usethis::use_package("cvasi")
-#usethis::use_dev_package("neofm", remote = "local::neofm_0.1.0.tar.gz")
 
 # during dev use
 #desc::desc_add_remotes("local::../cvasi")
 #desc::desc_clear_remotes() # clears all remotes links
 #desc::desc_get_remotes()
 
-# when efm backend package is open on github use:
-#desc::desc_del_remotes("local::../cvasi")
-desc::desc_add_remotes("github::Bayer-Group/cvasi")
+desc::desc_add_remotes("github::cvasi-tktd/cvasi")
 
 
 
@@ -83,7 +80,7 @@ usethis::use_data_raw(name = "model_defaults", open = TRUE)
 # Documentation
 
 ## Vignette ----
-#usethis::use_vignette("efmui")
+#usethis::use_vignette("cvasi.ui")
 #devtools::build_vignettes()
 
 ## Code Coverage----

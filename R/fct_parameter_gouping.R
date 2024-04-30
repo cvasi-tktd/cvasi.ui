@@ -4,9 +4,9 @@
 #' @param p a character vector listing the parameter names
 #' @param model_ the model for which the parameters should be grouped
 #'
-#' @return a list with parameters seperated into groups as specified by cvasiUI::parameter_descriptions
+#' @return a list with parameters seperated into groups as specified by cvasi.ui::parameter_descriptions
 #'
-#' @seealso [cvasiUI::parameter_descriptions]
+#' @seealso [cvasi.ui::parameter_descriptions]
 #' @examples
 #' \dontrun{
 #' group_parameters(p = c("k_phot_fix", "k_phot_max", "k_resp", "k_loss", "Tmin", "Tmax", 
@@ -20,7 +20,7 @@ group_parameters <- function(p, model_){
   stopifnot(is.character(p))
   stopifnot(is.character(model_))
   stopifnot(length(model_) == 1)
-  p_groups <- cvasiUI::parameter_descriptions %>% 
+  p_groups <- cvasi.ui::parameter_descriptions %>% 
     dplyr::filter(model == model_, parameter %in% p) %>% 
     dplyr::select(parameter, group)
   
@@ -36,9 +36,9 @@ group_parameters <- function(p, model_){
 #' @param p a character vector listing the parameter names
 #' @param model_  the model for which the parameters should be grouped into expert and non-expert
 #'
-#' @return  a list with parameters seperated into expert and non-expert groups as specified by cvasiUI::parameter_descriptions
+#' @return  a list with parameters seperated into expert and non-expert groups as specified by cvasi.ui::parameter_descriptions
 #'
-#' @seealso [cvasiUI::parameter_descriptions]
+#' @seealso [cvasi.ui::parameter_descriptions]
 #' @examples
 #' \dontrun{
 #' expert_parameters(p = c("k_phot_fix", "k_phot_max", "k_resp", "k_loss", "Tmin", "Tmax", 
@@ -52,7 +52,7 @@ expert_parameters <- function(p, model_){
   stopifnot(is.character(p))
   stopifnot(is.character(model_))
   stopifnot(length(model_) == 1)
-  p_expert <- cvasiUI::parameter_descriptions %>% 
+  p_expert <- cvasi.ui::parameter_descriptions %>% 
     dplyr::filter(model == model_, parameter %in% p) %>% 
     dplyr::select(parameter, expert.value) 
   

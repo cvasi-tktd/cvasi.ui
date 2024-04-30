@@ -16,7 +16,7 @@ test_that("check_forcings_ts works", {
 
 test_that("import_forcings works", {
   
-  filepath <- system.file("extdata/forcings.csv", package = "cvasiUI")
+  filepath <- system.file("extdata/forcings.csv", package = "cvasi.ui")
   forc <- import_forcings(filepath)
   
   expect_equal(class(forc), "list")
@@ -31,7 +31,7 @@ test_that("import_forcings works", {
   
   # expect error if imported data is wrong format
   filepath2 <- system.file("extdata/parameter_descriptions.csv",
-                           package = "cvasiUI")
+                           package = "cvasi.ui")
   expect_error(import_forcings(filepath2))
 })
 

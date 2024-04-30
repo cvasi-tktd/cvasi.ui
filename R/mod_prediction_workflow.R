@@ -23,7 +23,7 @@ mod_prediction_workflow_ui <- function(id){
                          
                          selectInput(ns("active_model"), 
                                      label = "Choose a model",
-                                     choices = cvasiUI::model_choices)
+                                     choices = cvasi.ui::model_choices)
                   ),
                   column(6,
                          wellPanel(
@@ -98,17 +98,17 @@ mod_prediction_workflow_server <- function(id){
     # reactiveVal(ues) definitions ----
     all_model_dat <- reactiveValues()
     selected_model <- reactiveVal()
-    exposure_time_series <- reactiveVal(cvasiUI::default_exposure)
-    forcings_time_series <- do.call(reactiveValues, lapply(cvasiUI::model_defaults, function(x) x[["forcing_defaults"]]))
+    exposure_time_series <- reactiveVal(cvasi.ui::default_exposure)
+    forcings_time_series <- do.call(reactiveValues, lapply(cvasi.ui::model_defaults, function(x) x[["forcing_defaults"]]))
     
     # pre-construct all models ----
     # commment: it is not necessary to pre-construct all models. 
     #  Rather only construct the model if selected
-    lapply(cvasiUI::model_choices, function(x){
+    lapply(cvasi.ui::model_choices, function(x){
       all_model_dat[[x]] <- x %>%
         construct_model() %>% 
-        cvasi::set_param(do.call(c, cvasiUI::model_defaults[[x]][["parameter_defaults"]])) %>% 
-        cvasi::set_init(do.call(c, cvasiUI::model_defaults[[x]][["init_defaults"]]))
+        cvasi::set_param(do.call(c, cvasi.ui::model_defaults[[x]][["parameter_defaults"]])) %>% 
+        cvasi::set_init(do.call(c, cvasi.ui::model_defaults[[x]][["init_defaults"]]))
     })
     
     
@@ -127,17 +127,17 @@ mod_prediction_workflow_server <- function(id){
     observeEvent(input[["active_model"]],{
       
       shinyjs::html("model_description", {
-        #paste0("<b>",input[["active_model"]],"</b><br>",cvasiUI::model_descriptions[[input[["active_model"]]]])
+        #paste0("<b>",input[["active_model"]],"</b><br>",cvasi.ui::model_descriptions[[input[["active_model"]]]])
         paste0("<b>",
                input[["active_model"]],
                "</b><br>",
                read_roxygen(package = "cvasi",
                             f_name = input[["active_model"]],
                             tag = "\\description")
-               #cvasiUI::model_descriptions[[]]
+               #cvasi.ui::model_descriptions[[]]
         )
       })
-      
+
       ## Set selected model -------------------------------------------------
       selected_model(
         all_model_dat[[input[["active_model"]]]]

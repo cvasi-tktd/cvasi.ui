@@ -1,17 +1,20 @@
-Package: cvasiUI
-Title: Shiny GUI for cvasi
-Version: 0.0.0.9000
-Authors@R: person('Torben', 'Wittwer', email = 'Torben.Wittwer@rifcon.de', role = c('cre', 'aut'))
-Description: Package provides a shiny GUI for the cvasi package
-               "Calibration, Validation, and Simulation of TKTD models in R".
+Package: cvasi.ui
+Title: Shiny GUI to ease the use of the cvasi package
+Version: 1.0.0
+Authors@R: c(
+    person('Torben', 'Wittwer', email='Torben.Wittwer@rifcon.de', role = c('aut')),
+    person('Nils', 'Kehrein', email='nils.kehrein@gmail.com', role = c('cre'))
+  )
+Description: Provides a Shiny GUI for the 'Calibration, Validation, and Simulation
+  of TKTD models in R' (cvasi) package.
 License: GPL (>= 3)
 Depends: 
     R (>= 2.10)
-Imports: 
+Imports:
+    cvasi,
     cicerone,
     commonmark,
     config (>= 0.3.2),
-    cvasi,
     digest,
     dplyr,
     DT,
@@ -35,6 +38,6 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
 LazyData: true
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Remotes: 
-    github::Bayer-Group/cvasi
+    github::cvasi-tktd/cvasi

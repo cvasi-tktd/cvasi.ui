@@ -12,8 +12,8 @@ app_ui <- function(request) {
   # Your application UI logic
   shinydashboard::dashboardPage(
     #skin = "green",
-    title = "cvasiUI",
-    shinydashboard::dashboardHeader(title = "cvasi - Calibration, Validation, and Simulation of TKTD models in R",
+    title = "cvasi.ui",
+    shinydashboard::dashboardHeader(title = "cvasi.ui - Calibration, Validation, and Simulation of TKTD models in R",
                                     titleWidth = "75%",
                                     tags$li(class = "dropdown",
                                             actionLink("guide", "Tutorial"),
@@ -68,7 +68,7 @@ golem_add_external_resources <- function() {
     favicon(),
     bundle_resources(
       path = app_sys("app/www"),
-      app_title = "cvasiUI"
+      app_title = "cvasi.ui"
     ),
     tags$script(src = "https://cdn.jsdelivr.net/npm/d3-format@3"),
     # Add here other external resources

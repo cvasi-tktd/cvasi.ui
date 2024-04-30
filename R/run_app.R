@@ -1,4 +1,4 @@
-#' Run the Shiny Application
+#' Run the cvasi Shiny application
 #'
 #' @param ... arguments to pass to golem_opts.
 #' See `?golem::get_golem_options` for more details.
@@ -7,7 +7,7 @@
 #' @export
 #' @importFrom shiny shinyApp
 #' @importFrom golem with_golem_options
-run_app <- function(
+run_cvasi <- function(
   onStart = NULL,
   options = list(),
   enableBookmarking = NULL,
