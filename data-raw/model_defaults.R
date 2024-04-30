@@ -1,7 +1,7 @@
 ## code to prepare `model_defaults` dataset goes here
 
 # Model choices ----
-model_choices <- list("Lemna_Schmitt", "Myrio", "Myrio_log", "Algae_Weber")
+model_choices <- list("Lemna_Schmitt", "Lemna_SETAC", "Myrio", "Myrio_log", "Algae_Weber", "Algae_Simple")
 usethis::use_data(model_choices, overwrite = TRUE)
 
 # Model names, scenario/class names and constructor function names lookup table
@@ -152,6 +152,13 @@ parameter_defaults <- list(
                      EC_50=115,
                      b=1.268,
                      k=0.2),
+  Algae_Simple = list(mu_max=1.738,
+                      EC_50=115,
+                      b=1.268,
+                      kD=0.1,
+                      dose_response=0,
+                      scaled=0,
+                      const_growth=0),
   DEB_abj = list(p_M = NA, v = NA, k_J = NA,
                  p_Am = NA, kap = NA, E_G = NA,
                  f = NA, E_Hj = NA, E_Hp = NA, 
@@ -165,7 +172,9 @@ init_defaults <- list(
   Lemna_Schmitt = list(BM = 0.0012, E = 1, M_int = 0),
   Myrio = list(BM = 0, M_int = 0),
   Myrio_log = list(BM = 0, M_int = 0),
-  Algae_Weber = list(A = 1, Q = 0.01, P = 0.18, C = 0)
+  Algae_Weber = list(A = 1, Q = 0.01, P = 0.18, C = 0),
+  Lemna_SETAC = list(BM = 0.0012, M_int = 0),
+  Algae_Simple = list(A = 1, Dw = 0)
 )
 
 # Default forcings ----
@@ -184,6 +193,9 @@ forcing_defaults <- list(
     irr = structure(list(t = 0, value = 15000), class = "data.frame", row.names = c(NA,-1L)),
     P = structure(list(t = 0, value = 0.3), class = "data.frame", row.names = c(NA,-1L)), 
     N = structure(list(t = 0, value = 0.6), class = "data.frame", row.names = c(NA,-1L))
+  ),
+  Algae_Simple = list(    
+    f_growth = structure(list(t = 0, value = 1), class = "data.frame", row.names = c(NA,-1L))
   )
 )
 
@@ -206,6 +218,16 @@ model_defaults <- list(
     init_defaults = init_defaults[["Algae_Weber"]],
     parameter_defaults = parameter_defaults[["Algae_Weber"]],
     forcing_defaults = forcing_defaults[["Algae_Weber"]]
+  ),
+  Lemna_SETAC = list(
+    init_defaults = init_defaults[["Lemna_SETAC"]],
+    parameter_defaults = parameter_defaults[["Lemna_SETAC"]],
+    forcing_defaults = forcing_defaults[["Lemna_SETAC"]]
+  ),
+  Algae_Simple = list(    
+    init_defaults = init_defaults[["Algae_Simple"]],
+    parameter_defaults = parameter_defaults[["Algae_Simple"]],
+    forcing_defaults = forcing_defaults[["Algae_Simple"]]
   )
 )
 
