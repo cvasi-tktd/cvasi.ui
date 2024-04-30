@@ -1,29 +1,31 @@
 test_that("group_parameters works", {
   
+  expected_group_names <- c("toxicodynamic", "toxicokinetic", "physiological")
   p <- cvasi::Lemna_Schmitt() %>% 
     cvasiUI:::get_required("param")
   m <- "Lemna_Schmitt"
   o <- group_parameters(p = p,
                         model_ = m)
-  expect_equal(names(o), c("physiological", "toxicodynamic", "toxicokinetic"))
+  expect_equal(names(o), expected_group_names)
   
   
   expect_error(group_parameters(p = 1:3, model_ = m))
   expect_error(group_parameters(p = p, model_ = c("Lemna_Schmitt", "Myriophyllum")))
   
+
   p <- cvasi::Myrio() %>% 
     cvasiUI:::get_required("param")
   m <- "Myriophyllum"
   o <- group_parameters(p = p,
                         model_ = m)
-  expect_equal(names(o), c("physiological", "toxicodynamic", "toxicokinetic"))
+  expect_equal(names(o), expected_group_names)
   
   p <- cvasi::Algae_Weber() %>% 
     cvasiUI:::get_required("param")
   m <- "Algae_Weber"
   o <- group_parameters(p = p,
                         model_ = m)
-  expect_equal(names(o), c("physiological", "toxicodynamic", "toxicokinetic"))
+  expect_equal(names(o), expected_group_names)
   
   lapply(setNames(model_choices, model_choices), function(m){
     x <- cvasiUI:::construct_model(m)
@@ -32,7 +34,7 @@ test_that("group_parameters works", {
     m <- cvasi::get_model_name(x)
     o <- group_parameters(p = p,
                           model_ = m)
-    expect_equal(names(o), c("physiological", "toxicodynamic", "toxicokinetic"))
+    expect_equal(names(o), expected_group_names)
   })
   
 })
