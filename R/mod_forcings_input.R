@@ -82,7 +82,7 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
       req_forcings <- isolate(req_f())
       req( length(req_forcings) > 0 )
       tagList(
-        actionButton(ns("set_const_forcings"), "Assign values"),
+        
         do.call(tagList,
                 lapply(req_forcings, function(f_name) {
                   f_id <- ns(f_name)
@@ -92,7 +92,8 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
                   ) %>% set_lang()
                 }
                 )
-        )
+        ),
+        actionButton(ns("set_const_forcings"), "Assign values")
       )
     })
     
@@ -138,6 +139,7 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
         colnames(out) <- c("t", "value")
         out
       })
+
       forcings_time_series[[selected_model() 
                             %>% class() %>% 
                               lookup_name()]] <- input_f_vals

@@ -11,9 +11,9 @@ mod_parameter_input_ui <- function(id){
   ns <- NS(id)
   
   tagList(
-        actionButton(ns("assign"), "Assign values"),
-        uiOutput(ns("changed_text")),
         mod_input_fields_ui(ns("parameter_input_fields")),
+        actionButton(ns("assign"), "Assign values"),
+        uiOutput(ns("changed_text"))
         )
 }
     
