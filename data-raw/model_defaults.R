@@ -3,8 +3,8 @@
 # Model choices ----
 model_choices <- list(`Lemna (Schmitt)` = "Lemna_Schmitt", 
                       `Lemna (SETAC)` = "Lemna_SETAC", 
-                      `Myriophyllum (exponential)` = "Myrio", 
-                      `Myriophyllum (log)` = "Myrio_log", 
+                      `Generic macrophyte model (exponential)` = "Myrio", 
+                      `Generic macrophyte model (logistic)` = "Myrio_log", 
                       `Algae (Weber)` = "Algae_Weber",
                       `Algae (simplified)` = "Algae_Simple")
 
