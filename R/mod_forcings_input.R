@@ -48,16 +48,13 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
                                                    lookup_name()]]
       if (length(forcings_ts) > 0){
         if (all(req_f() %in% names(forcings_ts))){
-          local_forcings_ts(forcings_ts)
           forcings_ts
         }else {
           o <- cvasi.ui::model_defaults[[selected_model()%>% get_model_name()]][["forcing_defaults"]]
-          local_forcings_ts(o)
           o
         }
       } else {
         o <- cvasi.ui::model_defaults[[selected_model()%>% get_model_name()]][["forcing_defaults"]]
-        local_forcings_ts(o)
         o
       }
     })
@@ -140,7 +137,6 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
         colnames(out) <- c("t", "value")
         out
       })
-      local_forcings_ts(input_f_vals)
       forcings_time_series[[selected_model() 
                             %>% class() %>% 
                               lookup_name()]] <- input_f_vals
