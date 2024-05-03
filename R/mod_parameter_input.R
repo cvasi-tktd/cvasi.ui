@@ -19,6 +19,7 @@ mod_parameter_input_ui <- function(id){
     
 #' model_input Server Functions
 #'
+#' @global .
 #' @noRd 
 mod_parameter_input_server <- function(id, selected_model){
   moduleServer( id, function(input, output, session){

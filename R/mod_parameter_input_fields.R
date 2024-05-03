@@ -18,6 +18,8 @@ mod_input_fields_ui <- function(id){
     
 #' parameter_input_fields Server Functions
 #'
+#' @global .
+#' @importFrom methods slot
 #' @noRd 
 mod_input_fields_server <- function(id, modeldat, type = "param"){
   moduleServer( id, function(input, output, session){

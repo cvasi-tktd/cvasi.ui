@@ -24,14 +24,17 @@ Imports:
     magrittr,
     purrr,
     rhandsontable,
-    rlang,
     shiny (>= 1.7.5),
     shinyBS,
     shinybusy,
     shinydashboard,
     shinyjs,
-    tools
+    tools,
+    lemna,
+    rlang,
+    methods
 Suggests: 
+    roxyglobals,
     spelling,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
@@ -41,3 +44,5 @@ LazyData: true
 RoxygenNote: 7.3.1
 Remotes: 
     github::cvasi-tktd/cvasi
+Roxygen: list(roclets = c("collate", "namespace", "rd",
+    "roxyglobals::global_roclet"))

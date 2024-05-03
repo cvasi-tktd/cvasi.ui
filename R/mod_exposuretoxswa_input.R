@@ -31,6 +31,7 @@ mod_exposuretoxswa_input_ui <- function(id){
     
 #' exposurefile_input Server Functions
 #'
+#' @global time conc
 #' @noRd 
 mod_exposuretoxswa_input_server <- function(id, exposure_time_series){
   moduleServer( id, function(input, output, session){
@@ -47,7 +48,7 @@ mod_exposuretoxswa_input_server <- function(id, exposure_time_series){
       fileNames <- input[["importExpProfiles"]]$name %>% tools::file_path_sans_ext()
       if (length(filesToImport)){
         shinybusy::show_modal_spinner(text = "loading Toxswa profile")
-        expProfilesImported <- cvasi:::import_toxswa(filesToImport, fileNames)
+        expProfilesImported <- import_toxswa(filesToImport, fileNames)
         shinybusy::remove_modal_spinner()
         if(length(expProfilesImported)){
           file_content(expProfilesImported[[1]])

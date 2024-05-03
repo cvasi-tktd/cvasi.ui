@@ -15,14 +15,14 @@ import_forcings <- function(filepath,
                             forcing_col = "forcing", 
                             value_col = "value"){
   if(!file.exists(filepath)) stop("File does not exist!")
-  f_dat <- read.table(file = filepath, sep = sep, header = TRUE)
+  f_dat <- utils::read.table(file = filepath, sep = sep, header = TRUE)
   
   if(!(time_col %in% colnames(f_dat))) stop(paste0("Column ",time_col, " does not exist."))
   if(!(forcing_col %in% colnames(f_dat))) stop(paste0("Column ",forcing_col, " does not exist."))
   if(!(value_col %in% colnames(f_dat))) stop(paste0("Column ",value_col, " does not exist."))
   
   f_dat_list <- split(f_dat, f_dat[,forcing_col])
-  f_dat_list <- lapply(f_dat_list, function(x) x %>% dplyr::select(!all_of(forcing_col)) )
+  f_dat_list <- lapply(f_dat_list, function(x) x %>% dplyr::select(!dplyr::all_of(forcing_col)) )
   f_dat_list
 }
 

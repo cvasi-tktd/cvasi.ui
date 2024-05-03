@@ -7,6 +7,8 @@
 #' @param ... passed to `purrr::list_rbind`
 #'
 #' @return a data.frame that is merged from the data.frames of the list 
+#' @importFrom rlang `:=`
+#' @importFrom stats setNames
 #' 
 #' @examples
 #' \dontrun{

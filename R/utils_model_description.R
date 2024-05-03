@@ -36,11 +36,22 @@ read_roxygen <- function(package, f_name, tag, print_tags_only = FALSE){
   lazyLoad(f, envir = e)
   help_txt <- get(f_name, envir = e)
   
-  tags <- tools:::RdTags(help_txt)
+  tags <- RdTags(help_txt)
   if (print_tags_only) return(tags)
   stopifnot(!missing(tag))
   flag_tags <- which(tags == tag)
   extr_text <- unlist(help_txt[flag_tags])
   
   toHTML(extr_text)
+}
+
+#' RdTags
+#' local implementation of tools:::RdTags
+#' @noRd
+RdTags <- function (Rd)
+{
+  res <- lapply(Rd, attr, "Rd_tag")
+  if (length(res))
+    simplify2array(res, FALSE)
+  else character()
 }

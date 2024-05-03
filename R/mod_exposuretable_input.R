@@ -29,6 +29,7 @@ mod_exposuretable_input_ui <- function(id){
 
 #' exposure_input Server Functions
 #'
+#' @global time conc
 #' @noRd 
 mod_exposuretable_input_server <- function(id, modeldat, exposure_time_series){
   moduleServer( id, function(input, output, session){

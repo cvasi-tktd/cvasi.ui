@@ -7,6 +7,7 @@
 #' @return a list with parameters seperated into groups as specified by cvasi.ui::parameter_descriptions
 #'
 #' @seealso [cvasi.ui::parameter_descriptions]
+#' @global group parameter
 #' @examples
 #' \dontrun{
 #' group_parameters(p = c("k_phot_fix", "k_phot_max", "k_resp", "k_loss", "Tmin", "Tmax", 
@@ -39,6 +40,7 @@ group_parameters <- function(p, model_){
 #' @return  a list with parameters seperated into expert and non-expert groups as specified by cvasi.ui::parameter_descriptions
 #'
 #' @seealso [cvasi.ui::parameter_descriptions]
+#' @global model parameter expert.value
 #' @examples
 #' \dontrun{
 #' expert_parameters(p = c("k_phot_fix", "k_phot_max", "k_resp", "k_loss", "Tmin", "Tmax", 

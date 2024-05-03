@@ -29,6 +29,8 @@ mod_prediction_ui <- function(id){
 
 #' prediction Server Functions
 #'
+#' @global time conc
+#' @importFrom grDevices axisTicks
 #' @noRd 
 mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_time_series){
   moduleServer( id, function(input, output, session){
@@ -118,7 +120,7 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
           }
 
           sim_result[["epx_mtw"]] <- model_input %>% 
-            cvasi:::epx_mtw(level = epx_mtw_settings()[["level"]],#10, 
+            epx_mtw(level = epx_mtw_settings()[["level"]],#10, 
                     factor_cutoff = epx_mtw_settings()[["factor_cutoff"]],#1000,
                     window_length = epx_mtw_settings()[["window_length"]],#7, 
                     window_interval = epx_mtw_settings()[["window_interval"]]#1)

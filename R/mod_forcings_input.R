@@ -23,6 +23,7 @@ mod_forcings_input_ui <- function(id){
     
 #' forcings_input Server Functions
 #'
+#' @global time value
 #' @noRd 
 mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
   moduleServer( id, function(input, output, session){

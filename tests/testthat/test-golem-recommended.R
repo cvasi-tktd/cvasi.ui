@@ -40,16 +40,6 @@ test_that(
   }
 )
 
-# Configure this test to fit your need
-test_that(
-  "app launches",
-  {
-    golem::expect_running(sleep = 5)
-  }
-)
-
-
-
 test_that("app ui", {
   ui <- app_ui()
   #golem::expect_shinytaglist(ui)
@@ -78,4 +68,11 @@ testServer(app_server, {
   # expect_equal(output$txt, "Text")
 })
 
-
+testthat::skip("golem::expect_running works only if the shiny app is started with 'run_app()'")
+# Configure this test to fit your need
+test_that(
+  "app launches",
+  {
+    golem::expect_running(sleep = 5)
+  }
+)

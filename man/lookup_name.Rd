@@ -4,7 +4,12 @@
 \alias{lookup_name}
 \title{Lookup model/scenario/contructor name}
 \usage{
-lookup_name(x, lookup_table = model_lookup, from = "scenario", to = "model_f")
+lookup_name(
+  x,
+  lookup_table = cvasi.ui::model_lookup,
+  from = "scenario",
+  to = "model_f"
+)
 }
 \arguments{
 \item{x}{the string to lookup}

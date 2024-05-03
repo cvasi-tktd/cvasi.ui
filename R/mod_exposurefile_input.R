@@ -31,6 +31,7 @@ mod_exposurefile_input_ui <- function(id){
     
 #' exposurefile_input Server Functions
 #'
+#' @global time conc
 #' @noRd 
 mod_exposurefile_input_server <- function(id, exposure_time_series){
   moduleServer( id, function(input, output, session){
@@ -46,7 +47,7 @@ mod_exposurefile_input_server <- function(id, exposure_time_series){
       filesToImport <- input[["importExpProfiles"]]$datapath
       fileNames <- input[["importExpProfiles"]]$name %>% tools::file_path_sans_ext()
       if (length(filesToImport)){
-        expProfilesImported <- cvasi:::import_exposure_text(filesToImport, fileNames)
+        expProfilesImported <- import_exposure_text(filesToImport, fileNames)
         if(length(expProfilesImported)){
           file_content(expProfilesImported[[1]])
         } else {
