@@ -28,7 +28,7 @@ mod_epx_mtw_settings_ui <- function(id){
                      "Window length",
                      tooltip = "The length of each moving time window for which the EPx is calculated."
                      ), 
-                   value = 21) %>% set_lang(),
+                   value = 7) %>% set_lang(),
       numericInput(inputId = ns("window_interval"), 
                    label = tooltip_text(
                      "Window interval",

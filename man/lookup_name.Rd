@@ -29,7 +29,7 @@ Lookup model/scenario/contructor name
 \examples{
 \dontrun{
 "LemnaSchmittScenario" \%>\% 
-  lookup_name(model_lookup,
+  lookup_name(cvasi.ui::model_lookup,
             from = "scenario",
             to = "model_f")
 }

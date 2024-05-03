@@ -67,13 +67,13 @@ Lemna_Schmitt;E;Effect;-;state variable;no;-;0;Inf;need to take a closer look, p
 Lemna_Schmitt;M_int;Internal toxicant mass;µg;state variable;no;-;0;1.00E+06;
 Algae_Simple;A;biomass;mg;state variable;no;1;0;Inf;
 Algae_Simple;Dw;Scaled damage concentration (used if scaled = 1);µg/L;state variable;no;0;0;Inf;
-Algae_Simple;mu_max;Maximum growth rate at optimum environmental conditions ;mg/d;physiological;no;1;0;4;
-Algae_Simple;EC_50;Effect concentration of 50% inhibition of growth rate;µg/L;toxicodynamic;no;-;0;Inf;
+Algae_Simple;mu_max;Maximum growth rate at optimum environmental conditions ;1/d;physiological;no;1;0;4;
+Algae_Simple;EC_50;Internal effect concentration of 50% inhibition of growth rate;µg/L;toxicodynamic;no;-;0;Inf;
 Algae_Simple;b;Slope of concentration effect curve at EC_50;-;toxicodynamic;no;-;0.1;20;
-Algae_Simple;kD;dominant rate constant;µg/d;toxicokinetic;no;-;0;100;set to 100 in a first attempt to avoid unnecessary restrictions. A lower value might be required to avoid errors due to numerical issues of the solver.
+Algae_Simple;kD;dominant rate constant;1/d;toxicokinetic;no;-;0;100;set to 100 in a first attempt to avoid unnecessary restrictions. A lower value might be required to avoid errors due to numerical issues of the solver.
 Algae_Simple;dose_response;0 = logit 1 = probit;-;toxicodynamic;no;0;0;1;integer
 Algae_Simple;scaled;0 = no scaled damage concentration 1 = yes;-;toxicokinetic;no;0;0;1;integer
-Algae_Simple;const_growth;FALSE/0 = no constant growth over time, TRUE/1 = constant growth over time;logical;physiological;no;0;0;1; 
+Algae_Simple;const_growth;0: no constant growth over time, 1: constant growth over time;logical;physiological;no;0;0;1; 
 Lemna_SETAC;BM;Biomass;g dw/m²;state variable;no;0.0012;0;1000;
 Lemna_SETAC;M_int;Mass of toxicant in plant population;µg/m²;state variable;no;0;0;1.00E+06;
 Lemna_SETAC;k_photo_fixed;Model switch for unlimited growth conditions (TRUE/FALSE);logical;physiological;yes;TRUE;only 0 and 1 are allowed.;;Agree, it makes sense to set this to TRUE ( = Tier 2C)
