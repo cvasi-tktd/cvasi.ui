@@ -176,8 +176,8 @@ parameter_defaults <- list(
 # Default inits ----
 init_defaults <- list(
   Lemna_Schmitt = list(BM = 0.0012, E = 1, M_int = 0),
-  Myrio = list(BM = 0, M_int = 0),
-  Myrio_log = list(BM = 0, M_int = 0),
+  Myrio = list(BM = 1, M_int = 0),
+  Myrio_log = list(BM = 1, M_int = 0),
   Algae_Weber = list(A = 1, Q = 0.01, P = 0.18, C = 0),
   Lemna_SETAC = list(BM = 0.0012, M_int = 0),
   Algae_Simple = list(A = 1, Dw = 0)
