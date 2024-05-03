@@ -203,12 +203,12 @@ check_forcings_complete <- function(expected_forcings, forcings){
 #' @examples
 #' \dontrun{
 #' "LemnaSchmittScenario" %>% 
-#'   lookup_name(model_lookup,
+#'   lookup_name(cvasi.ui::model_lookup,
 #'             from = "scenario",
 #'             to = "model_f")
 #'}
 lookup_name <- function(x, 
-                        lookup_table = model_lookup,
+                        lookup_table = cvasi.ui::model_lookup,
                         from = "scenario", 
                         to = "model_f"){
   stopifnot(from %in% colnames(lookup_table))
