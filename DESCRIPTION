@@ -3,6 +3,10 @@ Title: Shiny GUI to ease the use of the cvasi package
 Version: 1.0.0
 Authors@R: c(
     person('Torben', 'Wittwer', email='Torben.Wittwer@rifcon.de', role = c('aut')),
+    person("Dirk", "Nickisch", role="ctb"),
+    person("Johannes", "Witt", role="ctb"),
+    person("Peter", "Vermeiren", role="ctb"),
+    person("Cynthia", "Munoz", role="ctb"),
     person('Nils', 'Kehrein', email='nils.kehrein@gmail.com', role = c('cre'))
   )
 Description: Provides a Shiny GUI for the 'Calibration, Validation, and Simulation

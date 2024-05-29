@@ -61,4 +61,11 @@ before submitting a Pull Request.
 ## Acknowledgements
 
 Financial support for creation and release of this software project was
-provided by Bayer Crop Science.
+provided by Bayer Crop Science. Thanks to all persons who contributed to
+testing the tool and for their valuable feedback (in no particular
+order):
+
+Alexander Singer, Dietmar Warnecke, Gisela Wiedemann, Silke Laucht, Jens
+Schabacker, Petra Moosmayer, Thomas Martin and Daniel Stengel at Rifcon.
+As well as Jutta Hager, Thomas Preuss, David Heckmann, John Herrmann,
+and Dominic Englert at Bayer Crop Science.
