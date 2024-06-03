@@ -124,7 +124,7 @@ check_model_complete <- function(x,
   
   # names complete?
   if (length(names(val))>0){
-    names_complete <- all(names(val) %in% all_req)  
+    names_complete <- all(all_req %in% names(val))  
   } else {
     names_complete <- FALSE
   }
