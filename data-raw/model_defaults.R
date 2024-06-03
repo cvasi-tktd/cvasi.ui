@@ -38,7 +38,7 @@ model_inputs <- lapply(setNames(model_choices,model_choices), function(m){
 })
 
 # Default exposure ----
-default_exposure <- structure(list(time = 0:21, 
+default_exposure <- structure(list(time = as.numeric(0:21), 
                                    conc = c(0.0446, 0.0182, 0.007, 0.0563, 
                                             0.1079, 0.047, 0.0193, 0.061, 
                                             0.0555, 0.163, 0.1277, 0.1587, 
