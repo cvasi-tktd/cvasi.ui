@@ -124,7 +124,11 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
                     factor_cutoff = epx_mtw_settings()[["factor_cutoff"]],#1000,
                     window_length = epx_mtw_settings()[["window_length"]],#7, 
                     window_interval = epx_mtw_settings()[["window_interval"]]#1)
-            )
+            ) %>% 
+            dplyr::mutate(endpoint = dplyr::case_when(
+              endpoint %in% c("BM","A") ~ "biomass",
+              endpoint %in% c("r") ~ "growth rate",
+            ))
           
           
         },
@@ -177,7 +181,8 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
                 usr = range(isolate(exposure_time_series())[,"time"]),
                 log = FALSE, 
                 axp = NULL,
-                nint = 5)
+                nint = 5),
+              y_title = "biomass"
       ) + 
         ggplot2::theme(axis.text = ggplot2::element_text(size = 13),
                        axis.title = ggplot2::element_text(size = 14),
@@ -198,8 +203,10 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
     output[["epx_mtw_plot"]] <- renderPlot({
       req(length(sim_result[["epx_mtw"]]) > 0)
       exposure <- isolate(exposure_time_series()[,c("time","conc")])
-      plot_epx(EPx_ts = sim_result[["epx_mtw"]],
-               exposure_ts = exposure)
+      
+      sim_result[["epx_mtw"]] %>% 
+      plot_epx(exposure_ts = exposure)
+      
     })
     
     epx_mtw_summary <- reactive({
