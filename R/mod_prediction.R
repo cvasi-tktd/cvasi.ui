@@ -184,10 +184,10 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
                        strip.text = ggplot2::element_text(size = 14)
         ) +
         ggplot2::scale_color_manual(name = "",
-                                    labels = "Prediction",
+                                    labels = "predicted biomass",
                                     values="black") +
         ggplot2::scale_fill_manual(name = "",
-                                   labels = "Concentration",
+                                   labels = "exposure pattern",
                                    values="black") +
         ggplot2::theme(legend.position = "right",
                        # legend.spacing.y = ggplot2::unit(-1.2, "cm"),
