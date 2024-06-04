@@ -205,7 +205,7 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
       exposure <- isolate(exposure_time_series()[,c("time","conc")])
       
       sim_result[["epx_mtw"]] %>% 
-      plot_epx(exposure_ts = exposure)
+      plot_epx(exposure_ts = exposure, conc_y_title = "env. concentration [µg/L]")
       
     })
     
