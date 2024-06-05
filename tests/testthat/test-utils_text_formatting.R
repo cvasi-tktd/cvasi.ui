@@ -1,3 +1,11 @@
+test_that("field_label works", {
+  expect_equal(field_label("name", "µg/L"), "name [µg/L]")
+  expect_equal(field_label("name", NA), "name")
+  expect_equal(field_label("name", "logical"), "name [-]")
+  expect_equal(field_label("name", ""), "name")
+})
+
+
 test_that("tooltip_text works", {
   t1 <- "Tmin"
   t2 <- "The tooltip text that appears when the mouse hovers over `mytext`"

@@ -1,4 +1,18 @@
-
+#' Generate label for input fields with unit
+#'
+#' @param name the parameter/initial value name
+#' @param unit the unit of the parameter/initial value
+#'
+#' @return a string of the parameter/initial value name and its unit
+field_label <- function(name, unit){
+  unit_out <- dplyr::case_when(unit == "logical" ~ "[-]",
+                               is.na(unit) ~ "",
+                               unit == "" ~ "",
+                               .default = paste0("[",unit,"]")
+  )
+  
+  trimws(paste0(name, " ", unit_out))
+}
 
 #' create an div container with title
 #'

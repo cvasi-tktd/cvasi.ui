@@ -15,7 +15,7 @@ mod_input_fields_ui <- function(id){
     
   )
 }
-    
+
 #' parameter_input_fields Server Functions
 #'
 #' @global .
@@ -35,7 +35,7 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
     observeEvent(modeldat(),{
       parameter_names <- modeldat() %>% 
         get_required(type = type)
-
+      
       
       lapply(parameter_names,
              function(parname_i){
@@ -49,8 +49,13 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
                    model_ = cvasi::get_model_name(modeldat()), 
                    parameter_ = parname_i, 
                    type_ = "unit"))
-               
-               field_label <- tooltip_text(mytext = parname_i, 
+
+               field_label_txt <- field_label(name = parname_i, 
+                                              unit = get_parameter_info(
+                                                model_ = cvasi::get_model_name(modeldat()), 
+                                                parameter_ = parname_i, 
+                                                type_ = "unit"))
+               field_label <- tooltip_text(mytext = field_label_txt, 
                                            tooltip = tooltip)
                field_return <- mod_auto_input_field_server(
                  id = parname_i, 
@@ -69,7 +74,7 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
     output[["all_fields"]] <- renderUI({
       parameter_names <- modeldat() %>% 
         get_required(type = type)
-
+      
       if (type == "param"){
         parameter_names_by_group <- group_parameters(parameter_names, model_ = get_model_name(modeldat()))
         
@@ -78,7 +83,7 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
           parameter_names_expert <- expert_parameters(parameter_names_by_group[[p_group]],
                                                       model_ = get_model_name(modeldat()))[["yes"]]
           parameter_names_nonexpert <- expert_parameters(parameter_names_by_group[[p_group]],
-                                                      model_ = get_model_name(modeldat()))[["no"]]
+                                                         model_ = get_model_name(modeldat()))[["no"]]
           
           
           input_fields_nonexpert <- tags$div(
@@ -104,7 +109,7 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
           } else {
             expert_collapse_panel <- NULL
           }
- 
+          
           
           panel_content <- tagList(
             input_fields_nonexpert,
@@ -112,12 +117,12 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
           )
           
           dashboardbox_left(title = group_title_with_icon(p_group), 
-              panel_content, 
-              collapsed = FALSE, 
-              collapsible = TRUE)
+                            panel_content, 
+                            collapsed = FALSE, 
+                            collapsible = TRUE)
         })
         
-
+        
         fluidRow(do.call(tagList, collapse_panel_list))
         
         
@@ -134,14 +139,14 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
       }
       
     })
-
+    
     return(input_field_vals)
     
   })
 }
-    
+
 ## To be copied in the UI
 # mod_input_fields_ui("parameter_input_fields_1")
-    
+
 ## To be copied in the server
 # mod_input_fields_server("parameter_input_fields_1")
