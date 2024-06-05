@@ -49,7 +49,15 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
                    model_ = cvasi::get_model_name(modeldat()), 
                    parameter_ = parname_i, 
                    type_ = "unit"))
-
+               
+               datatype <- ifelse(
+                 get_parameter_info(
+                   model_ = cvasi::get_model_name(modeldat()), 
+                   parameter_ = parname_i, 
+                   type_ = "unit") == "logical",
+                 "logical", 
+                 "numerical")
+               
                field_label_txt <- field_label(name = parname_i, 
                                               unit = get_parameter_info(
                                                 model_ = cvasi::get_model_name(modeldat()), 
@@ -57,13 +65,14 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
                                                 type_ = "unit"))
                field_label <- tooltip_text(mytext = field_label_txt, 
                                            tooltip = tooltip)
+               
                field_return <- mod_auto_input_field_server(
                  id = parname_i, 
                  label = field_label,
                  value = modeldat() %>% 
                    slot(type) %>% 
                    .[[parname_i]],
-                 datatype = "numerical"
+                 datatype = datatype
                )
                input_field_vals[[parname_i]] <- field_return
              })

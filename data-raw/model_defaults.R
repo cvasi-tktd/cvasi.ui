@@ -71,7 +71,7 @@ parameter_defaults <- list(
                        Kbm = 1.0, # Klein et al. 2021: 1.0; Metsulfuron example of Schmitt et al 2013: 0.75
                        P_Temp = FALSE, 
                        MolWeight = 381, 
-                       k_phot_fix = FALSE, 
+                       k_phot_fix = TRUE, 
                        k_phot_max = 0.42, # Klein et al. 2021: 0.42; Metsulfuron example of Schmitt et al 2013: 0.47
                        k_resp = 0.0, # Klein et al. 2021: 0; Metsulfuron example of Schmitt et al 2013: 0.05
                        k_loss = 0, 
