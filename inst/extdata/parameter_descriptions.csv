@@ -13,7 +13,7 @@ Algae_Weber;T_max;Maximum temperature for growth;°C;physiological;no;-;10;50;
 Algae_Weber;I_opt;Optimum light intensity for growth;µE/m²/s;physiological;no;-;20;300;
 Algae_Weber;EC_50;Effect concentration of 50% inhibition of growth rate;µg/L, mg/L;toxicodynamic;no;-;0;Inf;
 Algae_Weber;b;Slope of concentration effect curve at EC_50;-;toxicodynamic;no;-;0.1;20;
-Algae_Weber;k;Degradation rate of toxicant in aquatic environments;1/d;toxicokinetic;no;-;0;100;
+Algae_Weber;k;Degradation rate of toxicant in aquatic environments;1/d;degradation;no;-;0;100;
 Algae_Weber;A;Biomass;µg fresh wt;state variable;no;-;0;?;"TKTD opinion: mg fwt / L; Weber: cells / mL * 10^4 (or µg fwt / L). I would tend to go for cells / mL * 10^4, as this is more commonly used."
 Algae_Weber;Q;Mass of phosphorous internal;mg P/µg fresh wt;state variable;no;-;0;1.00E-03;units differ between TKTD opinion and Weber publication. Weber uses µg P / µg fwt 
 Algae_Weber;P;Mass of phosphorous external;mg P/µg fresh wt;state variable;no;-;0;50;units differ between TKTD opinion and Weber publication. Weber uses µg P / µg fwt 

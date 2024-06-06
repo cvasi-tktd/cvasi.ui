@@ -1,6 +1,7 @@
 test_that("group_parameters works", {
   
   expected_group_names <- c("toxicodynamic", "toxicokinetic", "physiological")
+  expected_group_names_weber <- c("toxicodynamic", "physiological", "degradation")
   p <- cvasi::Lemna_Schmitt() %>% 
     cvasi.ui:::get_required("param")
   m <- "Lemna_Schmitt"
@@ -25,16 +26,22 @@ test_that("group_parameters works", {
   m <- "Algae_Weber"
   o <- group_parameters(p = p,
                         model_ = m)
-  expect_equal(names(o), expected_group_names)
-  
+  expect_equal(names(o), expected_group_names_weber)
+
   lapply(setNames(model_choices, model_choices), function(m){
     x <- cvasi.ui:::construct_model(m)
-    p <- x %>% 
+    p <- x %>%
       cvasi.ui:::get_required("param")
     m <- cvasi::get_model_name(x)
     o <- group_parameters(p = p,
                           model_ = m)
-    expect_equal(names(o), expected_group_names)
+
+    if(cvasi::get_model_name(x) == "Algae_Weber"){
+      expected_group_names_ <- expected_group_names_weber
+    }else{
+      expected_group_names_ <- expected_group_names
+    }
+    expect_equal(names(o), expected_group_names_)
   })
   
 })

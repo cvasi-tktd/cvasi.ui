@@ -72,10 +72,11 @@ expert_parameters <- function(p, model_){
 group_title_with_icon <- function(group_title){
   stopifnot(is.character(group_title))
   stopifnot(length(group_title) == 1)
-  switch(group_title,
+  switch(group_title, # icon() argument as defined e.g. https://fontawesome.com/v5
          "physiological" = span(icon("heartbeat"), "physiological"),
          "toxicokinetic" = span(icon("exchange"), "toxicokinetic"),
          "toxicodynamic" = span(icon("bolt"),"toxicodynamic"),
+         "degradation"= span(icon("cookie-bite"),"degradation"),# altern. 'braille'
          group_title
          )
 }
