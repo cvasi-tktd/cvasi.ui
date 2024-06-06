@@ -23,7 +23,10 @@ mod_auto_input_field_server <- function(id,
                                         value,
                                         datatype = NA,
                                         selected = NA,
-                                        choices = NA
+                                        choices = NA,
+                                        info_button = FALSE,
+                                        info_tooltip = FALSE,
+                                        info_txt = NA
                                         ){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
@@ -32,7 +35,21 @@ mod_auto_input_field_server <- function(id,
       browser()
     }, ignoreNULL = TRUE)
     
-    # input field depending on the datatype ----
+    label_ <- label # store the original label text without info button or tooltip
+    # Add info to label ----
+    ## Add info as button ----
+    info_button_id <- paste0("info_",id)
+    if (info_button & !is.na(info_txt)){
+      label <- add_info_icon(label,
+                             button_id = ns(info_button_id))
+    }
+    ## Add info as tooltip ----
+    if (info_tooltip & !is.na(info_txt)){
+      label <- tooltip_text(mytext = label, 
+                                  tooltip = info_txt)
+    }
+    
+    # Input field depending on the datatype ----
     output[["inputField"]] <- renderUI({
       tags$div(
         tagList(
@@ -76,6 +93,25 @@ mod_auto_input_field_server <- function(id,
     }) # end of renderUI
     
     
+    # Observe info button for modal help ----
+    observeEvent(input[[info_button_id]],{
+      ns <- session$ns
+      
+      showModal(modalDialog(title = NULL,
+                                  HTML(
+                                    paste0(
+                                      tags$h3(label_),
+                                      "<br>",
+                                      info_txt
+                                    )
+                                  ),
+                                  footer=tagList(NULL),
+                                  easyClose=TRUE)
+      )
+    }, ignoreInit = TRUE)
+    
+    
+    # Return value ----
     return(reactive(input[[id]]))
     
     

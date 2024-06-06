@@ -41,3 +41,32 @@ tooltip_text <- function(mytext, tooltip){
   
   return(HTML(out))
 }
+
+#' Add info-icon to text
+#'
+#' @param mytext the main text after which the info button will appear
+#' @param button_id the id of info button that can be referenced by e.g. observeEvent
+#' 
+#' @return html object
+#' @examples
+#' \dontrun{
+#' mytext <- "Parameters"
+#' infoButtonId <- "boxinfo"
+#' add_info_icon(mytext, infoButtonId)
+#' }
+add_info_icon <- function(mytext, button_id){
+  
+  id <- sub("^(.*-).*$","\\1",button_id)
+  out <- htmltools::HTML(
+    mytext,
+    as.character(
+      actionLink(inputId = button_id,
+                 label = "",
+                 icon = icon("info-circle"),
+                 class = "info-circle-link")
+    )
+  )
+  
+  
+  return(out)
+}

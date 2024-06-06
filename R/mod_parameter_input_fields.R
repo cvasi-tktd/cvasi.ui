@@ -40,7 +40,7 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
       lapply(parameter_names,
              function(parname_i){
                
-               tooltip <- paste0(get_parameter_info(
+               info_txt <- paste0(get_parameter_info(
                  model_ = cvasi::get_model_name(modeldat()), 
                  parameter_ = parname_i, 
                  type_ = "description"),
@@ -63,16 +63,17 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
                                                 model_ = cvasi::get_model_name(modeldat()), 
                                                 parameter_ = parname_i, 
                                                 type_ = "unit"))
-               field_label <- tooltip_text(mytext = field_label_txt, 
-                                           tooltip = tooltip)
-               
+
                field_return <- mod_auto_input_field_server(
                  id = parname_i, 
-                 label = field_label,
+                 label = field_label_txt,
                  value = modeldat() %>% 
                    slot(type) %>% 
                    .[[parname_i]],
-                 datatype = datatype
+                 datatype = datatype,
+                 info_button = TRUE,
+                 info_tooltip = TRUE,
+                 info_txt = info_txt
                )
                input_field_vals[[parname_i]] <- field_return
              })

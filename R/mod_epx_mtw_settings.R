@@ -10,36 +10,10 @@
 mod_epx_mtw_settings_ui <- function(id){
   ns <- NS(id)
   tagList(
-    tags$div(
-      numericInput(inputId = ns("level"),
-                   label = tooltip_text(
-                     "% Effect level",
-                     tooltip = "The level \"x\" at which the effect is evaluated."
-                     ), 
-                   value = 50) %>% set_lang(),
-      numericInput(inputId = ns("factor_cutoff"), 
-                   label = tooltip_text(
-                     "Cutoff value",
-                     tooltip = "The value above which the EPx is not evaluated exactly."
-                     ), 
-                   value = 1000) %>% set_lang(),
-      numericInput(inputId = ns("window_length"), 
-                   label = tooltip_text(
-                     "Window length",
-                     tooltip = "The length of each moving time window for which the EPx is calculated."
-                     ), 
-                   value = 7) %>% set_lang(),
-      numericInput(inputId = ns("window_interval"), 
-                   label = tooltip_text(
-                     "Window interval",
-                     tooltip = "The time interval a window moves each step."
-                     ), 
-                   value = 1) %>% set_lang(),
-      class = "inputfields_flexbox"
-    )
+    uiOutput(ns("input_fields"))
   )
 }
-    
+
 #' epx_mtw_settings Server Functions
 #'
 #' @noRd 
@@ -50,6 +24,45 @@ mod_epx_mtw_settings_server <- function(id){
     observeEvent(input[["debug"]], browser())
     
     
+    info_txt <- list(level = list(id = "level", 
+                                  title = "% Effect level", 
+                                  desc = "The level \"x\" at which the effect is evaluated.",
+                                  value = 50),
+                     factor_cutoff = list(id = "factor_cutoff", 
+                                          title = "Cutoff value", 
+                                          desc = "The value above which the EPx is not evaluated exactly.",
+                                          value = 1000),
+                     window_length = list(id = "window_length", 
+                                          title = "Window length", 
+                                          desc = "The length of each moving time window for which the EPx is calculated.",
+                                          value = 7),
+                     window_interval = list(id = "window_interval", 
+                                            title = "Window interval", 
+                                            desc = "The time interval a window moves each step.",
+                                            value = 1)
+    )
+    
+    # render input fields ----
+    output[["input_fields"]] <- renderUI({
+      tags$div(
+        do.call(tagList, 
+                lapply(info_txt, 
+                       function(x){
+                         numericInput(
+                           inputId = ns(x$id),
+                           label = tooltip_text(
+                             x$title,
+                             tooltip = x$desc
+                           ), 
+                           value = x$value) %>% set_lang()
+                       })),
+        class = "inputfields_flexbox"
+      )
+      
+    })
+    
+    
+    # return value ----
     epx_mtw_settings <- reactive({
       list(
         level = input[["level"]],
@@ -60,12 +73,12 @@ mod_epx_mtw_settings_server <- function(id){
     })
     
     return(epx_mtw_settings)
- 
+    
   })
 }
-    
+
 ## To be copied in the UI
 # mod_epx_mtw_settings_ui("epx_mtw_settings_1")
-    
+
 ## To be copied in the server
 # mod_epx_mtw_settings_server("epx_mtw_settings_1")
