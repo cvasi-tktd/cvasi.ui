@@ -11,10 +11,15 @@ mod_parameter_input_ui <- function(id){
   ns <- NS(id)
   
   tagList(
-        mod_input_fields_ui(ns("parameter_input_fields")),
-        actionButton(ns("assign"), "Assign values"),
-        uiOutput(ns("changed_text"))
-        )
+    shiny::fluidRow(
+      column(6,
+             shiny::textInput(ns("spec_name"), "Species")
+      )
+    ),
+    mod_input_fields_ui(ns("parameter_input_fields")),
+    actionButton(ns("assign"), "Assign values"),
+    uiOutput(ns("changed_text"))
+  )
 }
     
 #' model_input Server Functions
@@ -60,7 +65,8 @@ mod_parameter_input_server <- function(id, selected_model){
 
       selected_model(
         selected_model() %>%
-          set_param(pv)
+          set_param(pv) %>% 
+          set_tag(input$spec_name)
       )
         
     }, ignoreInit = TRUE)
