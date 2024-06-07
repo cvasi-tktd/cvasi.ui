@@ -23,8 +23,9 @@ mod_exposure_input_ui <- function(id){
       ),
       column(
         textOutput(ns("input_description")),
+        downloadLink(outputId = ns("download_expo_template"), label = "Download template"),
         width = 9 
-      )
+      ) 
     ),# end of fluidRow
     fluidRow(
       uiOutput(ns("input_mod"))
@@ -40,7 +41,7 @@ mod_exposure_input_server <- function(id, modeldat, exposure_time_series){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
-
+    
     observeEvent(input[["debug"]], {
       browser()
     }, ignoreNULL = TRUE)
@@ -61,13 +62,14 @@ mod_exposure_input_server <- function(id, modeldat, exposure_time_series){
     
     
     # explanation text for the chosen input source ------------------------------
+    shinyjs::hide("download_expo_template")
     observeEvent(input[["exposure_source"]],{
       if (input[["exposure_source"]] == "custom"){
         custom_file_help_text <- "The file should have at least two columns with
         the header 'time' and 'conc'. An optional third column with header 'trial'
         could be added, if several trials are used. The columns should be tab-separated." %>% 
-          div(class="well") %>% 
-          as.character()
+      div(class = "smaller_italic") %>% 
+      as.character()
       } else {
         custom_file_help_text <- ""
       }
@@ -76,24 +78,36 @@ mod_exposure_input_server <- function(id, modeldat, exposure_time_series){
         "input_description",
         html = custom_file_help_text
       )
+      
+      shinyjs::toggle("download_expo_template", 
+                      condition = input[["exposure_source"]] == "custom")
+      
     })
-    
-    
-    # Module servers -----------------------------------------------------------
-    ## Exposure table input module server --------------------------------------
-    mod_exposuretable_input_server("exposuretable_input", modeldat, exposure_time_series)
-    
-    ## Exposure file input module server ---------------------------------------
-    mod_exposurefile_input_server("exposurefile_input", exposure_time_series)
-    
-    ## Exposure toxswa input module server -------------------------------------
-    mod_exposuretoxswa_input_server("exposuretoxswa_input", exposure_time_series)
-
+  
+  output[["download_expo_template"]] <- downloadHandler(
+    filename = "exposure_template.txt",
+    content = function(file) {
+      message(file)
+      # Write the dataset to the `file` that will be downloaded
+      template_exposure(filepath = file, example_data = TRUE)
+    }
+  )
+  
+  # Module servers -----------------------------------------------------------
+  ## Exposure table input module server --------------------------------------
+  mod_exposuretable_input_server("exposuretable_input", modeldat, exposure_time_series)
+  
+  ## Exposure file input module server ---------------------------------------
+  mod_exposurefile_input_server("exposurefile_input", exposure_time_series)
+  
+  ## Exposure toxswa input module server -------------------------------------
+  mod_exposuretoxswa_input_server("exposuretoxswa_input", exposure_time_series)
+  
   })
 }
-    
+
 ## To be copied in the UI
 # mod_exposure_input_ui("exposure_input_1")
-    
+
 ## To be copied in the server
 # mod_exposure_input_server("exposure_input_1")

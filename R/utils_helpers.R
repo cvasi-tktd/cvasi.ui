@@ -52,3 +52,14 @@ is_named_list <- function(lst){
   stopifnot(class(lst) == "list")
   length(lst) == sum(names(lst) != "",na.rm = TRUE)
 }
+
+
+#' create an empty data.frame
+#'
+#' @param colnames the colnames of the returned data.frame
+empty_df <- function(colnames){
+  stopifnot(length(colnames) > 0)
+  ncol <- length(colnames)
+  data.frame(matrix(ncol = ncol, nrow = 0)) %>%
+    stats::setNames(colnames)
+}

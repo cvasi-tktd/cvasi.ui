@@ -34,3 +34,8 @@ div.wrapper {
 .info-circle-link:active, .info-circle-link:focus {
   color: #5B604F;
 }
+
+div.smaller_italic {
+  font-style: italic; 
+  font-size: 0.9em;
+}

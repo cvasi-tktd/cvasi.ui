@@ -170,9 +170,10 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
                tagList(
                  "The file should have three columns with the header 'time', 
                  'forcing' and 'value'. The columns should be semicolon-separated." %>% 
-                   div(class="well") %>% 
+                   div(class="smaller_italic") %>% 
                    as.character() %>% 
                    HTML(),
+                 downloadLink(outputId = ns("download_forc_template"), label = "Download template"),
                 plotOutput(ns("forcings_plot"))
                )
                )
@@ -201,6 +202,17 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
       })
       
     })
+    
+    #### Template actionlink ----
+    output[["download_forc_template"]] <- downloadHandler(
+      filename = "forcings_template.csv",
+      content = function(file) {
+        message(file)
+        # Write the dataset to the `file` that will be downloaded
+        forcings <- selected_model() %>% get_required("forcings")
+        template_forcings(filepath = file, forcings = forcings)
+      }
+    )
     
     ### Plot of loaded forcings timeseries -----------------------------------
     output[["forcings_plot"]] <- renderPlot({
