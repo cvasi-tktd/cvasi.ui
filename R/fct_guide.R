@@ -76,7 +76,8 @@ cicerone_textblocks <- function(){
       are hidden to allow focus on the parameters that are most commonly modified. 
       The 'expert' parameters can be made visible and edited.  
       You can retrieve further brief information for each parameter if you hover 
-      your mouse pointer over the parameter name.",
+      your mouse pointer over the parameter name.  
+      To accept changes use the 'Assign values' button.",
       position = "top"
     ),  
     list(
@@ -84,9 +85,9 @@ cicerone_textblocks <- function(){
       title = "Set init values",
       description = "Set initial values for state variables such as biomass
       at the beginning of a simulation.  
-      In this tutorial, make sure that the endpoint 'BM' is larger than 0. 
-      Set the value by clicking on the 'Assign values' button. Find out more 
-      about this initial value by hovering your mouse pointer over the title."
+      Set values by clicking on the 'Assign values' button. Find out more 
+      about this initial value by hovering your mouse pointer over the title or 
+      click on the **i**nformation icon."
     ),
     list(
       el = "prediction_workflow-forcings_wrapper",
@@ -134,10 +135,12 @@ cicerone_textblocks <- function(){
       el = "prediction_workflow-prediction-epx_fields_wrapper",
       title = "epx settings",
       description = "However, first, define the **settings for the EPx 
-      moving time window** procedure.  
-      If you have used an exposure profile which has values for 21 days, 
-      you should set the 'window length' to a value lower than 21 to get meaningful 
-      results."
+      moving time window** procedure. This procedure does the effect calculations
+      within the set window length while the window moves through the exposure 
+      time series in steps set by 'window interval'.  
+      Therefore, if you have used an exposure profile which has values for 21 days, 
+      you should set the 'window length' to a value lower than 21 to get more 
+      than one window and hence meaningful results."
     ),
     list(
       el = "prediction_workflow-prediction-predict",
