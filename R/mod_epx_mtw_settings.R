@@ -17,7 +17,7 @@ mod_epx_mtw_settings_ui <- function(id){
 #' epx_mtw_settings Server Functions
 #'
 #' @noRd 
-mod_epx_mtw_settings_server <- function(id){
+mod_epx_mtw_settings_server <- function(id, exposure_time_series){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
@@ -48,20 +48,37 @@ mod_epx_mtw_settings_server <- function(id){
         do.call(tagList, 
                 lapply(info_txt, 
                        function(x){
-                         numericInput(
-                           inputId = ns(x$id),
-                           label = tooltip_text(
-                             x$title,
-                             tooltip = x$desc
-                           ), 
-                           value = x$value) %>% set_lang()
+                         tagList(
+                           div(
+                             numericInput(
+                               inputId = ns(x$id),
+                               label = tooltip_text(
+                                 x$title,
+                                 tooltip = x$desc
+                               ), 
+                               value = x$value),
+                             if (x$id == "window_length"){
+                               tags$div(id = ns("win_length_warn"), 
+                                        class = "warnings",
+                                        "")
+                             }
+                           )
+                         )
                        })),
         class = "inputfields_flexbox"
       )
       
     })
     
-    
+    # Toggle warning if window length is longer than exposure time series ----
+    observeEvent(input[["window_length"]], {
+      if (max(exposure_time_series()$time) < input[["window_length"]]){
+        shinyjs::html("win_length_warn", "Time series exceeded.")
+      } else {
+        shinyjs::html("win_length_warn", "")
+      }
+    })
+
     # return value ----
     epx_mtw_settings <- reactive({
       list(

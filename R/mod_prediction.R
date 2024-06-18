@@ -166,7 +166,8 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
           NULL
         }
       })
-    epx_mtw_settings <- mod_epx_mtw_settings_server("epx_mtw_settings_1")
+    epx_mtw_settings <- mod_epx_mtw_settings_server("epx_mtw_settings_1", 
+                                                    exposure_time_series = exposure_time_series)
     
     # Render plots -------------------------------------------------------------
     ## Simulation results ------------------------------------------------------

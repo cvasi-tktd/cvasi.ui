@@ -39,3 +39,12 @@ div.smaller_italic {
   font-style: italic; 
   font-size: 0.9em;
 }
+
+div.warnings {
+  color: red; 
+  padding-top: 0px; 
+  vertical-align: top; 
+  margin-top: -15px; 
+  margin-bottom: 5px; 
+  font-size: x-small;
+}
