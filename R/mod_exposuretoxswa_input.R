@@ -23,6 +23,7 @@ mod_exposuretoxswa_input_ui <- function(id){
       width=72
     ),
     textOutput(ns("import_error")),
+    uiOutput(ns("substance_selection")),
     actionButton(ns("assign"), "Assign values"),
 
     plotOutput(ns("exposure_plot"))
@@ -42,6 +43,26 @@ mod_exposuretoxswa_input_server <- function(id, exposure_time_series){
     # Reactive values ----------------------------------------------------------
     file_content <- reactiveVal()
 
+    # Reactives ----------------------------------------------------------------
+    substance_choices <- reactive({
+      req(length(file_content()) > 0)
+      names(file_content())
+    })
+    
+    toxswa_units <- reactive({
+      req(length(input[["sub_name"]]))
+      
+      sub_name <- input[["sub_name"]]
+      out <- file_content()[[sub_name]] %>% 
+        attributes() %>% 
+        .$units
+      if( is.null(out)){
+        out <- c(time = NA, conc = NA)
+      }
+      return(out)
+    })
+    
+    
     # File import --------------------------------------------------------------
     observeEvent(input[["importExpProfiles"]], {
       filesToImport <- input[["importExpProfiles"]]$datapath
@@ -51,7 +72,7 @@ mod_exposuretoxswa_input_server <- function(id, exposure_time_series){
         expProfilesImported <- import_toxswa(filesToImport, fileNames)
         shinybusy::remove_modal_spinner()
         if(length(expProfilesImported)){
-          file_content(expProfilesImported[[1]])
+          file_content(expProfilesImported)
         } else {
           shinyjs::html("import_error", 
                         html = paste0("<div class = \"text-warning\">No file loaded.</div>"))
@@ -61,28 +82,47 @@ mod_exposuretoxswa_input_server <- function(id, exposure_time_series){
       }
     })
     
-    ## Plot of the imported file contents --------------------------------------
+    # substance selection ----
+    output[["substance_selection"]] <- renderUI({
+      req(length(substance_choices) > 0)
+      tagList(
+        shiny::selectInput(ns("sub_name"), "Select substance", 
+                         choices = substance_choices())
+      )
+    })
+    
+    # Plot of the imported file contents --------------------------------------
     output[["exposure_plot"]] <- renderPlot({
       req(length(file_content()) > 0)
+      req(input[["sub_name"]])
+      sub_name <- input[["sub_name"]]
       
-      ggplot2::ggplot(file_content()) + 
+      unit_conc <- toxswa_units()[["conc"]]
+      unit_time <- toxswa_units()[["time"]]
+      
+      ggplot2::ggplot(file_content()[[sub_name]]) +
         ggplot2::geom_area(ggplot2::aes(time,conc),
                            alpha = 0.75,
-                           position = "identity") + 
+                           position = "identity") +
+        ggplot2::xlab(paste0("Time [",unit_time,"]")) + 
+        ggplot2::ylab(paste0("Concentration [",unit_conc,"]")) +
         ggplot2::facet_wrap(trial ~ ., ncol = 2)
     })
     
     # Assign values button observer --------------------------------------------
     observeEvent(input[["assign"]], {
-      val <- file_content()
+      sub_name <- input[["sub_name"]]
+      val <- file_content()[[sub_name]]
       exposure_time_series(val)
     })
     
     # Check change of values and show in GUI ----------------------------------- 
     exp_vals_differ <- reactive({
       req(file_content())
-      if (all(dim(exposure_time_series()) == dim(file_content()))){
-        !all(exposure_time_series() == file_content())  
+      req(input[["sub_name"]])
+      sub_name <- input[["sub_name"]]
+      if (all(dim(exposure_time_series()) == dim(file_content()[[sub_name]]))){
+        !all(exposure_time_series() == file_content()[[sub_name]])  
       }else{
         TRUE
       }
