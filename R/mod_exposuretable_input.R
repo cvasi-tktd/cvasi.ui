@@ -35,23 +35,28 @@ mod_exposuretable_input_server <- function(id, modeldat, exposure_time_series){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
-
-    
-    
     observeEvent(input[["debug"]], {
       browser()
     }, ignoreNULL = TRUE)
     
-    
+    # constants ----------------------------------------------------------------
+    units_ <- c(time = "d",conc = "mg/l", trial = "-")
     
     # Render the exposure table ------------------------------------------------
     output[["exposure_table"]] <- rhandsontable::renderRHandsontable({
+      old_colnames <- cvasi.ui::default_exposure %>% 
+        colnames()
+      new_colnames <- cvasi.ui::default_exposure %>% 
+        colnames() %>% 
+        paste0(" [",units_,"]")
+      
       n_decimals <- 7
       rhandsontable::rhandsontable(
         cvasi.ui::default_exposure,
-        height=600
+        height=600,
+        colHeaders = new_colnames
       ) %>%
-        rhandsontable::hot_col("conc",
+        rhandsontable::hot_col(new_colnames[old_colnames == "conc"],
                                renderer =
                                'function(instance, td, row, col, prop, value, cellProperties) {
                                 Handsontable.renderers.NumericRenderer.apply(this, arguments);
@@ -69,7 +74,6 @@ mod_exposuretable_input_server <- function(id, modeldat, exposure_time_series){
     
     # Reactive expression for the table content --------------------------------
     exposure_table <- reactive({
-
       rhandsontable::hot_to_r(input[["exposure_table"]])
       })
 
@@ -77,31 +81,35 @@ mod_exposuretable_input_server <- function(id, modeldat, exposure_time_series){
     output[["exposure_plot"]] <- renderPlot({
       req(length(exposure_table()) > 0)
       
-      ggplot2::ggplot(exposure_table()) + 
-        ggplot2::geom_area(ggplot2::aes(time,conc), 
-                           alpha = 0.75,
-                           position = "identity") + 
-        ggplot2::facet_wrap(trial ~ ., ncol = 2)
+      unit_time <- units_[["time"]]
+      unit_conc <- units_[["conc"]]
       
+      ggplot2::ggplot(exposure_table()) +
+        ggplot2::geom_area(ggplot2::aes(time,conc),
+                           alpha = 0.75,
+                           position = "identity") +
+        ggplot2::xlab(paste0("Time [",unit_time,"]")) + 
+        ggplot2::ylab(paste0("Concentration [",unit_conc,"]")) +
+        ggplot2::facet_wrap(trial ~ ., ncol = 2)
+
     })
-    
-    # Check change of values and show in GUI ----------------------------------- 
+
+    # Check change of values and show in GUI -----------------------------------
     exp_vals_differ <- reactive({
       req(exposure_table())
       if (all(dim(exposure_time_series()) == dim(exposure_table()))){
-        !all(exposure_time_series() == exposure_table())  
+        !all(exposure_time_series() == exposure_table())
       }else{
         TRUE
       }
-      
     })
-    
+
     observeEvent(exp_vals_differ(), {
-      shinyjs::toggleCssClass(id = "assign", 
-                              class = "input-change", 
+      shinyjs::toggleCssClass(id = "assign",
+                              class = "input-change",
                               condition = exp_vals_differ())
     })
-    
+
     # Assign values button observer --------------------------------------------
     observeEvent(input[["assign"]], {
       val <- exposure_table()
