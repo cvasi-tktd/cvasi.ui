@@ -48,14 +48,13 @@ mod_epx_mtw_settings_server <- function(id, exposure_time_series, model_name = N
     # the reactive expression
     winlength_group <- reactiveVal() 
     observeEvent(model_name(), {
-      dplyr::case_when(model_name() %>% stringr::str_detect("^Algae_") ~ "Algae",
-                       model_name() %>% stringr::str_detect("^Lemna_") ~ "Lemna",
-                       model_name() %>% stringr::str_detect("^Myrio") ~ "Myrio",
+      dplyr::case_when(model_name() %>% grepl("^Algae_",.) ~ "Algae",
+                       model_name() %>% grepl("^Lemna_",.) ~ "Lemna",
+                       model_name() %>% grepl("^Myrio",.) ~ "Myrio",
                        .default = NA) %>% 
         winlength_group()
     })
     observeEvent(winlength_group(), {
-      print(winlength_group())
       winlength_new <- dplyr::case_when(winlength_group() == "Algae" ~ 3,
                                         winlength_group() == "Lemna" ~ 7,
                                         winlength_group() == "Myrio" ~ 14,
