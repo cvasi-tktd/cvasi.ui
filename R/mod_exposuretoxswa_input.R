@@ -65,6 +65,7 @@ mod_exposuretoxswa_input_server <- function(id, exposure_time_series){
     
     # File import --------------------------------------------------------------
     observeEvent(input[["importExpProfiles"]], {
+      shinyjs::html("import_error", html = "")
       filesToImport <- input[["importExpProfiles"]]$datapath
       fileNames <- input[["importExpProfiles"]]$name %>% tools::file_path_sans_ext()
       if (length(filesToImport)){
