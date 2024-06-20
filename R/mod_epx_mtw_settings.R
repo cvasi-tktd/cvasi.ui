@@ -17,7 +17,7 @@ mod_epx_mtw_settings_ui <- function(id){
 #' epx_mtw_settings Server Functions
 #'
 #' @noRd 
-mod_epx_mtw_settings_server <- function(id, exposure_time_series){
+mod_epx_mtw_settings_server <- function(id, exposure_time_series, model_name = NA){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
@@ -41,6 +41,30 @@ mod_epx_mtw_settings_server <- function(id, exposure_time_series){
                                             desc = "The time interval a window moves each step.",
                                             value = 1)
     )
+    
+    # vary window length default based on model group ----
+    # 3 for algae models, 7 for Lemna, 14 for Myriophyllum
+    # use reactiveVal here to observer only the change of the value and not of
+    # the reactive expression
+    winlength_group <- reactiveVal() 
+    observeEvent(model_name(), {
+      dplyr::case_when(model_name() %>% stringr::str_detect("^Algae_") ~ "Algae",
+                       model_name() %>% stringr::str_detect("^Lemna_") ~ "Lemna",
+                       model_name() %>% stringr::str_detect("^Myrio") ~ "Myrio",
+                       .default = NA) %>% 
+        winlength_group()
+    })
+    observeEvent(winlength_group(), {
+      print(winlength_group())
+      winlength_new <- dplyr::case_when(winlength_group() == "Algae" ~ 3,
+                                        winlength_group() == "Lemna" ~ 7,
+                                        winlength_group() == "Myrio" ~ 14,
+                                        .default = 7)
+      updateNumericInput(session = session, 
+                         inputId = "window_length",
+                         value = winlength_new
+      )
+    })
     
     # render input fields ----
     output[["input_fields"]] <- renderUI({

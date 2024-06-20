@@ -53,6 +53,10 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
       length(unique(exposure_time_series()[,"trial"]))
       })
     
+    model_name <- reactive({
+      modeldat() %>% 
+        cvasi::get_model_name()
+    })
     
     # observers ----------------------------------------------------------------
     observeEvent(modeldat(),{
@@ -167,7 +171,8 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
         }
       })
     epx_mtw_settings <- mod_epx_mtw_settings_server("epx_mtw_settings_1", 
-                                                    exposure_time_series = exposure_time_series)
+                                                    exposure_time_series = exposure_time_series,
+                                                    model_name = model_name)
     
     # Render plots -------------------------------------------------------------
     ## Simulation results ------------------------------------------------------
