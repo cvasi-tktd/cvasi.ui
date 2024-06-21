@@ -34,7 +34,6 @@ Imports:
     shinydashboard,
     shinyjs,
     tools,
-    lemna,
     rlang,
     methods
 Suggests: 
