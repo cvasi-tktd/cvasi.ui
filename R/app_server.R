@@ -9,6 +9,8 @@
 app_server <- function(input, output, session) {
   # Your application server logic
   options(shiny.maxRequestSize = 500*1024^2) 
+  Sys.setlocale("LC_ALL", "en_US.UTF-8")
+  
   mod_prediction_workflow_server("prediction_workflow")
   
   observeEvent(input[["guide"]],{
