@@ -89,6 +89,35 @@ forcings_required <- function(x){
 
 
 
+#' Check if all model parameters are within the ranges
+#'
+#' @param x the model scenario object
+#'
+#' @return TRUE/FALSE for all parameters within/outside
+pars_range <- function(x){
+  model_class <- x  %>% class()
+  model_name <- model_class %>% lookup_name(from = "scenario", to = "model_name")
+  model_f <- model_class %>% lookup_name(from = "scenario", to = "model_f")
+  
+  mod_def <- x@param#model_defaults[[model_f]]$parameter_defaults
+  do.call(rbind, lapply(names(mod_def), function(param_name){
+    val <- mod_def[[param_name]] %>% as.numeric()
+    lb <- suppressWarnings(
+      get_parameter_info(model_name, param_name, "lower.boundary") %>% as.numeric()
+    )
+    ub <- suppressWarnings(
+      get_parameter_info(model_name, param_name, "upper.boundary") %>% as.numeric()
+    )
+    is_in_range <- in_range(val, lb, ub)
+    data.frame(model = model_f,
+               param = param_name, 
+               value = val, 
+               lower = lb, 
+               upper = ub, 
+               in_range = is_in_range)
+  }))
+}
+
 #' Checks if the model parameters, forcings or initial values are complete
 #'
 #' @param x the effect model object

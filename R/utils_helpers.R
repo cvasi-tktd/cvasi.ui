@@ -1,3 +1,25 @@
+#' Validate if values are in range
+#' 
+#' Function validates if values are in range. 'NA' are treated as no range bounds.
+#'
+#' @param value the values to validate
+#' @param min_value the minimum value of the range
+#' @param max_value the maximum value of the range
+#'
+#' @return TRUE if in range; FALSE otherwise
+in_range <- function(value, min_value, max_value){
+  stopifnot(length(min_value) == 1)
+  stopifnot(length(max_value) == 1)
+  dplyr::case_when(is.na(min_value) & value <= max_value ~ TRUE,
+                   value >= min_value & is.na(max_value)  ~ TRUE,
+                   value >= min_value & value <= max_value ~ TRUE,
+                   is.na(min_value) & is.na(max_value) ~ TRUE,
+                   .default = FALSE
+  )
+}
+
+
+
 #' Extension of purrr::list_rbind
 #' 
 #' When list is bind, the names of the list elements are added as additional column

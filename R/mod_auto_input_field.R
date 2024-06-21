@@ -10,8 +10,13 @@
 mod_auto_input_field_ui <- function(id){
   ns <- NS(id)
   tagList(
-    #actionButton(ns("debug"), "debug"),
-    uiOutput(ns("inputField"))
+    #actionLink(ns("debug"), "debug"),
+    tags$div(
+      uiOutput(ns("inputField")),
+      textOutput(ns("range_error")) %>% 
+        tagAppendAttributes(class = "text-warning", 
+                            style = "margin-top: -1em; margin-bottom: 0.5em")
+    )
   )
 }
     
@@ -21,6 +26,8 @@ mod_auto_input_field_ui <- function(id){
 mod_auto_input_field_server <- function(id,
                                         label,
                                         value,
+                                        min_value = NA,
+                                        max_value = NA,
                                         datatype = NA,
                                         selected = NA,
                                         choices = NA,
@@ -92,6 +99,30 @@ mod_auto_input_field_server <- function(id,
         )# end of div
     }) # end of renderUI
     
+    # reactive to track numeric value in range ----
+    outside_range <- reactiveVal(TRUE)
+    output[["range_error"]] <- renderText({
+      req(input[[id]])
+      error_text <- paste0("Outside range [",
+                                     min_value,
+                                     ",",
+                                     max_value,
+                                     "].")
+
+      if (datatype == "numerical"){
+        is_in_range <- in_range(input[[id]], 
+                                min_value, 
+                                max_value)
+        if (!is_in_range){
+          return(error_text)
+        } else {
+          return(NULL)
+        }
+        
+      } else {
+        return(NULL)
+      }
+    })
     
     # Observe info button for modal help ----
     observeEvent(input[[info_button_id]],{

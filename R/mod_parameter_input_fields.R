@@ -64,12 +64,26 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
                                                 parameter_ = parname_i, 
                                                 type_ = "unit"))
 
+               min_value <- get_parameter_info(
+                 model_ = cvasi::get_model_name(modeldat()), 
+                 parameter_ = parname_i, 
+                 type_ = "lower.boundary") %>% 
+                 as.numeric() 
+                 
+               max_value <- get_parameter_info(
+                 model_ = cvasi::get_model_name(modeldat()), 
+                 parameter_ = parname_i, 
+                 type_ = "upper.boundary") %>% 
+                 as.numeric() 
+               
                field_return <- mod_auto_input_field_server(
                  id = parname_i, 
                  label = field_label_txt,
                  value = modeldat() %>% 
                    slot(type) %>% 
                    .[[parname_i]],
+                 min_value = min_value,
+                 max_value = max_value,
                  datatype = datatype,
                  info_button = TRUE,
                  info_tooltip = TRUE,

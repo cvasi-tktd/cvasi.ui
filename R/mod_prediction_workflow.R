@@ -160,7 +160,15 @@ mod_prediction_workflow_server <- function(id){
     # check input data ----
     ## check parameters ----
     output[["complete_params"]] <- renderUI({
-      create_valuebox(value = check_model_complete(selected_model()),
+      mod_complete <- check_model_complete(selected_model())
+      parameter_range_ok <- all(pars_range(selected_model())$in_range)
+      if (!mod_complete)
+        val <- FALSE
+      else if (mod_complete & !parameter_range_ok)
+        val <- "range"
+      else
+        val <- TRUE
+      create_valuebox(value = val,
                       subtitle = "Parameters",
                       width = 3)
     })

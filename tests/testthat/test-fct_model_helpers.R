@@ -109,6 +109,22 @@ test_that("forcings_required works", {
   
 })
 
+
+test_that("pars_range works", {
+  all_models <- lapply(model_choices, function(mod){
+    mod %>% 
+      construct_model() %>% 
+      pars_range()
+  })
+  
+  expect_equal(
+    lapply(all_models, function(x) all(x$in_range)),
+    lapply(model_choices, function(x) TRUE)
+  )
+  
+})
+
+
 test_that("check_model_complete works", {
   expect_true(check_model_complete(cvasi::metsulfuron, type = "param"))
   expect_true(check_model_complete(cvasi::metsulfuron, type = "init"))

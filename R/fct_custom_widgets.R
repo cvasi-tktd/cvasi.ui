@@ -13,17 +13,21 @@ create_valuebox <- function(value, subtitle, width = 3) {
   output_val <- switch(as.character(value),
                        `TRUE` = "Ok",
                        `FALSE` = "Missing",
-                       `NA` = "minus")
+                       `NA` = "minus",
+                       `range` = "Out of range"
+                       )
   
   icon_char <- switch(as.character(value),
                       `TRUE` = "thumbs-up",
                       `FALSE` = "thumbs-down",
-                      `NA` = "minus")
+                      `NA` = "minus",
+                      `range` = "exclamation-triangle")
   
   color_char <- switch(as.character(value),
                        `TRUE` = "green",
                        `FALSE` = "red",
-                       `NA` = "yellow")
+                       `NA` = "yellow",
+                       `range` = "yellow")
   
   valueBox(
     value = output_val,

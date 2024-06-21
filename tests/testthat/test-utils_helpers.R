@@ -1,3 +1,15 @@
+test_that("in_range works", {
+  expect_true(in_range(10,-Inf,Inf))
+  expect_true(in_range(10,NA,NA))
+  expect_true(in_range(10,0,NA))
+  expect_true(in_range(10,NA,20))
+  expect_true(in_range(10,10,10))
+  expect_false(in_range(10,15,20))
+  expect_false(in_range(30,NA,20))
+  expect_false(in_range(5,10,NA))
+  expect_false(in_range(10.1,10,10))
+})
+
 test_that("list_rbind2 works", {
   
   set.seed(123)

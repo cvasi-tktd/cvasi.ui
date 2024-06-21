@@ -1,10 +1,10 @@
 model;parameter;description;unit;group;expert value;default;lower boundary;upper boundary;comment
 Algae_Weber;mu_max;Maximum growth rate at optimum environmental conditions ;1/d;physiological;no;-;0;3;
 Algae_Weber;m_max;Natural mortality rate;1/d;physiological;no;-;0;0.5;
-Algae_Weber;v_max;Maximum P-uptake rate at non-limited growth ;mg P/µg fresh wt/d;physiological;no;-;0;1.00E-03;units differ between TKTD opinion and Weber publication. Weber uses µg P / µg fwt / d
+Algae_Weber;v_max;Maximum P-uptake rate at non-limited growth ;µg P/µg fresh wt/d;physiological;no;-;1.00E-06;10;units differ between TKTD opinion and Weber publication. Weber uses µg P / µg fwt / d
 Algae_Weber;k_s;Half-saturation constant for extracellular P;mg P/L;physiological;no;-;0;1;
-Algae_Weber;Q_min;Minimum intracellular P ;mg P/µg fresh wt;physiological;no;-;0;1.00E-03;units differ between TKTD opinion and Weber publication. Weber uses µg P / µg fwt 
-Algae_Weber;Q_max;Maximum intracellular P;mg P/µg fresh wt;physiological;no;-;0;1.00E-03;units differ between TKTD opinion and Weber publication. Weber uses µg P / µg fwt 
+Algae_Weber;Q_min;Minimum intracellular P ;µg P/µg fresh wt;physiological;no;-;1.00E-06;1;units differ between TKTD opinion and Weber publication. Weber uses µg P / µg fwt 
+Algae_Weber;Q_max;Maximum intracellular P;µg P/µg fresh wt;physiological;no;-;1.00E-04;1;units differ between TKTD opinion and Weber publication. Weber uses µg P / µg fwt 
 Algae_Weber;R_0;Influx concentration of P;mg P/L;physiological;no;-;0;5.00E+01;
 Algae_Weber;D;Dilution rate;1/d;physiological;no;-;0;3;
 Algae_Weber;T_opt;Optimum temperature for growth;°C;physiological;no;-;4;40;
@@ -46,13 +46,13 @@ Lemna_Schmitt;a_k;Light dependence: slope of linear part;(1/d)/(kJ/m².d);physio
 Lemna_Schmitt;C_P;Phosphorus concentration in water;mg/L;physiological;yes;-;0;10;
 Lemna_Schmitt;CP50;Phosphorus conc. where growth rate is halfed;mg/L;physiological;yes;-;0;10;Half-saturation constant of phosphorus?
 Lemna_Schmitt;a_P;Hill coefficient;-;physiological;yes;-;0;20;
-Lemna_Schmitt;KiP;P-inhibition constant for very high p-conc.;mg/L;physiological;yes;-;0;10;
+Lemna_Schmitt;KiP;P-inhibition constant for very high p-conc.;mg/L;physiological;yes;-;1;10000;
 Lemna_Schmitt;C_N;Nitrogen concentration in water;mg/L;physiological;yes;-;0;10;
 Lemna_Schmitt;CN50;N-conc. where growth rate is halfed;mg/L;physiological;yes;-;0;10;Half-saturation constant of nitrogen?
 Lemna_Schmitt;a_N;Hill coefficient;-;physiological;yes;-;0;20;
-Lemna_Schmitt;KiN;N-inhibition constant for very high p-conc.;mg/L;physiological;yes;-;0;10;
-Lemna_Schmitt;BM50;Cut off BM;g_dw/m²;physiological;yes;-;1.00E+06;100;
-Lemna_Schmitt;mass_per_frond;Dry weight per frond;g_dw/frond;physiological;yes;-;1.00E+06;10;mg_dw/frond in Schmitt (2013)
+Lemna_Schmitt;KiN;N-inhibition constant for very high p-conc.;mg/L;physiological;yes;-;1;10000;
+Lemna_Schmitt;BM50;Cut off BM;g_dw/m²;physiological;yes;-;1;10000;
+Lemna_Schmitt;mass_per_frond;Dry weight per frond;g_dw/frond;physiological;yes;-;1.00E-06;1.00E-02;mg_dw/frond in Schmitt (2013)
 Lemna_Schmitt;BMw2BMd;Fresh weight/dry weight;g_fw/g_dw;physiological;yes;-;1;100;
 Lemna_Schmitt;Emax;Maximum effect;-;toxicodynamic;yes;1;0;1;
 Lemna_Schmitt;EC50;Effect concentration of 50% inhibition of growth rate;µg/L;toxicodynamic;no;-;0;Inf;
@@ -76,7 +76,7 @@ Algae_Simple;scaled;0 = no scaled damage concentration 1 = yes;-;toxicokinetic;n
 Algae_Simple;const_growth;0: no constant growth over time, 1: constant growth over time;logical;physiological;no;0;0;1; 
 Lemna_SETAC;BM;Biomass;g dw/m²;state variable;no;0.0012;0;1000;
 Lemna_SETAC;M_int;Mass of toxicant in plant population;µg/m²;state variable;no;0;0;1.00E+06;
-Lemna_SETAC;k_photo_fixed;Model switch for unlimited growth conditions (TRUE/FALSE);logical;physiological;yes;TRUE;only 0 and 1 are allowed.;;Agree, it makes sense to set this to TRUE ( = Tier 2C)
+Lemna_SETAC;k_photo_fixed;Model switch for unlimited growth conditions (TRUE/FALSE);logical;physiological;yes;TRUE;0;1;Agree, it makes sense to set this to TRUE ( = Tier 2C)
 Lemna_SETAC;k_photo_max;Maximum photosynthesis rate;1/d;physiological;no;0.42;0;1;needs to be adapted from the proposed default value of 0.47 d-1, because k_loss is 0 rather than 0.05 for Tier 2C
 Lemna_SETAC;k_loss;Rate of loss (e.g. flow rate);1/d;physiological;yes;0;0;3;0 is default for Tier 2C , 0.05 is default for Tier 3
 Lemna_SETAC;BM_min;Threshold density for setting dBM/dt to zero;g dw/m²;physiological;yes;5e-04;0;1.00E-01;
