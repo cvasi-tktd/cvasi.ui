@@ -78,7 +78,6 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
     ### Generate input fields --------------------------------------------------
     output[["f_constant_input"]] <- renderUI({
       model_name()
-      print("model name changed")
       req_forcings <- isolate(req_f())
       req( length(req_forcings) > 0 )
       tagList(
@@ -151,7 +150,6 @@ mod_forcings_input_server <- function(id, selected_model, forcings_time_series){
       fluidRow(
         column(4,
                tagList(
-                 #fileInput(ns("forcings_inputfile"), label = "Upload forcings"),
                  fileInputOnlyButton(
                    ns("forcings_inputfile"),
                    buttonLabel=list(
