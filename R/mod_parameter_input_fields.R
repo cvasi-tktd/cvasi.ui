@@ -10,7 +10,7 @@
 mod_input_fields_ui <- function(id){
   ns <- NS(id)
   tagList(
-    #actionButton(ns("debug"), "debug"),
+    #actionLink(ns("debug"), "debug"),
     uiOutput(ns("all_fields"))
     
   )
@@ -29,30 +29,42 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
       browser()
     }, ignoreNULL = TRUE)
     
+    
+    # reactive values ----
     input_field_vals <- reactiveValues()
     
-    # Parameters ----
+    parameter_names <- reactiveVal()
+    model_name <- reactiveVal()
     observeEvent(modeldat(),{
-      parameter_names <- modeldat() %>% 
-        get_required(type = type)
+      modeldat() %>% 
+        get_required(type = type) %>% 
+        parameter_names()
       
-      
-      lapply(parameter_names,
+      modeldat() %>% 
+        cvasi::get_model_name() %>% 
+        model_name()
+    })
+    
+
+    
+    # Generate parameters fields ----
+    observeEvent(model_name(),{
+      lapply(parameter_names(),
              function(parname_i){
                
                info_txt <- paste0(get_parameter_info(
-                 model_ = cvasi::get_model_name(modeldat()), 
+                 model_ = model_name(),
                  parameter_ = parname_i, 
                  type_ = "description"),
                  "; ", 
                  get_parameter_info(
-                   model_ = cvasi::get_model_name(modeldat()), 
+                   model_ = model_name(),
                    parameter_ = parname_i, 
                    type_ = "unit"))
                
                datatype <- ifelse(
                  get_parameter_info(
-                   model_ = cvasi::get_model_name(modeldat()), 
+                   model_ = model_name(),
                    parameter_ = parname_i, 
                    type_ = "unit") == "logical",
                  "logical", 
@@ -60,18 +72,18 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
                
                field_label_txt <- field_label(name = parname_i, 
                                               unit = get_parameter_info(
-                                                model_ = cvasi::get_model_name(modeldat()), 
+                                                model_ =  model_name(), 
                                                 parameter_ = parname_i, 
                                                 type_ = "unit"))
 
                min_value <- get_parameter_info(
-                 model_ = cvasi::get_model_name(modeldat()), 
+                 model_ = model_name(),
                  parameter_ = parname_i, 
                  type_ = "lower.boundary") %>% 
                  as.numeric() 
                  
                max_value <- get_parameter_info(
-                 model_ = cvasi::get_model_name(modeldat()), 
+                 model_ = model_name(),
                  parameter_ = parname_i, 
                  type_ = "upper.boundary") %>% 
                  as.numeric() 
@@ -79,7 +91,7 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
                field_return <- mod_auto_input_field_server(
                  id = parname_i, 
                  label = field_label_txt,
-                 value = modeldat() %>% 
+                 value = isolate(modeldat()) %>% 
                    slot(type) %>% 
                    .[[parname_i]],
                  min_value = min_value,
@@ -91,23 +103,25 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
                )
                input_field_vals[[parname_i]] <- field_return
              })
+
     }) # end of observeEvent
-    
-    
-    # Render input fields
+
+    # Render input fields ----
     output[["all_fields"]] <- renderUI({
-      parameter_names <- modeldat() %>% 
-        get_required(type = type)
-      
+
       if (type == "param"){
-        parameter_names_by_group <- group_parameters(parameter_names, model_ = get_model_name(modeldat()))
+        parameter_names_by_group <- group_parameters(parameter_names(), 
+                                                     model_ = model_name()
+                                                     )
         
         collapse_panel_list <- lapply(names(parameter_names_by_group), function(p_group){
           
           parameter_names_expert <- expert_parameters(parameter_names_by_group[[p_group]],
-                                                      model_ = get_model_name(modeldat()))[["yes"]]
+                                                      model_ = model_name()
+                                                      )[["yes"]]
           parameter_names_nonexpert <- expert_parameters(parameter_names_by_group[[p_group]],
-                                                         model_ = get_model_name(modeldat()))[["no"]]
+                                                         model_ = model_name()
+                                                         )[["no"]]
           
           
           input_fields_nonexpert <- tags$div(
@@ -163,6 +177,57 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
       }
       
     })
+    
+    
+    # observers for field deactivation if k_phot_fix ----
+    observeEvent(
+      input[["k_phot_fix-k_phot_fix"]],
+      {
+        deactivates <- cvasi.ui::parameter_descriptions %>% 
+          dplyr::filter(parameter == "k_phot_fix") %>% 
+          dplyr::pull(deactivates) %>%
+          strsplit(",") %>%
+          unlist() %>%
+          trimws()
+        if(length(input[["k_phot_fix-k_phot_fix"]])){
+          if (input[["k_phot_fix-k_phot_fix"]] == 1){
+            for ( i in deactivates){
+              shinyjs::disable(paste0(i,"-",i))
+            }
+            
+          } else {
+            for ( i in deactivates){
+              shinyjs::enable(paste0(i,"-",i))
+            }
+          }
+        }
+        
+      }, priority = -100)
+    
+    # observers for field deactivation if k_photo_fixed ----
+    observeEvent(
+      input[["k_photo_fixed-k_photo_fixed"]],
+      {
+        deactivates <- cvasi.ui::parameter_descriptions %>% 
+          dplyr::filter(parameter == "k_photo_fixed") %>% 
+          dplyr::pull(deactivates) %>%
+          strsplit(",") %>%
+          unlist() %>%
+          trimws()
+        if(length(input[["k_photo_fixed-k_photo_fixed"]])){
+          if (input[["k_photo_fixed-k_photo_fixed"]] == 1){
+            for ( i in deactivates){
+              shinyjs::disable(paste0(i,"-",i))
+            }
+            
+          } else {
+            for ( i in deactivates){
+              shinyjs::enable(paste0(i,"-",i))
+            }
+          }
+        }
+        
+      }, priority = -100)
     
     return(input_field_vals)
     
