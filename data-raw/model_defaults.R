@@ -6,15 +6,16 @@ model_choices <- list(`Lemna (Schmitt)` = "Lemna_Schmitt",
                       `Generic macrophyte model (exponential)` = "Myrio", 
                       `Generic macrophyte model (logistic)` = "Myrio_log", 
                       `Algae (Weber)` = "Algae_Weber",
-                      `Algae (simplified)` = "Algae_Simple")
+                      `Algae (simplified)` = "Algae_Simple",
+                      `Algae (TKTD)` = "Algae_TKTD")
 
 usethis::use_data(model_choices, overwrite = TRUE)
 
 # Model names, scenario/class names and constructor function names lookup table
-all_model_dat <- lapply(setNames(cvasi.ui::model_choices,cvasi.ui::model_choices),
+all_model_dat <- lapply(setNames(model_choices,model_choices),
                         function(x){
                           x %>%
-                            cvasi.ui:::construct_model()
+                            construct_model()
                         })
 
 
@@ -164,6 +165,22 @@ parameter_defaults <- list(
                       kD=0.1,
                       dose_response=0,
                       scaled=0),
+  Algae_TKTD = list(mu_max = 1.738,
+                    m_max = 0.05,
+                    v_max = 0.052,
+                    k_s = 0.068, 
+                    Q_min = 0.0011,
+                    Q_max = 0.0144,
+                    T_opt = 27,
+                    T_min = 0,
+                    T_max = 35, 
+                    I_opt = 120,
+                    EC_50 = 115,
+                    b = 1.268,
+                    k = 0.2,
+                    kD = 0.1, 
+                    dose_resp = 0,
+                    scaled = 0),
   DEB_abj = list(p_M = NA, v = NA, k_J = NA,
                  p_Am = NA, kap = NA, E_G = NA,
                  f = NA, E_Hj = NA, E_Hp = NA, 
@@ -179,7 +196,8 @@ init_defaults <- list(
   Myrio_log = list(BM = 1, M_int = 0),
   Algae_Weber = list(A = 1, Q = 0.01, P = 0.18, C = 0),
   Lemna_SETAC = list(BM = 0.0012, M_int = 0),
-  Algae_Simple = list(A = 1, Dw = 0)
+  Algae_Simple = list(A = 1, Dw = 0),
+  Algae_TKTD = list(A = 1, Q = 0.01, P = 0.18, Dw = 0)
 )
 
 # Default forcings ----
@@ -201,6 +219,11 @@ forcing_defaults <- list(
   ),
   Algae_Simple = list(    
     f_growth = structure(list(t = 0, value = 1), class = "data.frame", row.names = c(NA,-1L))
+  ),
+  Algae_TKTD = list(
+    T_act = structure(list(t = 0, value = 12), class = "data.frame", row.names = c(NA,-1L)),
+    I = structure(list(t = 0, value = 76), class = "data.frame", row.names = c(NA,-1L)),
+    C_in = structure(list(t = 0, value = 1), class = "data.frame", row.names = c(NA,-1L))
   )
 )
 
@@ -233,6 +256,11 @@ model_defaults <- list(
     init_defaults = init_defaults[["Algae_Simple"]],
     parameter_defaults = parameter_defaults[["Algae_Simple"]],
     forcing_defaults = forcing_defaults[["Algae_Simple"]]
+  ),
+  Algae_TKTD = list(    
+    init_defaults = init_defaults[["Algae_TKTD"]],
+    parameter_defaults = parameter_defaults[["Algae_TKTD"]],
+    forcing_defaults = forcing_defaults[["Algae_TKTD"]]
   )
 )
 

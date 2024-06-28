@@ -16,6 +16,7 @@ mod_parameter_input_ui <- function(id){
              shiny::textInput(ns("spec_name"), "Species")
       )
     ),
+    #actionLink(ns("debug"), "debug"),
     mod_input_fields_ui(ns("parameter_input_fields")),
     actionButton(ns("assign"), "Assign values"),
     uiOutput(ns("changed_text"))
