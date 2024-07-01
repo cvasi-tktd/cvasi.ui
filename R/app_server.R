@@ -13,6 +13,10 @@ app_server <- function(input, output, session) {
   
   mod_prediction_workflow_server("prediction_workflow")
   
+  observeEvent(input[["refresh"]],{
+    session$reload()
+  })
+  
   observeEvent(input[["guide"]],{
     #shinyjs::runjs("$('[data-widget=\"collapse\"]').click();") # expand all boxes
     #shinyjs::runjs("$('.box.collapsed-box').removeClass('collapsed-box');")

@@ -20,6 +20,10 @@ app_ui <- function(request) {
                                             title = "Tutorial"
                                     ),
                                     tags$li(class = "dropdown",
+                                            actionLink("refresh", icon("redo")),
+                                            title = "Refresh UI"
+                                    ),
+                                    tags$li(class = "dropdown",
                                             actionLink("expand_boxes", icon("expand-arrows-alt")),
                                             title = "Expand dashboard boxes"
                                     ),
