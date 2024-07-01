@@ -166,7 +166,7 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
         
       } else if (type == "init"){
         
-        input_fields <- lapply(parameter_names, function(parname_i){
+        input_fields <- lapply(parameter_names(), function(parname_i){
           mod_auto_input_field_ui(ns(parname_i))
         }
         )
