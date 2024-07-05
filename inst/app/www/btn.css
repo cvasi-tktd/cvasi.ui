@@ -1,0 +1,11 @@
+.btn.io-btn {
+    background-color:#4a4a49;
+    color: #fff;
+    border-color: #aaa;
+    border-width: 0px;
+    border-radius: 0px;
+}
+
+.btn.io-btn:hover {
+      background-color:  #3a3a3a;
+}
