@@ -21,7 +21,7 @@ mod_init_input_ui <- function(id){
 #'
 #' @global .
 #' @noRd 
-mod_init_input_server <- function(id, selected_model){
+mod_init_input_server <- function(id, selected_model, dat_in){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -34,7 +34,8 @@ mod_init_input_server <- function(id, selected_model){
     # Render input fields ------------------------------------------------------
     init_vals <- mod_input_fields_server("init_input_fields",
                             modeldat = selected_model,
-                            type = "init")
+                            type = "init",
+                            dat_in = dat_in)
     
     # Check change of values and show in GUI -----------------------------------
     init_vals_differ <- reactive({

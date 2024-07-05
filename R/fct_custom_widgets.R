@@ -49,7 +49,7 @@ create_valuebox <- function(value, subtitle, width = 3) {
 #'
 #' @return a file input button DOM
 #' @noRd
-fileInputOnlyButton <- function(..., label="") {
+fileInputOnlyButton <- function(..., label="", remove_progress = FALSE) {
   temp <- fileInput(..., label=label)
   # Cut away the label
   temp$children[[1]] <- NULL
@@ -58,6 +58,13 @@ fileInputOnlyButton <- function(..., label="") {
   # Remove input group classes (makes button flat on one side)
   temp$children[[1]]$attribs$class <- NULL
   temp$children[[1]]$children[[1]]$attribs$class <- NULL
+  
+  if (remove_progress){
+    temp$children[[2]] <- NULL
+  }
+  
+  temp$attribs <- NULL
+  
   temp
 }
 

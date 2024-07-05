@@ -12,6 +12,17 @@ mod_prediction_workflow_ui <- function(id){
   
   tagList(
     #actionButton(ns("debug"), "debug"),
+    div(
+      downloadButton(ns("save"), "Save"),
+      fileInputOnlyButton(ns("load"),
+                          label = NULL,
+                          buttonLabel = list(
+                            icon("upload", class = NULL,lib = "font-awesome"),
+                            "Load"
+                          )),
+      style = "display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: flex-start;"
+    ),
+    
     box(title = span(icon("sliders"), "Model input"), width = 12, status = "primary",
         
         box(title = span(icon("crosshairs"), "Model selection"),        
@@ -100,6 +111,7 @@ mod_prediction_workflow_server <- function(id){
     selected_model <- reactiveVal()
     exposure_time_series <- reactiveVal(cvasi.ui::default_exposure)
     forcings_time_series <- do.call(reactiveValues, lapply(cvasi.ui::model_defaults, function(x) x[["forcing_defaults"]]))
+    import_trigger <- reactiveVal(NULL)
     
     # pre-construct all models ----
     # commment: it is not necessary to pre-construct all models. 
@@ -117,10 +129,62 @@ mod_prediction_workflow_server <- function(id){
     })
     
     
-    observeEvent(input[["debug"]], {
-      browser()
-    }, ignoreNULL = TRUE)
+    # Export data --------------------------------------------------------------
+    output$save <- downloadHandler(
+      filename = function() {
+        paste('data-', Sys.Date(), '.rds', sep='')
+      },
+      content = function(con) {
+        
+        active_model <- input[["active_model"]]
+        param <- slot(selected_model(), "param")
+        init <- slot(selected_model(), "init")
+        exposure_ts <- exposure_time_series()
+        forc_ts <- rvtl(forcings_time_series)[[active_model]]
+        
+        dat_out <- list(
+          active_model = active_model,
+          param = param,
+          init = init,
+          exposure_ts = exposure_ts,
+          forc_ts = forc_ts
+        )
+        saveRDS(dat_out, file = con)
+      }
+    )
     
+    
+    # Import data --------------------------------------------------------------
+    dat_in <- reactive({
+      if(length(input$load))
+        readRDS(input$load$datapath)
+      else
+        NULL
+    })
+    
+    observeEvent(dat_in(),{
+      req(length(dat_in()))
+      active_model <- dat_in()[["active_model"]]
+      updateSelectInput(session, "active_model", 
+                        selected = active_model)
+      
+      param <- dat_in()[["param"]]
+      init <- dat_in()[["init"]]
+      smodel <- active_model %>%
+        construct_model() %>% 
+        cvasi::set_param(do.call(c, param)) %>% 
+        cvasi::set_init(init)
+      all_model_dat[[active_model]] <- smodel
+      selected_model(smodel)
+      
+      exposure_ts <- dat_in()[["exposure_ts"]]
+      exposure_time_series()
+      
+      forc_ts <- dat_in()[["forc_ts"]]
+      forcings_time_series[[active_model]] <- forc_ts
+      
+      import_trigger(date())
+    }, ignoreInit = TRUE, ignoreNULL = TRUE)
     
     
     # Active model change ----------------------------------------------------
@@ -137,7 +201,7 @@ mod_prediction_workflow_server <- function(id){
                #cvasi.ui::model_descriptions[[]]
         )
       })
-
+      
       ## Set selected model -------------------------------------------------
       selected_model(
         all_model_dat[[input[["active_model"]]]]
@@ -205,10 +269,10 @@ mod_prediction_workflow_server <- function(id){
     
     
     # Parameter module server ----
-    mod_parameter_input_server("para_input", selected_model)
+    mod_parameter_input_server("para_input", selected_model, dat_in)
     
     # Init module server ----
-    mod_init_input_server("init_input", selected_model)
+    mod_init_input_server("init_input", selected_model, dat_in)
     
     # Forcing input module server ----
     mod_forcings_input_server("forcings_input", selected_model, forcings_time_series)

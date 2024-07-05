@@ -21,7 +21,7 @@ mod_input_fields_ui <- function(id){
 #' @global .
 #' @importFrom methods slot
 #' @noRd 
-mod_input_fields_server <- function(id, modeldat, type = "param"){
+mod_input_fields_server <- function(id, modeldat, type = "param", dat_in){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
@@ -45,10 +45,15 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
         model_name()
     })
     
+    par_init_loaded <- reactive({
+      if (length(dat_in()))
+        dat_in()[[type]]
+      else
+        NULL
+      })
 
-    
     # Generate parameters fields ----
-    observeEvent(model_name(),{
+    observeEvent(list(model_name(), par_init_loaded()),{
       lapply(parameter_names(),
              function(parname_i){
                
@@ -106,6 +111,7 @@ mod_input_fields_server <- function(id, modeldat, type = "param"){
 
     }) # end of observeEvent
 
+    
     # Render input fields ----
     output[["all_fields"]] <- renderUI({
 

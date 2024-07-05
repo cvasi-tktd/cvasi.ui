@@ -26,7 +26,7 @@ mod_parameter_input_ui <- function(id){
 #'
 #' @global .
 #' @noRd 
-mod_parameter_input_server <- function(id, selected_model){
+mod_parameter_input_server <- function(id, selected_model, dat_in = NULL){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -39,7 +39,8 @@ mod_parameter_input_server <- function(id, selected_model){
     # Render input fields ------------------------------------------------------
     par_vals <- mod_input_fields_server("parameter_input_fields",
                             modeldat = selected_model,
-                            type = "param")
+                            type = "param",
+                            dat_in)
 
     # Check change of values and show in GUI -----------------------------------
     par_vals_differ <- reactive({
