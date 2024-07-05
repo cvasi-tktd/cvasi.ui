@@ -12,17 +12,7 @@ mod_prediction_workflow_ui <- function(id){
   
   tagList(
     #actionButton(ns("debug"), "debug"),
-    div(
-      downloadButton(ns("save"), "Save"),
-      fileInputOnlyButton(ns("load"),
-                          label = NULL,
-                          buttonLabel = list(
-                            icon("upload", class = NULL,lib = "font-awesome"),
-                            "Load"
-                          )),
-      style = "display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: flex-start;"
-    ),
-    
+
     box(title = span(icon("sliders"), "Model input"), width = 12, status = "primary",
         
         box(title = span(icon("crosshairs"), "Model selection"),        
@@ -34,7 +24,19 @@ mod_prediction_workflow_ui <- function(id){
                          
                          selectInput(ns("active_model"), 
                                      label = "Choose a model",
-                                     choices = cvasi.ui::model_choices)
+                                     choices = cvasi.ui::model_choices),
+                         div(
+                           downloadButton(ns("save"), "Save") %>% 
+                             tagAppendAttributes(class = "io-btn"),
+                           fileInputOnlyButton(ns("load"),
+                                               label = NULL,
+                                               buttonLabel = list(
+                                                 icon("upload", class = NULL,lib = "font-awesome"),
+                                                 "Load"
+                                               )) %>% 
+                             shiny::tagAppendAttributes(class = "io-btn", .cssSelector = ".btn.btn-default"),
+                           style = "display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: flex-start;"
+                         )
                   ),
                   column(6,
                          wellPanel(
@@ -139,15 +141,11 @@ mod_prediction_workflow_server <- function(id){
         active_model <- input[["active_model"]]
         param <- slot(selected_model(), "param")
         init <- slot(selected_model(), "init")
-        exposure_ts <- exposure_time_series()
-        forc_ts <- rvtl(forcings_time_series)[[active_model]]
         
         dat_out <- list(
           active_model = active_model,
           param = param,
-          init = init,
-          exposure_ts = exposure_ts,
-          forc_ts = forc_ts
+          init = init
         )
         saveRDS(dat_out, file = con)
       }
@@ -176,13 +174,7 @@ mod_prediction_workflow_server <- function(id){
         cvasi::set_init(init)
       all_model_dat[[active_model]] <- smodel
       selected_model(smodel)
-      
-      exposure_ts <- dat_in()[["exposure_ts"]]
-      exposure_time_series()
-      
-      forc_ts <- dat_in()[["forc_ts"]]
-      forcings_time_series[[active_model]] <- forc_ts
-      
+
       import_trigger(date())
     }, ignoreInit = TRUE, ignoreNULL = TRUE)
     
