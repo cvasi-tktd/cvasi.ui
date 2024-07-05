@@ -27,14 +27,17 @@ mod_prediction_workflow_ui <- function(id){
                                      choices = cvasi.ui::model_choices),
                          div(
                            downloadButton(ns("save"), "Save") %>% 
-                             tagAppendAttributes(class = "io-btn"),
+                             tagAppendAttributes(class = "io-btn", 
+                                                 title = "Save parameters and initial values."),
                            fileInputOnlyButton(ns("load"),
                                                label = NULL,
                                                buttonLabel = list(
                                                  icon("upload", class = NULL,lib = "font-awesome"),
                                                  "Load"
                                                )) %>% 
-                             shiny::tagAppendAttributes(class = "io-btn", .cssSelector = ".btn.btn-default"),
+                             shiny::tagAppendAttributes(class = "io-btn", 
+                                                        title = "Load parameters and initial values.",
+                                                        .cssSelector = ".btn.btn-default"),
                            style = "display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: flex-start;"
                          )
                   ),
