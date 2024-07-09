@@ -7,7 +7,9 @@
 pack(x, zipfile)
 }
 \arguments{
-\item{zipfile}{}
+\item{x}{the list that is serialized}
+
+\item{zipfile}{path to output zipfile}
 }
 \value{
 path to the zip file

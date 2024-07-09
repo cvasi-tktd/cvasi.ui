@@ -7,7 +7,7 @@
 unpack(zipfile)
 }
 \arguments{
-\item{zipfile}{}
+\item{zipfile}{path to output zipfile}
 }
 \value{
 the content of the zipped json file as list
