@@ -137,20 +137,20 @@ mod_prediction_workflow_server <- function(id){
     # Export data --------------------------------------------------------------
     output$save <- downloadHandler(
       filename = function() {
-        paste('data-', Sys.Date(), '.rds', sep='')
+        paste('data-', Sys.Date(), '.zip', sep='')
       },
       content = function(con) {
         
         active_model <- input[["active_model"]]
         param <- slot(selected_model(), "param")
-        init <- slot(selected_model(), "init")
-        
+        init <- as.list(slot(selected_model(), "init"))
+       # browser()
         dat_out <- list(
           active_model = active_model,
           param = param,
           init = init
         )
-        saveRDS(dat_out, file = con)
+        pack(dat_out, zipfile = con)
       }
     )
     
@@ -158,7 +158,7 @@ mod_prediction_workflow_server <- function(id){
     # Import data --------------------------------------------------------------
     dat_in <- reactive({
       if(length(input$load))
-        readRDS(input$load$datapath)
+        unpack(input$load$datapath)
       else
         NULL
     })
