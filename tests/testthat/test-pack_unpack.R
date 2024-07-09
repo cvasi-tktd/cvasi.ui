@@ -12,7 +12,7 @@ test_that("pack/unpack works", {
                  b = 4.16, P_up = 0.0054), 
     init = list(BM = 0.0012, E = 1, M_int = 0)
   )
-  zipfile <- paste0(tempdir(), "\\test.zip")
+  zipfile <- paste0(tempdir(), "/test.zip")
   out_path <- pack(dat_out, zipfile)
   imported <- unpack(zipfile)
   

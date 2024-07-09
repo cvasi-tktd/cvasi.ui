@@ -1,7 +1,8 @@
 
 #' Serialize a list to JSON/zip
 #'
-#' @param zipfile 
+#' @param zipfile path to output zipfile
+#' @param x the list that is serialized
 #'
 #' @return path to the zip file
 pack <- function(x, zipfile){
@@ -26,7 +27,7 @@ pack <- function(x, zipfile){
 
 #' Deserialize a list to JSON/zip
 #'
-#' @param zipfile 
+#' @param zipfile path to output zipfile
 #'
 #' @return the content of the zipped json file as list
 unpack <- function(zipfile){
@@ -37,7 +38,7 @@ unpack <- function(zipfile){
   zip::unzip(zipfile)
   
   # import json file at temp dir 
-  json <- paste0(tempdir(),"\\input.json")
+  json <- paste0(tempdir(),"/input.json")
   jsonlite::fromJSON(json, na = "string", simplifyVector = FALSE)
   
 }
