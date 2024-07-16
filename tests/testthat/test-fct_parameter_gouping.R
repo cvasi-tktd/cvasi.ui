@@ -1,6 +1,7 @@
 test_that("group_parameters works", {
   
   expected_group_names <- c("toxicodynamic", "toxicokinetic", "physiological")
+  expected_group_names_tktd <- c("toxicodynamic", "toxicokinetic", "physiological", "degradation")
   expected_group_names_weber <- c("toxicodynamic", "physiological", "degradation")
   p <- cvasi::Lemna_Schmitt() %>% 
     cvasi.ui:::get_required("param")
@@ -13,7 +14,7 @@ test_that("group_parameters works", {
   expect_error(group_parameters(p = 1:3, model_ = m))
   expect_error(group_parameters(p = p, model_ = c("Lemna_Schmitt", "Myriophyllum")))
   
-
+  
   p <- cvasi::Myrio() %>% 
     cvasi.ui:::get_required("param")
   m <- "Myriophyllum"
@@ -27,7 +28,7 @@ test_that("group_parameters works", {
   o <- group_parameters(p = p,
                         model_ = m)
   expect_equal(names(o), expected_group_names_weber)
-
+  
   lapply(setNames(model_choices, model_choices), function(m){
     x <- cvasi.ui:::construct_model(m)
     p <- x %>%
@@ -35,9 +36,11 @@ test_that("group_parameters works", {
     m <- cvasi::get_model_name(x)
     o <- group_parameters(p = p,
                           model_ = m)
-
+    print(cvasi::get_model_name(x))
     if(cvasi::get_model_name(x) == "Algae_Weber"){
       expected_group_names_ <- expected_group_names_weber
+    }else if(cvasi::get_model_name(x) == "Algae_TKTD"){
+      expected_group_names_ <- expected_group_names_tktd
     }else{
       expected_group_names_ <- expected_group_names
     }
@@ -111,7 +114,7 @@ test_that("order_parameter_groups works", {
   # list is same length as p_order
   o1 <- order_parameter_groups(parameter_groups, p_order)
   expect_equal(names(o1), p_order)
-
+  
   # list is shorter than p_order
   o2 <- order_parameter_groups(parameter_groups[1:2], p_order)
   expect_equal(names(o2), c("toxicodynamic", "physiological"))
