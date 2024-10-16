@@ -13,7 +13,7 @@ app_ui <- function(request) {
   shinydashboard::dashboardPage(
     #skin = "green",
     title = "cvasi.ui",
-    shinydashboard::dashboardHeader(title = "cvasi.ui - Calibration, Validation, and Simulation of TKTD models in R",
+    shinydashboard::dashboardHeader(title = "cvasi.ui - Calibration, Validation, and Simulation of TKTD models",
                                     titleWidth = "75%",
                                     tags$li(class = "dropdown",
                                             actionLink("guide", "Tutorial"),

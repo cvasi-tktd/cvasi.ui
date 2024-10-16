@@ -10,7 +10,7 @@ Authors@R: c(
     person("Nils", "Kehrein", , "nils.kehrein@gmail.com", role = "cre")
   )
 Description: Provides a Shiny GUI for the 'Calibration, Validation, and
-    Simulation of TKTD models in R' (cvasi) package.
+    Simulation of TKTD models' (cvasi) package.
 License: GPL (>= 3)
 Depends: 
     R (>= 2.10)
