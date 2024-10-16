@@ -207,8 +207,7 @@ forcing_defaults <- list(
   ),
   Algae_Weber = list(
     T_act = structure(list(t = 0, value = 12), class = "data.frame", row.names = c(NA,-1L)),
-    I = structure(list(t = 0, value = 76), class = "data.frame", row.names = c(NA,-1L)),
-    C_in = structure(list(t = 0, value = 1), class = "data.frame", row.names = c(NA,-1L))
+    I = structure(list(t = 0, value = 76), class = "data.frame", row.names = c(NA,-1L))
   ),
   Lemna_SETAC = list(
     tmp = structure(list(t = 0, value = 12), class = "data.frame", row.names = c(NA,-1L)),
@@ -221,8 +220,7 @@ forcing_defaults <- list(
   ),
   Algae_TKTD = list(
     T_act = structure(list(t = 0, value = 12), class = "data.frame", row.names = c(NA,-1L)),
-    I = structure(list(t = 0, value = 76), class = "data.frame", row.names = c(NA,-1L)),
-    C_in = structure(list(t = 0, value = 1), class = "data.frame", row.names = c(NA,-1L))
+    I = structure(list(t = 0, value = 76), class = "data.frame", row.names = c(NA,-1L))
   )
 )
 

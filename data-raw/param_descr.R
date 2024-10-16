@@ -1,5 +1,5 @@
 # Parameter descriptions ----
-filepath <- paste0(here::here(), "/inst/extdata/", "parameter_descriptions.csv")
-parameter_descriptions <- read.table(filepath, sep = ";", header = TRUE, encoding = "UTF-8")
+filepath <- file.path("inst/extdata", "parameter_descriptions.xlsx")
+parameter_descriptions <- readxl::read_xlsx(filepath)
 
 usethis::use_data(parameter_descriptions, overwrite = TRUE)

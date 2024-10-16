@@ -28,7 +28,7 @@ test_that("get_required works - Algae_Weber", {
                   "T_opt", "T_min", "T_max", "I_opt",
                   "EC_50", "b", "k")
   i_expected <- c("A", "Q", "P", "C")
-  f_expected <- c("T_act","I","C_in")
+  f_expected <- c("T_act","I")
   
   expect_equal(p_, p_expected)
   expect_equal(i_, i_expected)

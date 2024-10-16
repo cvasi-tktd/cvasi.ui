@@ -36,7 +36,7 @@ test_that("group_parameters works", {
     m <- cvasi::get_model_name(x)
     o <- group_parameters(p = p,
                           model_ = m)
-    print(cvasi::get_model_name(x))
+    #print(cvasi::get_model_name(x))
     if(cvasi::get_model_name(x) == "Algae_Weber"){
       expected_group_names_ <- expected_group_names_weber
     }else if(cvasi::get_model_name(x) == "Algae_TKTD"){
