@@ -28,10 +28,20 @@ test_that("import_forcings works", {
   
   # expect error when no file is loaded
   expect_error(import_forcings("nofile"))
-  
-  # expect error if imported data is wrong format
-  filepath2 <- system.file("extdata/parameter_descriptions.csv",
-                           package = "cvasi.ui")
-  expect_error(import_forcings(filepath2))
 })
 
+
+test_that("parameter_descriptions format", {
+  expect_true(all(is.numeric(parameter_descriptions$lower.boundary)))
+  expect_true(all(is.numeric(parameter_descriptions$upper.boundary)))
+  # all values present?
+  expect_false(any(is.na(parameter_descriptions$model)))
+  expect_false(any(is.na(parameter_descriptions$parameter)))
+  expect_false(any(is.na(parameter_descriptions$description)))
+  expect_false(any(is.na(parameter_descriptions$unit)))
+  expect_false(any(is.na(parameter_descriptions$group)))
+  expect_false(any(is.na(parameter_descriptions$expert.value)))
+  expect_false(any(is.na(parameter_descriptions$default)))
+  expect_false(any(is.na(parameter_descriptions$lower.boundary)))
+  expect_false(any(is.na(parameter_descriptions$upper.boundary)))
+})
