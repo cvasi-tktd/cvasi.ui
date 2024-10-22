@@ -7,7 +7,7 @@
 dashboardbox_left(...)
 }
 \arguments{
-\item{...}{arguments passed to `shinydashboard::box()`}
+\item{...}{arguments passed to [shinydashboard::box()]}
 }
 \value{
 a shinydasboard box with collapse icon on the left side

@@ -32,14 +32,14 @@ group_parameters <- function(p, model_){
   return(out)
 }
 
-#' Seperate parameters into expert or non-expert groups
+#' Separate parameters into expert or non-expert groups
 #'
 #' @param p a character vector listing the parameter names
 #' @param model_  the model for which the parameters should be grouped into expert and non-expert
 #'
-#' @return  a list with parameters seperated into expert and non-expert groups as specified by cvasi.ui::parameter_descriptions
+#' @return  a list with parameters separated into expert and non-expert groups as specified by [parameter_descriptions()]
 #'
-#' @seealso [cvasi.ui::parameter_descriptions]
+#' @seealso [parameter_descriptions]
 #' @global model parameter expert.value
 #' @examples
 #' \dontrun{

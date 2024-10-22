@@ -2,7 +2,7 @@
 % Please edit documentation in R/fct_parameter_gouping.R
 \name{expert_parameters}
 \alias{expert_parameters}
-\title{Seperate parameters into expert or non-expert groups}
+\title{Separate parameters into expert or non-expert groups}
 \usage{
 expert_parameters(p, model_)
 }
@@ -12,10 +12,10 @@ expert_parameters(p, model_)
 \item{model_}{the model for which the parameters should be grouped into expert and non-expert}
 }
 \value{
-a list with parameters seperated into expert and non-expert groups as specified by cvasi.ui::parameter_descriptions
+a list with parameters separated into expert and non-expert groups as specified by [parameter_descriptions()]
 }
 \description{
-Seperate parameters into expert or non-expert groups
+Separate parameters into expert or non-expert groups
 }
 \examples{
 \dontrun{
@@ -28,5 +28,5 @@ expert_parameters(p = c("k_phot_fix", "k_phot_max", "k_resp", "k_loss", "Tmin", 
 }
 }
 \seealso{
-[cvasi.ui::parameter_descriptions]
+[parameter_descriptions]
 }

@@ -67,25 +67,22 @@ mod_exposuretoxswa_input_server <- function(id, exposure_time_series){
     observeEvent(input[["importExpProfiles"]], {
       shinyjs::html("import_error", html = "")
       filesToImport <- input[["importExpProfiles"]]$datapath
-      actualFileNames <-  input[["importExpProfiles"]]$datapath %>% basename() %>% tools::file_path_sans_ext()
       fileNames <- input[["importExpProfiles"]]$name %>% tools::file_path_sans_ext()
       if (length(filesToImport)) {
         if(length(filesToImport) > 1)
           stop("importing more than one file not supported yet")
         shinybusy::show_modal_spinner(text = "loading Toxswa profile")
         
-        expProfilesImported <- cvasi::import_toxswa(filesToImport, split=TRUE)
+        expProfilesImported <- cvasi::import_toxswa(filesToImport, fileNames)
         # limit series to the two important columns, i.e. time (1) and conc (3)
+        # and set the trial name/column
         for(nm in names(expProfilesImported)) {
           expProfilesImported[[nm]] <- expProfilesImported[[nm]] %>% 
             dplyr::select(time=1, conc=3) %>%
             dplyr::mutate(trial=fileNames[1]) %>%
             units::drop_units()
         }
-        # rename list entries to reflect original filename
-        newNames <- gsub(paste0("^", actualFileNames[1], "_"), paste0(fileNames[1], "_"), names(expProfilesImported))
-        expProfilesImported <- setNames(expProfilesImported, newNames)
-        
+
         shinybusy::remove_modal_spinner()
         if(length(expProfilesImported)){
           file_content(expProfilesImported)

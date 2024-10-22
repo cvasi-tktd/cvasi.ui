@@ -70,7 +70,7 @@ fileInputOnlyButton <- function(..., label="", remove_progress = FALSE) {
 
 #' Create a dashboard box collapsible on click on title
 #'
-#' @param ... arguments passed to `shinydashboard::box()`
+#' @param ... arguments passed to [shinydashboard::box()]
 #'
 #' @return a shinydasboard box with collapse icon on the left side
 dashboardbox_left <- function(...){

@@ -116,6 +116,7 @@ mod_exposure_input_server <- function(id, modeldat, exposure_time_series){
 # @param sep the field separator character
 #
 # @return the exposure profile
+#' @importFrom methods is
 read_single_exposure <- function(pathtofile, sep = "\t"){
   profile <- utils::read.table(pathtofile, header = TRUE, sep = sep) %>%
     attempt::attempt(msg=paste0("Could not read file ",pathtofile))
