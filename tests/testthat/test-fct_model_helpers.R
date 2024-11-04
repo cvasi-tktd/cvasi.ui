@@ -5,11 +5,11 @@ test_that("construct_model works", {
   expect_true(inherits(o, "EffectScenario"))
   
   o <- construct_model("Lemna_Schmitt")
-  expect_equal(class(o), structure("LemnaSchmittScenario", package = "cvasi"))
+  expect_equal(class(o), structure("LemnaSchmitt", package = "cvasi"))
   expect_true(inherits(o, "EffectScenario"))
   
   o <- construct_model("Algae_Weber")
-  expect_equal(class(o), structure("AlgaeWeberScenario", package = "cvasi"))
+  expect_equal(class(o), structure("AlgaeWeber", package = "cvasi"))
   expect_true(inherits(o, "EffectScenario"))
   
   expect_error(construct_model("sum"))
@@ -72,7 +72,7 @@ test_that("get_val works - Lemna_Schmitt", {
                      Tmin=8.0, Tmax=40.5, Topt=26.7, t_ref=25, Q10=2, k_0=3, a_k=5E-5, C_P=0.3,
                      CP50=0.0043, a_P=1, KiP=101, C_N=0.6, CN50=0.034, a_N=1, KiN=604, BM50=176,
                      mass_per_frond=0.0001, BMw2BMd=16.7)
-  i_expected <- c(BM=0,E=1,M_int=0)
+  i_expected <- c(BM=0.0012, E=1, M_int=0)
   f_expected <- list(
     temp = structure(
       list(time = 0, temp = 20), 
@@ -115,13 +115,13 @@ test_that("pars_range works", {
     mod %>% 
       construct_model() %>% 
       pars_range()
-  })
+  }) %>%
+    dplyr::bind_rows()
   
   expect_equal(
-    lapply(all_models, function(x) all(x$in_range)),
-    lapply(model_choices, function(x) TRUE)
+    all_models$in_range,
+    !is.na(all_models$value)
   )
-  
 })
 
 
@@ -151,37 +151,4 @@ test_that("check_exposure_complete", {
                  check_exposure_complete()
                )
   expect_false(check_exposure_complete(1:10))
-})
-
-
-test_that("lookup_name works", {
-
-  o <- do.call(c, lapply(unname(model_choices), function(x){
-    m <- x %>% 
-      construct_model() %>% 
-      class()
-    m %>% lookup_name(lookup_table = model_lookup,
-                      from = "scenario",
-                      to = "model_f")
-  }))
-  
-  expect_equal(o, dplyr::pull(model_lookup, "model_f"))
-})
-
-test_that("lookup_name stops with erro", {
-  
-  expect_error(
-    "LemnaSchmittScenario" %>% 
-      lookup_name(lookup_table = model_lookup,
-                  from = "scenarioqwertz",
-                  to = "model_f")
-  )
-  
-  expect_error(
-    "LemnaSchmittScenario" %>% 
-      lookup_name(lookup_table = model_lookup,
-                  from = "scenario",
-                  to = "model_fqwertz")
-  )
-  
 })

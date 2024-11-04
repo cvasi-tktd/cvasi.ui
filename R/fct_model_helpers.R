@@ -231,7 +231,7 @@ check_forcings_complete <- function(expected_forcings, forcings){
 #' @return a string with the found value in column "to"
 #' @examples
 #' \dontrun{
-#' "LemnaSchmittScenario" %>% 
+#' "LemnaSchmitt" %>% 
 #'   lookup_name(cvasi.ui::model_lookup,
 #'             from = "scenario",
 #'             to = "model_f")
