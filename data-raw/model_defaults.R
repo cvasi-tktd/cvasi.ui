@@ -1,10 +1,11 @@
 ## code to prepare `model_defaults` dataset goes here
 
+
 # Model choices ----
 model_choices <- list(`Lemna (Schmitt)` = "Lemna_Schmitt", 
                       `Lemna (SETAC)` = "Lemna_SETAC", 
-                      `Generic macrophyte model (exponential)` = "Myrio", 
-                      `Generic macrophyte model (logistic)` = "Myrio_log", 
+                      `Generic macrophyte model (exponential)` = "Magma_exp", 
+                      `Generic macrophyte model (logistic)` = "Magma_log", 
                       `Algae (Weber)` = "Algae_Weber",
                       `Algae (simplified)` = "Algae_Simple",
                       `Algae (TKTD)` = "Algae_TKTD")
@@ -12,31 +13,48 @@ model_choices <- list(`Lemna (Schmitt)` = "Lemna_Schmitt",
 usethis::use_data(model_choices, overwrite = TRUE)
 
 # Model names, scenario/class names and constructor function names lookup table
-all_model_dat <- lapply(setNames(model_choices,model_choices),
-                        function(x){
-                          x %>%
-                            construct_model()
-                        })
-
-
-model_lookup <- data.frame(
-  do.call(rbind, lapply(all_model_dat, function(x) {
-    data.frame(
-      model_name = x %>% cvasi::get_model_name(), 
-      scenario = x %>% class())
-  }
-  )),
-  model_f = names(all_model_dat))
+#all_model_dat <- lapply(setNames(model_choices,model_choices),
+#                        function(x){
+#                          x %>%
+#                            construct_model()
+#                        })
+#
+#
+#model_lookup <- data.frame(
+#  do.call(rbind, lapply(all_model_dat, function(x) {
+#    data.frame(
+#      model_name = x %>% cvasi::get_model_name(), 
+#      scenario = x %>% class())
+#  }
+#  )),
+#  model_f = names(all_model_dat),
+#  model_topic = )
+model_lookup <- list(
+  # Name             # Class name      # Constructor     # Help topic
+  c("Lemna_Schmitt", "LemnaSchmitt", NA, NA),
+  c("Lemna_SETAC", "LemnaSetac", NA, NA),
+  c("Magma-exp", "Magma", "Magma_exp", "Magma"),
+  c("Magma-log", "Magma", "Magma_log", "Magma"),
+  c("Algae_Weber", "AlgaeWeber", NA, NA),
+  c("Algae_Simple", "AlgaeSimple", NA, NA),
+  c("Algae_TKTD", "AlgaeTKTD", NA, NA)
+)
+# assign names
+model_lookup <- lapply(model_lookup, setNames, nm=c("model_name", "scenario", "model_f", "model_topic"))
+# create data.frame
+model_lookup <- dplyr::bind_rows(model_lookup) %>%
+  dplyr::mutate(dplyr::across(c("model_f", "model_topic"), ~ ifelse(is.na(.x), model_name, .x)))
 usethis::use_data(model_lookup, overwrite = TRUE)
 
 ## what are the default values the models are constructed with?
-model_inputs <- lapply(setNames(model_choices,model_choices), function(m){
-  x <- eval(parse(text = paste0("cvasi::",m)[[1]]))()
-  list(param.req = x@param.req,
-       forcings.req = x@forcings.req,
-       init = x@init
-  )
-})
+#model_inputs <- lapply(setNames(model_choices,model_choices), function(m){
+#  ns <- ifelse(startsWith(m, "Magma"), "cvasi.ui", "cvasi::")
+#  x <- eval(parse(text = paste0(ns, m)[[1]]))()
+#  list(param.req = x@param.req,
+#       forcings.req = x@forcings.req,
+#       init = x@init
+#  )
+#})
 
 # Default exposure ----
 default_exposure <- structure(list(time = as.numeric(0:21), 
@@ -107,7 +125,7 @@ parameter_defaults <- list(
                      Q10 = 2, 
                      T_ref = 25, 
                      alpha = 5e-05, 
-                     beta = 0.025, 
+                     beta = 0.25, 
                      N_50 = 0.034, 
                      P_50 = 0.0043, 
                      BM_L = 176, 
@@ -121,29 +139,29 @@ parameter_defaults <- list(
                      EC50_int = 0.3, 
                      b = 4.16, 
                      P = 0.0054),
-  Myrio = list(k_photo_max = 0.15, 
+  Magma_exp = list(mu_control = 0.15, 
                E_max = 1, 
                r_A_DW = 1000,
                r_FW_DW = 16.7,
                r_FW_V = 1, 
                K_pw = 1, 
-               k_met = 0, # from Myrio()@param
+               k_met = 0,
                EC50_int = 1, 
                b = 1, 
                P = 0.0001, 
                r_DW_TSL = 0.0001), 
-  Myrio_log = list(k_photo_max = 0.15, 
+  Magma_log = list(mu_control = 0.15, 
                    E_max = 1, 
                    r_A_DW = 1000,
                    r_FW_DW = 16.7,
                    r_FW_V = 1,
                    K_pw = 1,
-                   k_met = 0, # from Myrio_log()@param
+                   k_met = 0,
                    EC50_int = 1,
                    b = 1,
                    P = 0.0001,
                    r_DW_TSL = 0.0001,
-                   BM_L = 1000),
+                   D_L = 1000),
   Algae_Weber = list(mu_max=1.738, 
                      m_max=0.05, 
                      v_max=0.052, 
@@ -157,8 +175,7 @@ parameter_defaults <- list(
                      T_max=35,
                      I_opt=120,
                      EC_50=115,
-                     b=1.268,
-                     k=0.2),
+                     b=1.268),
   Algae_Simple = list(mu_max=1.738,
                       EC_50=115,
                       b=1.268,
@@ -177,9 +194,10 @@ parameter_defaults <- list(
                     I_opt = 120,
                     EC_50 = 115,
                     b = 1.268,
-                    k = 0.2,
                     kD = 0.1, 
-                    dose_resp = 0),
+                    dose_resp = 0,
+                    R_0=0.36, 
+                    D=0.5),
   DEB_abj = list(p_M = NA, v = NA, k_J = NA,
                  p_Am = NA, kap = NA, E_G = NA,
                  f = NA, E_Hj = NA, E_Hp = NA, 
@@ -191,9 +209,9 @@ parameter_defaults <- list(
 # Default inits ----
 init_defaults <- list(
   Lemna_Schmitt = list(BM = 0.0012, E = 1, M_int = 0),
-  Myrio = list(BM = 1, M_int = 0),
-  Myrio_log = list(BM = 1, M_int = 0),
-  Algae_Weber = list(A = 1, Q = 0.01, P = 0.18, C = 0),
+  Magma_exp = list(BM = 1, M_int = 0),
+  Magma_log = list(BM = 1, M_int = 0),
+  Algae_Weber = list(A = 1, Q = 0.01, P = 0.18),
   Lemna_SETAC = list(BM = 0.0012, M_int = 0),
   Algae_Simple = list(A = 1, Dw = 0),
   Algae_TKTD = list(A = 1, Q = 0.01, P = 0.18, Dw = 0)
@@ -231,13 +249,13 @@ model_defaults <- list(
     parameter_defaults = parameter_defaults[["Lemna_Schmitt"]],
     forcing_defaults = forcing_defaults[["Lemna_Schmitt"]]
   ),
-  Myrio = list(    
-    init_defaults = init_defaults[["Myrio"]],
-    parameter_defaults = parameter_defaults[["Myrio"]]
+  Magma_exp = list(    
+    init_defaults = init_defaults[["Magma_exp"]],
+    parameter_defaults = parameter_defaults[["Magma_exp"]]
   ),
-  Myrio_log = list(    
-    init_defaults = init_defaults[["Myrio_log"]],
-    parameter_defaults = parameter_defaults[["Myrio_log"]]
+  Magma_log = list(    
+    init_defaults = init_defaults[["Magma_log"]],
+    parameter_defaults = parameter_defaults[["Magma_log"]]
   ), 
   Algae_Weber = list(  
     init_defaults = init_defaults[["Algae_Weber"]],

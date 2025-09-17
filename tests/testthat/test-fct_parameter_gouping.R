@@ -1,8 +1,7 @@
 test_that("group_parameters works", {
   
   expected_group_names <- c("toxicodynamic", "toxicokinetic", "physiological")
-  expected_group_names_tktd <- c("toxicodynamic", "toxicokinetic", "physiological", "degradation")
-  expected_group_names_weber <- c("toxicodynamic", "physiological", "degradation")
+  expected_group_names_weber <- c("toxicodynamic", "physiological")
   p <- cvasi::Lemna_Schmitt() %>% 
     cvasi.ui:::get_required("param")
   m <- "Lemna_Schmitt"
@@ -12,12 +11,12 @@ test_that("group_parameters works", {
   
   
   expect_error(group_parameters(p = 1:3, model_ = m))
-  expect_error(group_parameters(p = p, model_ = c("Lemna_Schmitt", "Myriophyllum")))
+  expect_error(group_parameters(p = p, model_ = c("Lemna_Schmitt", "Magma")))
   
   
-  p <- cvasi::Myrio() %>% 
+  p <- cvasi::Magma() %>% 
     cvasi.ui:::get_required("param")
-  m <- "Myriophyllum"
+  m <- "Magma-exp"
   o <- group_parameters(p = p,
                         model_ = m)
   expect_equal(names(o), expected_group_names)
@@ -29,7 +28,7 @@ test_that("group_parameters works", {
                         model_ = m)
   expect_equal(names(o), expected_group_names_weber)
   
-  lapply(setNames(model_choices, model_choices), function(m){
+  lapply(model_choices, function(m){
     x <- cvasi.ui:::construct_model(m)
     p <- x %>%
       cvasi.ui:::get_required("param")
@@ -39,9 +38,7 @@ test_that("group_parameters works", {
     #print(cvasi::get_model_name(x))
     if(cvasi::get_model_name(x) == "Algae_Weber"){
       expected_group_names_ <- expected_group_names_weber
-    }else if(cvasi::get_model_name(x) == "Algae_TKTD"){
-      expected_group_names_ <- expected_group_names_tktd
-    }else{
+    } else{
       expected_group_names_ <- expected_group_names
     }
     expect_equal(names(o), expected_group_names_)
@@ -61,11 +58,11 @@ test_that("expert_parameters works", {
   
   
   expect_error(expert_parameters(p = 1:3, model_ = m))
-  expect_error(expert_parameters(p = p, model_ = c("Lemna_Schmitt", "Myriophyllum")))
+  expect_error(expert_parameters(p = p, model_ = c("Lemna_Schmitt", "Magma")))
   
-  p <- cvasi::Myrio() %>% 
+  p <- cvasi::Magma() %>% 
     cvasi.ui:::get_required("param")
-  m <- "Myriophyllum"
+  m <- "Magma-exp"
   o <- expert_parameters(p = p,
                          model_ = m)
   expect_equal(names(o), c("no", "yes"))

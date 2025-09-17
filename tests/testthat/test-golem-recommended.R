@@ -58,8 +58,8 @@ testthat::skip("needs further evaluation")
 testServer(app_server, {
 
   # Set and test an input
-  session$setInputs(`prediction_workflow-active_model-selectized` = "Myrio")
-  expect_equal(input[["active_model"]], "Myrio")
+  session$setInputs(`prediction_workflow-active_model-selectized` = "Magma")
+  expect_equal(input[["active_model"]], "Magma")
 
   # Example of tests you can do on the server:
   # - Checking reactiveValues

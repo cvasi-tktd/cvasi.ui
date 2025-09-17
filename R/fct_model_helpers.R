@@ -1,3 +1,14 @@
+
+# Wrappers for model creation
+Magma_exp <- function() {
+  Magma(growth="exp")
+}
+
+Magma_log <- function() {
+  Magma(growth="log")
+}
+
+
 #' Call constructor of model
 #' 
 #' Call the constructor of a model by its name as "string" 
@@ -39,7 +50,7 @@ get_required <- function(x, type = c("param", "init", "forcings")){
   stopifnot(inherits(x, "EffectScenario"))
   type <- match.arg(type)
   out <- switch(type,
-                "param" = x@param.req,
+                "param" = names(x@param),
                 "init" = names(x@init),
                 "forcings" = x@forcings.req
                 )
@@ -95,9 +106,8 @@ forcings_required <- function(x){
 #'
 #' @return TRUE/FALSE for all parameters within/outside
 pars_range <- function(x){
-  model_class <- x  %>% class()
-  model_name <- model_class %>% lookup_name(from = "scenario", to = "model_name")
-  model_f <- model_class %>% lookup_name(from = "scenario", to = "model_f")
+  model_name <- x@name
+  model_f <- model_name %>% lookup_name(from = "model_name", to = "model_f")
   
   mod_def <- x@param#model_defaults[[model_f]]$parameter_defaults
   do.call(rbind, lapply(names(mod_def), function(param_name){
@@ -178,7 +188,7 @@ check_model_complete <- function(x,
 #'
 #' @examples
 #' \dontrun{
-#' exp_dat <- cvasi::Schmitt2013 |>
+#' exp_dat <- cvasi::schmitt2013 |>
 #'                dplyr::select(t, ID, conc) |>
 #'                dplyr::rename(trial = "ID", time = "t")
 #' check_exposure_complete(exp_dat)

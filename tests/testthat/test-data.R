@@ -6,7 +6,7 @@ test_that("mode_lookup valid identifiers", {
     # find constructor    
     f <- get(row$model_f)
     expect_true(is.function(f))
-    expect_equal(environmentName(environment(f)), "cvasi")
+    expect_in(environmentName(environment(f)), c("cvasi", "cvasi.ui"))
     
     # invoke constructor
     sc <- f()

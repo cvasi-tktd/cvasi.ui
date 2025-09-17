@@ -43,21 +43,21 @@ mod_epx_mtw_settings_server <- function(id, exposure_time_series, model_name = N
     )
     
     # vary window length default based on model group ----
-    # 3 for algae models, 7 for Lemna, 14 for Myriophyllum
+    # 3 for algae models, 7 for Lemna, 14 for Magma
     # use reactiveVal here to observer only the change of the value and not of
     # the reactive expression
     winlength_group <- reactiveVal() 
     observeEvent(model_name(), {
       dplyr::case_when(model_name() %>% grepl("^Algae_",.) ~ "Algae",
                        model_name() %>% grepl("^Lemna_",.) ~ "Lemna",
-                       model_name() %>% grepl("^Myrio",.) ~ "Myrio",
+                       model_name() %>% grepl("^Magma",.) ~ "Magma",
                        .default = NA) %>% 
         winlength_group()
     })
     observeEvent(winlength_group(), {
       winlength_new <- dplyr::case_when(winlength_group() == "Algae" ~ 3,
                                         winlength_group() == "Lemna" ~ 7,
-                                        winlength_group() == "Myrio" ~ 14,
+                                        winlength_group() == "Magma" ~ 14,
                                         .default = 7)
       updateNumericInput(session = session, 
                          inputId = "window_length",

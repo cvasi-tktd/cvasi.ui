@@ -186,35 +186,32 @@ mod_prediction_workflow_server <- function(id){
     observeEvent(input[["active_model"]],{
       
       shinyjs::html("model_description", {
+        message(input[["active_model"]], " selected")
         #paste0("<b>",input[["active_model"]],"</b><br>",cvasi.ui::model_descriptions[[input[["active_model"]]]])
         paste0("<b>",
                input[["active_model"]],
                "</b><br>",
                read_roxygen(package = "cvasi",
-                            f_name = input[["active_model"]],
+                            f_name = lookup_name(input[["active_model"]], from="model_f", to="model_topic"),
                             tag = "\\description")
                #cvasi.ui::model_descriptions[[]]
         )
       })
-      
       ## Set selected model -------------------------------------------------
       selected_model(
         all_model_dat[[input[["active_model"]]]]
       )
-      
-      
+
       ## Display forcings ----------------------------------------------------
       if (forcings_required(selected_model())){
         shinyjs::show(id = "prediction_workflow-forcings_wrapper", asis = TRUE)
       } else {
         shinyjs::hide(id = "prediction_workflow-forcings_wrapper", asis = TRUE)
       }
-      
     }
     
     )
     output[["selected_model"]] <- renderPrint(selected_model())
-    
     
     # check input data ----
     ## check parameters ----
@@ -231,14 +228,12 @@ mod_prediction_workflow_server <- function(id){
                       subtitle = "Parameters",
                       width = 3)
     })
-    
     ## check init values ----
     output[["complete_init"]] <- renderUI({
       create_valuebox(value = check_model_complete(selected_model(), type = "init"),
                       subtitle = "Initial values",
                       width = 3)
     })
-    
     ## check forcings values ----
     output[["complete_forcings"]] <- renderUI({
       if (forcings_required(selected_model())){
@@ -254,7 +249,6 @@ mod_prediction_workflow_server <- function(id){
         return(NULL)
       }
     })
-    
     ## check exposure ----
     output[["complete_exposure"]] <- renderUI({
       create_valuebox(value = check_exposure_complete(exposure_time_series()),

@@ -33,7 +33,7 @@ test_that("read_roxygen works", {
     ))
   
   
-  model_titles <- lapply(setNames(cvasi.ui::model_choices,cvasi.ui::model_choices), function(x){
+  model_titles <- lapply(model_lookup$model_topic, function(x){
     read_roxygen(package = "cvasi",
                  f_name = x,
                  tag = "\\title")
@@ -43,8 +43,8 @@ test_that("read_roxygen works", {
     all(
       c(
         grepl("Lemna.*Schmitt", model_titles[["Lemna_Schmitt"]]),
-        grepl("Myriophyllum model.*exponential", model_titles[["Myrio"]]),
-        grepl("Myriophyllum model.*logistic", model_titles[["Myrio_log"]]),
+        grepl("Magma model.*exponential", model_titles[["Magma_exp"]]),
+        grepl("Magma model.*logistic", model_titles[["Magma_log"]]),
         grepl("Algae.*exponential.*forcings", model_titles[["Algae_Weber"]]),
         grepl("Lemna.*Klein", model_titles[["Lemna_SETAC"]]),
         grepl("Algae.*exponential.*without.*forcings", model_titles[["Algae_Simple"]])

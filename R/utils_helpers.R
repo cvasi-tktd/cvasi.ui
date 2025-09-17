@@ -8,7 +8,9 @@
 #'
 #' @return TRUE if in range; FALSE otherwise
 in_range <- function(value, min_value, max_value){
-  stopifnot(length(min_value) == 1)
+  if(length(min_value) != 1) {
+    stop()
+  }
   stopifnot(length(max_value) == 1)
   dplyr::case_when(is.na(min_value) & value <= max_value ~ TRUE,
                    value >= min_value & is.na(max_value)  ~ TRUE,

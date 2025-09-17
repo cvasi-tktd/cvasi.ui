@@ -96,7 +96,7 @@ cicerone_textblocks <- function(){
       that affect the life of the simulated individuals. Depending on the model, 
       different forcings are required. For instance, the 'Lemna_Schmitt' model 
       requires two forcings, the temperature 'temp' and the wavelength of the 
-      electromagnetic radiation (i.e. light) 'rad', whereas the Myriophyllum models 
+      electromagnetic radiation (i.e. light) 'rad', whereas the Magma models 
       are defined without any forcings.  
       For this tutorial select the constant forcings and hit 'Assign values'; then continue."
     ),

@@ -26,8 +26,8 @@ test_that("get_required works - Algae_Weber", {
   p_expected <- c("mu_max", "m_max", "v_max", "k_s",
                   "Q_min", "Q_max", "R_0", "D",
                   "T_opt", "T_min", "T_max", "I_opt",
-                  "EC_50", "b", "k")
-  i_expected <- c("A", "Q", "P", "C")
+                  "EC_50", "b")
+  i_expected <- c("A", "Q", "P")
   f_expected <- c("T_act","I")
   
   expect_equal(p_, p_expected)
@@ -35,14 +35,15 @@ test_that("get_required works - Algae_Weber", {
   expect_equal(f_, f_expected)
 })
 
-test_that("get_required works - Myrio", {
-  dat <- cvasi::Myrio()
+test_that("get_required works - magma", {
+  dat <- cvasi::Magma()
   p_ <- get_required(dat, type = "param")
   i_ <- get_required(dat, type = "init")
   f_ <- get_required(dat, type = "forcings")
   
-  p_expected <- c("k_photo_max", "E_max", "EC50_int", "b", "P", "r_A_DW",
-                  "r_FW_DW", "r_FW_V", "r_DW_TSL", "K_pw", "k_met")
+  # k_photo_max only included for backwards compatibility of the parameters
+  p_expected <- c("mu_control", "E_max", "EC50_int", "b", "P", "r_A_DW",
+                  "r_FW_DW", "r_FW_V", "r_DW_TSL", "K_pw", "k_met", "k_photo_max")
   i_expected <- c("BM", "M_int")
   f_expected <- character(0)
   
@@ -55,7 +56,7 @@ test_that("get_required throws error", {
   expect_error(get_required(1:10, type = "param"))
   
   expect_error(get_required(
-    cvasi::Myrio(),
+    cvasi::Magma(),
     type = "typenotsupported")
   )
 })
@@ -94,15 +95,15 @@ test_that("get_val throws error", {
   expect_error(get_val(1:10, type = "param"))
   
   expect_error(get_val(
-    cvasi::Myrio(),
+    cvasi::Magma(),
     type = "typenotsupported")
   )
 })
 
 test_that("forcings_required works", {
   expect_true(forcings_required(cvasi::Lemna_Schmitt()))
-  expect_false(forcings_required(cvasi::Myrio()))
-  expect_false(forcings_required(cvasi::Myrio_log()))
+  expect_false(forcings_required(Magma_exp()))
+  expect_false(forcings_required(Magma_log()))
   expect_true(forcings_required(cvasi::Algae_Weber()))
   
   expect_error(forcings_required("Lemna_Schmitt"))
@@ -141,13 +142,12 @@ test_that("check_model_complete works", {
 })
 
 test_that("check_exposure_complete", {
-  exp_dat <- cvasi::Schmitt2013  %>% 
-    dplyr::select(t, ID, conc) %>% 
-    dplyr::rename(trial = "ID", time = "t")
+  exp_dat <- cvasi::schmitt2013  %>% 
+    dplyr::select(time, trial, conc)
   expect_true(check_exposure_complete(exp_dat))
   
-  expect_false(cvasi::Schmitt2013  %>% 
-                 dplyr::select(t, ID, conc) %>% 
+  expect_false(cvasi::schmitt2013  %>% 
+                 dplyr::select(t=time, trial, conc) %>% 
                  check_exposure_complete()
                )
   expect_false(check_exposure_complete(1:10))
