@@ -14,15 +14,13 @@ test_that("group_parameters works", {
   expect_error(group_parameters(p = p, model_ = c("Lemna_Schmitt", "Magma")))
   
   
-  p <- cvasi::Magma() %>% 
-    cvasi.ui:::get_required("param")
+  p <- construct_model("Magma_exp") %>% cvasi.ui:::get_required("param")
   m <- "Magma-exp"
   o <- group_parameters(p = p,
                         model_ = m)
   expect_equal(names(o), expected_group_names)
   
-  p <- cvasi::Algae_Weber() %>% 
-    cvasi.ui:::get_required("param")
+  p <- construct_model("Algae_Weber") %>% cvasi.ui:::get_required("param")
   m <- "Algae_Weber"
   o <- group_parameters(p = p,
                         model_ = m)

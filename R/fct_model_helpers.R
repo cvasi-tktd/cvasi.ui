@@ -27,6 +27,14 @@ construct_model <- function(model_name){
   x <- f()
   stopifnot(inherits(x, "EffectScenario"))
   
+  defaults <- model_defaults[[model_name]]
+  x <- x %>%
+    set_init(defaults$init_defaults) %>%
+    set_param(defaults$parameter_defaults)
+  if("forcing_defaults" %in% names(defaults)) {
+    x <- set_forcings(x, defaults$forcing_defaults)
+  }
+  
   return(x)
 }
 
