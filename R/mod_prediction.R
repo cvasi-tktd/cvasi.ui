@@ -63,17 +63,19 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
       sim_result[["stat_var"]] <- NULL
       sim_result[["epx_mtw"]] <- NULL
     })
-    observeEvent(forcings_time_series[[modeldat() 
-                                         %>% class() %>% 
-                                           lookup_name()]],
+    observeEvent(forcings_time_series[[modeldat() %>%
+                                         cvasi::get_model() %>% 
+                                         lookup_name(from = "model_name")]],
                  {
                    sim_result[["stat_var"]] <- NULL
                    sim_result[["epx_mtw"]] <- NULL
-                 })
+                 },
+                 ignoreInit = TRUE)
     observeEvent(exposure_time_series(),{
       sim_result[["stat_var"]] <- NULL
       sim_result[["epx_mtw"]] <- NULL
-    })
+    },
+    ignoreInit = TRUE)
     
     
     # Predict button observer -------------------------------------------------
@@ -90,10 +92,10 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
         
         if (length(req_forcings()) > 0){
           model_input <- model_input %>% 
-                     set_forcings(forcings_time_series[[modeldat() 
-                                                        %>% class() %>% 
-                                                          lookup_name()]]
-          )
+            set_forcings(forcings_time_series[[modeldat() %>%
+                                                 cvasi::get_model() %>% 
+                                                 lookup_name(from = "model_name")]]
+            )
         }
 
         sim_result[["stat_var"]] <- simulate_batch(model_base = model_input,
@@ -117,9 +119,9 @@ mod_prediction_server <- function(id, modeldat, exposure_time_series, forcings_t
           
           if (length(req_forcings()) > 0){
             model_input <- model_input %>% 
-              set_forcings(forcings_time_series[[modeldat() 
-                                                 %>% class() %>% 
-                                                   lookup_name()]]
+              set_forcings(forcings_time_series[[modeldat() %>% 
+                                                   cvasi::get_model() %>% 
+                                                   lookup_name(from = "model_name")]]
               )
           }
 
